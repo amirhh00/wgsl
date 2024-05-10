@@ -6,21 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "wasmpack": "wasm-pack build ./src/app/showcases/twoArraySum/wasm --target web && rm $PWD/src/app/showcases/twoArraySum/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/twoArraySum/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.3"
+    "next": "14.2.3",
+    "react": "19.0.0-beta-6946ebe620-20240508",
+    "react-dom": "19.0.0-beta-6946ebe620-20240508"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3"
+    "typescript": "^5",
+    "wasm-pack": "^0.12.1"
   }
 }

@@ -1,0 +1,17 @@
+{
+  "name": "mergearray",
+  "collaborators": [
+    "amirhh00 <amirhh00@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "mergearray_bg.wasm",
+    "mergearray.js",
+    "mergearray.d.ts"
+  ],
+  "module": "mergearray.js",
+  "types": "mergearray.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
