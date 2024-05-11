@@ -7,6 +7,13 @@ const nextConfig = {
 
     // Since Webpack 5 doesn't enable WebAssembly by default, we should do it manually
     config.experiments = { ...config.experiments, asyncWebAssembly: true };
+
+    // Add a rule for .wgsl files
+    config.module.rules.push({
+      test: /\.wgsl$/,
+      use: "ts-shader-loader",
+    });
+
     return config;
   },
 };

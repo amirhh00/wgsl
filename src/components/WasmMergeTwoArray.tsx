@@ -25,7 +25,7 @@ const WasmVectorMultComponent = ({ vector1, vector2 }: VectorMultProps) => {
 
   useEffect(() => {
     const loadWasm = async () => {
-      const wasmModule = await import("@/app/showcases/twoArraySum/wasm/pkg/mergearray_bg.wasm");
+      const wasmModule = await import("@/app/showcases/heavyMathCalculation/wasm/pkg/mergearray_bg.wasm");
       setMultTwo(() => wasmModule.add_arrays);
       // setGetResultLen(() => wasmModule.get_result_len);
       setMemory(() => wasmModule.memory);

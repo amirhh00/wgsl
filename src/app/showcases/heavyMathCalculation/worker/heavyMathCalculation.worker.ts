@@ -1,8 +1,8 @@
 const ctx: Worker = self as unknown as Worker;
 
 type WData = {
-  vector1: Int32Array;
-  vector2: Int32Array;
+  vector1: Float32Array;
+  vector2: Float32Array;
 };
 
 ctx.addEventListener("message", (e) => {
@@ -18,15 +18,16 @@ ctx.addEventListener("message", (e) => {
 });
 
 /**
- * this function will add two array and return the result
+ * this function will perform some heavy calculation
  * @param vector1
  * @param vector2
- * @returns {Int32Array}
+ * @returns {Float32Array}
  */
-function addArray(vector1: Int32Array, vector2: Int32Array): Int32Array {
-  const result = new Int32Array(vector1.length);
+function addArray(vector1: Float32Array, vector2: Float32Array): Float32Array {
+  const result = new Float32Array(vector1.length);
   for (let i = 0; i < vector1.length; i++) {
-    result[i] = vector1[i] + vector2[i];
+    // perform some heavy calculation
+    result[i] = Math.sin(vector1[i]) * Math.cos(vector2[i]) + Math.sqrt(vector1[i] * vector2[i]);
   }
   return result;
 }
