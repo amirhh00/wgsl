@@ -1,5 +1,5 @@
 [package]
-name = "mergearray"
+name = "heavycalculation"
 version = "0.1.0"
 authors = ["amirhh00 <amirhh00@gmail.com>"]
 edition = "2018"

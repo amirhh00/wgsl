@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "wasmpack": "wasm-pack build ./src/app/showcases/twoArraySum/wasm --target web && rm $PWD/src/app/showcases/twoArraySum/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/twoArraySum/wasm/pkg/*.wasm $PWD/public/pkg/"
+    "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {
     "next": "14.2.3",

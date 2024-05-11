@@ -1,16 +1,16 @@
 {
-  "name": "mergearray",
+  "name": "heavycalculation",
   "collaborators": [
     "amirhh00 <amirhh00@gmail.com>"
   ],
   "version": "0.1.0",
   "files": [
-    "mergearray_bg.wasm",
-    "mergearray.js",
-    "mergearray.d.ts"
+    "heavycalculation_bg.wasm",
+    "heavycalculation.js",
+    "heavycalculation.d.ts"
   ],
-  "module": "mergearray.js",
-  "types": "mergearray.d.ts",
+  "module": "heavycalculation.js",
+  "types": "heavycalculation.d.ts",
   "sideEffects": [
     "./snippets/*"
   ]

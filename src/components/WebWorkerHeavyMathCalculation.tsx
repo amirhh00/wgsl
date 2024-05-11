@@ -26,7 +26,7 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
           };
         }}
       >
-        JavaScript Merge <Spinner isLoading={isLoading} />
+        run in javaScript <Spinner isLoading={isLoading} />
       </button>
       {res && (
         <pre>

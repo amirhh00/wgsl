@@ -1,20 +1,24 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {Int32Array} arr1
-* @param {Int32Array} arr2
-* @returns {Int32Array}
+* @param {number} arr1
+* @param {number} len1
+* @param {number} arr2
+* @param {number} len2
+* @returns {number}
 */
-export function add_arrays(arr1: Int32Array, arr2: Int32Array): Int32Array;
+export function heavy_math(arr1: number, len1: number, arr2: number, len2: number): number;
+/**
+* @returns {number}
+*/
+export function get_result_len(): number;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly add_arrays: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_malloc: (a: number, b: number) => number;
-  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly heavy_math: (a: number, b: number, c: number, d: number) => number;
+  readonly get_result_len: () => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

@@ -4,6 +4,7 @@ import React, { Suspense } from "react";
 import WebWorkerHeavyMathCalculation from "@/components/WebWorkerHeavyMathCalculation";
 import WebGPUCanvas from "@/components/WgslHeavyMathCalculation";
 import Spinner from "@/components/global/Spinner";
+import WasmHeavyMathCalculation from "@/components/WasmHeavyMathCalculation";
 
 const HeavyMathCalculation = (props: any) => {
   const [vector1, setVector1] = React.useState<Float32Array | null>(null);
@@ -54,8 +55,7 @@ const HeavyMathCalculation = (props: any) => {
       <div className="flex flex-col gap-10 items-center">
         <div className="flex flex-col gap-4 items-center w-full">
           <p>WebAssembly: heavy Math Calculation</p>
-
-          <Suspense fallback={<div>Loading...</div>}>{/* <WasmMergeTwoArray vector1={Vector1} vector2={Vector2} /> */}</Suspense>
+          {vector1 && vector2 && <WasmHeavyMathCalculation vector1={vector1} vector2={vector2} />}
         </div>
         <div className="flex flex-col gap-4 items-center w-full">
           <p>JavaScript: heavy Math Calculation</p>
