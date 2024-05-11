@@ -517,7 +517,9 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
   //     if (!vector1 || !vector2) return;
   //     initWebgpu2();
   //   }, [vector1, vector2]);
-
+  if (!navigator.gpu) {
+    return <div className="text-center text-red-600 outline outline-red-600 py-3 rounded-md">WebGPU not supported on this browser!</div>;
+  }
   return (
     <>
       {vector1 && vector2 && (
