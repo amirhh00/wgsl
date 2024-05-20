@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Spinner from "./global/Spinner";
+import Spinner from "../../global/Spinner";
 import { ResultResponse } from "@/@types/etc";
+import wasmModulePromis from "@/app/showcases/heavyMathCalculation/wasm/pkg/heavycalculation";
+import { Button } from "@/components/ui/button";
 
 interface VectorMultProps {
   vector1: Float32Array | null;
@@ -25,8 +27,8 @@ const WasmHeavyMathCalculationComponent = ({ vector1, vector2 }: VectorMultProps
   const loadWasm = async () => {
     if (vector1 && vector2) {
       setIsLoading(true);
-      const wasmModule = await import("@/app/showcases/heavyMathCalculation/wasm/pkg/heavycalculation_bg.wasm");
-
+      // const wasmModule = await import("@/app/showcases/heavyMathCalculation/wasm/pkg/heavycalculation_bg.wasm");
+      const wasmModule = await wasmModulePromis();
       const startTime = performance.now();
       const resultPtr = wasmModule.heavy_math(
         allocateSpaceForVector(vector1, wasmModule.memory),
@@ -47,13 +49,13 @@ const WasmHeavyMathCalculationComponent = ({ vector1, vector2 }: VectorMultProps
 
   return (
     <div className="w-full">
-      <button className="btn" onClick={loadWasm}>
+      <Button className="pl-7" onClick={loadWasm}>
         run in WebAssembly <Spinner isLoading={isLoading} />
-      </button>
+      </Button>
       {res && (
         <pre>
           Result:{" "}
-          {Array.from(res.result.slice(0, 10))
+          {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))
             .join(", ")}{" "}
           <br />

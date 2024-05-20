@@ -4,7 +4,8 @@ import React, { useState } from "react";
 // import { WGSL_debug_table } from "wgsl-debug-table";
 import computeShaderCode from "@/app/showcases/heavyMathCalculation/wgsl/computeShader.wgsl";
 import { ResultResponse } from "@/@types/etc";
-import Spinner from "./global/Spinner";
+import Spinner from "../../global/Spinner";
+import { Button } from "../../ui/button";
 
 interface WebGPUCanvasProps {
   vector1: Float32Array;
@@ -523,17 +524,17 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
   return (
     <>
       {vector1 && vector2 && (
-        <button className="btn" onClick={initWebGPU}>
+        <Button className="pl-7" onClick={initWebGPU}>
           Run in webGpu <Spinner isLoading={isLoading} />
-        </button>
+        </Button>
       )}
       {res && (
         <pre>
           Result:{" "}
-          {Array.from(res.result.slice(0, 10))
+          {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))
             .join(", ")}
-          {res.result.length > 10 ? "..." : ""} <br />
+          {res.result.length > 7 ? "..." : ""} <br />
           Duration: <b>{res.duration}</b>ms <br />
           Duration after copying data from gpu to cpu: <b>{res.duration2}</b>ms
         </pre>

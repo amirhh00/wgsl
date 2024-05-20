@@ -2,7 +2,8 @@
 
 import { FC, useState } from "react";
 import { ResultResponse } from "@/@types/etc";
-import Spinner from "./global/Spinner";
+import Spinner from "@/components/global/Spinner";
+import { Button } from "@/components/ui/button";
 
 interface IWebWorkerHeavyMathCalculationProps {
   vector1: Float32Array;
@@ -14,8 +15,8 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="w-full">
-      <button
-        className="btn"
+      <Button
+        className="pl-7"
         onClick={() => {
           const worker = new Worker(new URL("@/app/showcases/heavyMathCalculation/worker/heavyMathCalculation.worker", import.meta.url));
           setIsLoading(true);
@@ -27,11 +28,11 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
         }}
       >
         run in javaScript <Spinner isLoading={isLoading} />
-      </button>
+      </Button>
       {res && (
         <pre>
           Result:{" "}
-          {Array.from(res.result.slice(0, 10))
+          {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))
             .join(", ")}{" "}
           <br />
