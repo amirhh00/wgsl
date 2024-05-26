@@ -4,4 +4,10 @@ declare module "*.wgsl" {
   export default content;
 }
 
-// declare module "wgsl-debug*";
+declare global {
+  interface Window {
+    monaco: import("monaco-editor");
+  }
+}
+
+export {};

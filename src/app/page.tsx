@@ -1,15 +1,5 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import HomePage from "@/components/pages/home/HomePage";
 
 export default function Home() {
-  return (
-    <main className="flex flex-col items-center gap-4">
-      under maintanance!
-      <Button>
-        <Link className="" href="/showcases">
-          showcases
-        </Link>
-      </Button>
-    </main>
-  );
+  return <HomePage />;
 }
