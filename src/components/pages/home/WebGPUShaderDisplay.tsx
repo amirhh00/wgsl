@@ -96,7 +96,6 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = ({ shaderCode })
 
       const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
       passEncoder.setPipeline(pipeline);
-      // Set the bind group before drawing
       passEncoder.setBindGroup(0, bindGroup);
       passEncoder.draw(3, 1, 0, 0);
       passEncoder.end();

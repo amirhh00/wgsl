@@ -30,18 +30,6 @@ const HomePage = () => {
     setCode(newValue);
   };
 
-  // const runShader = () => {
-  //   // Placeholder for running the shader
-  //   // You need to implement the actual WebGPU shader execution logic here
-  //   try {
-  //     // Simulate shader run
-  //     setShaderOutput(`Shader output for the code: ${code}`);
-  //   } catch (error) {
-  //     console.error("Shader execution error:", error);
-  //     setShaderOutput("Shader execution failed.");
-  //   }
-  // };
-
   return (
     <div className="flex gap-4">
       <div>
