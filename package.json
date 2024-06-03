@@ -1,6 +1,6 @@
 {
   "name": "wgsl",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,19 +10,21 @@
     "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.379.0",
-    "monaco-editor": "^0.49.0",
     "next": "14.2.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-monaco-editor": "^0.55.0",
+    "react-indiana-drag-scroll": "^2.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "wgsl-debug-table": "^0.0.1"
+    "wgsl-debug-table": "^0.0.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
@@ -31,6 +33,7 @@
     "@webgpu/types": "^0.1.40",
     "eslint": "^9.3.0",
     "eslint-config-next": "14.2.3",
+    "monaco-editor": "^0.49.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "ts-shader-loader": "^2.0.2",

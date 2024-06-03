@@ -1,17 +1,36 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
 import type { Config } from "tailwindcss";
+// import { extract, fontSize } from "fluid-tailwind";
+
+export const screensCfg = {
+  xs: "475px",
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
+  xl: "1280px",
+  "2xl": "1440px",
+  "big-screen": "1800px",
+  "3xl": "2000px",
+  sxl: { max: "1279px" },
+  slg: { max: "1023px" },
+  smd: { max: "767px" },
+  ssm: { max: "639px" },
+  sxs: { max: "474px" },
+} as const;
 
 const config = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: {
+    files: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+    // extract
+  },
   prefix: "",
   theme: {
+    screens: screensCfg,
+    // fontSize,
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       colors: {
@@ -73,7 +92,10 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    //  fluid
+  ],
 } satisfies Config;
 
 export default config;

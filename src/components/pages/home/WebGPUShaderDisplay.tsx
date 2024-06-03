@@ -1,11 +1,15 @@
 import React, { useRef, useEffect } from "react";
+import useShaderStore, { preWrittenCode } from "@/store/shader.state";
 
 interface WGSLShaderComponentProps {
-  shaderCode: string;
+  // shaderCode: string;
 }
 
-const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = ({ shaderCode }) => {
+const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { savedCustomCodes, selectedCodeName } = useShaderStore();
+  const models = [...preWrittenCode, ...Object.entries(savedCustomCodes).map(([key, value]) => ({ name: key, code: value }))];
+  const shaderCode = models.find((m) => m.name === selectedCodeName)?.code ?? "";
 
   useEffect(() => {
     const initWebGPU = async () => {
@@ -106,7 +110,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = ({ shaderCode })
     initWebGPU();
   }, [shaderCode]);
 
-  return <canvas ref={canvasRef} width="600" height="600"></canvas>;
+  return <canvas className="w-full aspect-square" ref={canvasRef}></canvas>;
 };
 
 export default WGSLShaderComponent;
