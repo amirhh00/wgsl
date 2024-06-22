@@ -1,11 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
+import path from "path";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from "dotenv";
+dotenv.config({ path: path.resolve(new URL(".", import.meta.url).pathname, ".env") });
 
 const PORT = process.env.PORT || 3000;
 const baseURL = `http://localhost:${PORT}`;
@@ -32,16 +29,29 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    headless: true,
+    // headless: true,
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          args: [
+            "--enable-webgpu-developer-features",
+            "--enable-unsafe-webgpu",
+            "--use-angle=gl-egl",
+            "--enable-features=Vulkan,UseSkiaRenderer",
+            "--use-vulkan=native",
+            "--enable-logging",
+            "--disable-vulkan-fallback-to-gl-for-testing",
+            "--ignore-gpu-blocklist",
+          ],
+        },
+      },
     },
-
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
@@ -75,7 +85,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run dev",
+    command: "pnpm dev",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
   },

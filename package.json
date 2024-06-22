@@ -2,12 +2,13 @@
   "name": "wgsl",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "playwright test --project='Chrome Stable'",
+    "test": "playwright test --ui",
     "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18",
     "@webgpu/types": "^0.1.40",
+    "dotenv": "^16.4.5",
     "eslint": "^9.3.0",
     "eslint-config-next": "14.2.3",
     "monaco-editor": "^0.49.0",
@@ -42,5 +44,8 @@
     "typescript": "^5",
     "wasm-pack": "^0.12.1",
     "wgsl-debug": "^0.0.1"
-  }
+  },
+  "browserslist": [
+    "supports webgpu"
+  ]
 }

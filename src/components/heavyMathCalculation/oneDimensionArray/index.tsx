@@ -79,12 +79,12 @@ const OneDimensionHeavyMathCalculation = (props: any) => {
       </div>
       <div className="flex flex-col gap-10 items-center">
         <div className="flex flex-col gap-4 items-center w-full">
-          <p>WebAssembly: heavy Math Calculation</p>
-          {vector1 && vector2 && <WasmHeavyMathCalculation vector1={vector1} vector2={vector2} />}
-        </div>
-        <div className="flex flex-col gap-4 items-center w-full">
           <p>JavaScript: heavy Math Calculation</p>
           {vector1 && vector2 && <WebWorkerHeavyMathCalculation vector1={vector1} vector2={vector2} />}
+        </div>
+        <div className="flex flex-col gap-4 items-center w-full">
+          <p>WebAssembly: heavy Math Calculation</p>
+          {vector1 && vector2 && <WasmHeavyMathCalculation vector1={vector1} vector2={vector2} />}
         </div>
         <div className="flex flex-col gap-4 w-full">
           <p className="text-center">WGSL: heavy Math Calculation</p>
