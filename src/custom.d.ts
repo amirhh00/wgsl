@@ -4,3 +4,14 @@ declare module "*.wgsl" {
   const content: string;
   export default content;
 }
+
+declare module "*.glsl" {
+  const content: string;
+  export default content;
+}
+
+type ResultTypes = "js" | "wasm" | "webgpu";
+
+interface Window {
+  durations: Record<ResultTypes, Record<string, number>>;
+}

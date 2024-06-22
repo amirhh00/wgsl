@@ -14,7 +14,8 @@ const WGSLMonacoEditor = () => {
   // const [models, setModels] = useState<monaco.editor.ITextModel[]>([]);
   // const [activeModel, setActiveModel] = useState<string | undefined>(undefined);
   const editorRef = useRef<Editor.IStandaloneCodeEditor | null>(null);
-  const models = [...preWrittenCode, ...Object.entries(savedCustomCodes).map(([key, value]) => ({ name: key, code: value }))];
+  const models = [...Object.entries(savedCustomCodes).map(([key, value]) => ({ name: key, code: value }))];
+  if (models.length === 0) models.push(preWrittenCode[0]);
 
   function handleEditorDidMount(editor: Editor.IStandaloneCodeEditor, monaco: Monaco) {
     editorRef.current = editor;
@@ -44,12 +45,10 @@ const WGSLMonacoEditor = () => {
   }
 
   const editorWillMount = (monaco: Monaco) => {
-    models.map((model) => {
-      // if there is a model with the same name, don't add it
-      if (monaco.editor.getModel(monaco.Uri.parse(`file:///${model.name}.wgsl`))) return;
-      monaco.editor.createModel(model.code, "wgsl", monaco.Uri.parse(`file:///${model.name}.wgsl`));
-    });
-    setActiveModel(models[0].name);
+    const model = models[0];
+    if (monaco.editor.getModel(monaco.Uri.parse(`file:///${model.name}.wgsl`))) return;
+    monaco.editor.createModel(model.code, "wgsl", monaco.Uri.parse(`file:///${model.name}.wgsl`));
+    setActiveModel(model.name);
   };
 
   const handleOpenNewModel = () => {
@@ -72,9 +71,13 @@ const WGSLMonacoEditor = () => {
     removeModel(name);
   };
 
+  const handleSelectChange = (value: string) => {
+    console.log("e: ", value);
+  };
+
   return (
     <>
-      <Select defaultValue="apple">
+      <Select onValueChange={handleSelectChange} defaultValue="apple">
         <SelectTrigger className="w-[280px] mb-4 !ring-0">
           <SelectValue placeholder="Select a sample code" />
         </SelectTrigger>

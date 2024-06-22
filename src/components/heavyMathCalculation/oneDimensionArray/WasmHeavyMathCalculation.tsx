@@ -43,17 +43,18 @@ const WasmHeavyMathCalculationComponent = ({ vector1, vector2 }: VectorMultProps
         result: resultVector,
         duration,
       });
+      window.durations.wasm[vector1.length] = duration;
       setIsLoading(false);
     }
   };
 
   return (
     <div className="w-full">
-      <Button className="pl-7" onClick={loadWasm}>
+      <Button name="run-wasm" className="pl-7" onClick={loadWasm}>
         run in WebAssembly <Spinner isLoading={isLoading} />
       </Button>
       {res && (
-        <pre>
+        <pre data-length={vector1!.length} data-type="wasm">
           Result:{" "}
           {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))

@@ -37,7 +37,28 @@ fn frag_main() -> @location(0) vec4f {
 }
 `,
   },
-  // ... more pre-written codes
+  {
+    name: "simple-quad",
+    code: `\
+@binding(0) @group(0) var<uniform> frame : u32;
+@vertex
+fn vtx_main(@builtin(vertex_index) vertex_index : u32) -> @builtin(position) vec4f {
+  const pos = array(
+    vec2(-1,  1),
+    vec2(-1, -1),
+    vec2( 1,  1),
+    vec2( 1, -1)
+  );
+
+  return vec4f(pos[vertex_index], 0, 1);
+}
+
+@fragment
+fn frag_main() -> @location(0) vec4f {
+  return vec4(1, sin(f32(frame) / 128), 0, 1);
+}
+`,
+  },
 ] as const;
 
 interface ShaderState {

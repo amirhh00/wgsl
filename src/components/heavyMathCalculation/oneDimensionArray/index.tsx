@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import WebWorkerHeavyMathCalculation from "@/components/heavyMathCalculation/oneDimensionArray/WebWorkerHeavyMathCalculation";
 import WebGPUCanvas from "@/components/heavyMathCalculation/oneDimensionArray/WgslHeavyMathCalculation";
 import Spinner from "@/components/global/Spinner";
@@ -27,6 +27,23 @@ const OneDimensionHeavyMathCalculation = (props: any) => {
     };
   };
 
+  useEffect(() => {
+    // if window.durations is not defined, create it
+    if (!window.durations) {
+      window.durations = {
+        js: {
+          "0": 0,
+        },
+        wasm: {
+          "0": 0,
+        },
+        webgpu: {
+          "0": 0,
+        },
+      };
+    }
+  }, []);
+
   return (
     <div className="max-w-lg mx-auto ">
       <div className="flex flex-col text-center">
@@ -45,7 +62,7 @@ const OneDimensionHeavyMathCalculation = (props: any) => {
         </form>
 
         {vector1 && vector2 && (
-          <pre className="mb-6">
+          <pre data-length={vector1.length} className="mb-6">
             {`Vector1: ${Array.from(vector1.slice(0, 7))
               .map((v) => v.toFixed(2))
               .join(", ")}${vector1.length > 7 ? "..." : ""} \n`}

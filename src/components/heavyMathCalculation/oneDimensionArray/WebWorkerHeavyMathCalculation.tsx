@@ -16,6 +16,7 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
   return (
     <div className="w-full">
       <Button
+        name="run-js"
         className="pl-7"
         onClick={() => {
           const worker = new Worker(new URL("@/app/showcases/heavyMathCalculation/worker/heavyMathCalculation.worker", import.meta.url));
@@ -23,6 +24,7 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
           worker.postMessage({ vector1: props.vector1, vector2: props.vector2 });
           worker.onmessage = (e) => {
             setRes(e.data);
+            window.durations.js[props.vector1.length] = e.data.duration;
             setIsLoading(false);
           };
         }}
@@ -30,7 +32,7 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
         run in javaScript <Spinner isLoading={isLoading} />
       </Button>
       {res && (
-        <pre>
+        <pre data-length={props.vector1.length} data-type="js">
           Result:{" "}
           {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))

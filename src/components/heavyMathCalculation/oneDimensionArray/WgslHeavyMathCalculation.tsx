@@ -117,6 +117,7 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
     // Now you can access the data from the result buffer
     // console.log(arrayBufferData);
     setRes({ result: arrayBufferData, duration, duration2 });
+    window.durations.webgpu[vector1.length] = duration;
     setIsLoading(false);
     // readBuffer.unmap();
   }
@@ -128,12 +129,12 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
   return (
     <>
       {vector1 && vector2 && (
-        <Button className="pl-7" onClick={initWebGPU}>
+        <Button name="run-wgsl" className="pl-7" onClick={initWebGPU}>
           Run in webGpu <Spinner isLoading={isLoading} />
         </Button>
       )}
       {res && (
-        <pre>
+        <pre data-type="wgsl" data-length={vector1!.length}>
           Result:{" "}
           {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))

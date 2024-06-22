@@ -1,4 +1,6 @@
 // Define the compute shader in WGSL
+
+
 @group(0) @binding(0) var<storage, read> array1 : array<f32>;
 @group(0) @binding(1) var<storage, read> array2 : array<f32>;
 @group(0) @binding(2) var<storage, read_write> resultArray : array<f32>;
