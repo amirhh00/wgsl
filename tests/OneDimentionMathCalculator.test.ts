@@ -1,5 +1,15 @@
 import { test, expect } from "@playwright/test";
 
+// test("webgpu show be available", async ({ page }) => {
+//   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
+//   await page.goto("http://localhost:3000/showcases/heavyMathCalculation");
+//   // try to create adaptor with webgpu
+//   const adapter = await page.evaluateHandle(() => {
+//     return (navigator as any).gpu.requestAdapter();
+//   });
+//   expect(adapter).toBeDefined();
+// });
+
 test("should make a resport for heavyMathCalculation page", async ({ page }) => {
   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
   await page.goto("http://localhost:3000/showcases/heavyMathCalculation");
@@ -41,7 +51,7 @@ test("should make a resport for heavyMathCalculation page", async ({ page }) => 
   // if (!runWebgpuButton) throw new Error("run-webgpu button element not found");
   await runWebgpuButton.click();
   // wait for the pre element to be visible with data-type attribute value of webgpu with data-length attribute value of i
-  await page.waitForSelector(`pre[data-type="webgpu"][data-length="${i}"]`);
+  await page.waitForSelector(`pre[data-type="wgsl"][data-length="${i}"]`);
   // click the runWebgpuButton
   await runWebgpuButton.click();
 
@@ -50,4 +60,5 @@ test("should make a resport for heavyMathCalculation page", async ({ page }) => 
 
   // expoect window.durations to be defined
   expect(await page.evaluate(() => window.durations)).toBeDefined();
+  console.log("durations: ", await page.evaluate(() => window.durations));
 });
