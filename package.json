@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test --ui",
+    "test:headless": "playwright test",
     "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "eslint-config-next": "14.2.3",
     "monaco-editor": "^0.49.0",
     "postcss": "^8",
+    "socket.io": "^4.7.5",
     "tailwindcss": "^3.4.1",
     "ts-shader-loader": "^2.0.2",
     "typescript": "^5",
