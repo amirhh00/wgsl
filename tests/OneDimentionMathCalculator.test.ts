@@ -1,15 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-// test("webgpu show be available", async ({ page }) => {
-//   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-//   await page.goto("http://localhost:3000/showcases/heavyMathCalculation");
-//   // try to create adaptor with webgpu
-//   const adapter = await page.evaluateHandle(() => {
-//     return (navigator as any).gpu.requestAdapter();
-//   });
-//   expect(adapter).toBeDefined();
-// });
-
 test("should make a resport for heavyMathCalculation page", async ({ page }) => {
   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
   await page.goto("http://localhost:3000/showcases/heavyMathCalculation");
@@ -23,42 +13,46 @@ test("should make a resport for heavyMathCalculation page", async ({ page }) => 
   const button = await form.$("button");
   if (!button) throw new Error("button element not found");
   // set the value of the input element
-  let i = 1;
-  await input.fill(i.toString());
-  // click the button
-  await button.click();
-  // wait for the pre element to be visible with data-length attribute value of i
-  await page.waitForSelector(`pre[data-length="${i}"]`);
+  for (let i = 1; i <= 50000000; i = i < 65535 ? i * 10 : i * 2) {
+    await input.fill(i.toString());
+    // click the button
+    await button.click();
+    // wait for the pre element to be visible with data-length attribute value of i
+    await page.waitForSelector(`pre[data-length="${i}"]`);
 
-  // get the button element with name attribute run-js and click it
-  const runJsButton = await page.waitForSelector(`button[name="run-js"]`);
-  expect(runJsButton).toBeDefined();
-  await runJsButton.click();
-  // wait for the pre element to be visible with data-type attribute value of js with data-length attribute value of i
-  await page.waitForSelector(`pre[data-type="js"][data-length="${i}"]`);
+    // get the button element with name attribute run-js and click it
+    const runJsButton = await page.waitForSelector(`button[name="run-js"]`);
+    expect(runJsButton).toBeDefined();
+    await runJsButton.click();
+    // wait for the pre element to be visible with data-type attribute value of js with data-length attribute value of i
+    await page.waitForSelector(`pre[data-type="js"][data-length="${i}"]`);
 
-  // get the button element with name attribute run-wasm
-  const runWasmButton = await page.waitForSelector(`button[name="run-wasm"]`);
-  expect(runWasmButton).toBeDefined();
-  // if (!runWasmButton) throw new Error("run-wasm button element not found");
-  await runWasmButton.click();
-  // wait for the pre element to be visible with data-type attribute value of wasm with data-length attribute value of i
-  await page.waitForSelector(`pre[data-type="wasm"][data-length="${i}"]`);
+    // get the button element with name attribute run-wasm
+    const runWasmButton = await page.waitForSelector(`button[name="run-wasm"]`);
+    expect(runWasmButton).toBeDefined();
+    // if (!runWasmButton) throw new Error("run-wasm button element not found");
+    await runWasmButton.click();
+    // wait for the pre element to be visible with data-type attribute value of wasm with data-length attribute value of i
+    await page.waitForSelector(`pre[data-type="wasm"][data-length="${i}"]`);
 
-  // get the button element with name attribute run-webgpu
-  const runWebgpuButton = await page.waitForSelector(`button[name="run-wgsl"]`);
-  expect(runWebgpuButton).toBeDefined();
-  // if (!runWebgpuButton) throw new Error("run-webgpu button element not found");
-  await runWebgpuButton.click();
-  // wait for the pre element to be visible with data-type attribute value of webgpu with data-length attribute value of i
-  await page.waitForSelector(`pre[data-type="wgsl"][data-length="${i}"]`);
-  // click the runWebgpuButton
-  await runWebgpuButton.click();
+    // get the button element with name attribute run-webgpu
+    const runWebgpuButton = await page.waitForSelector(`button[name="run-wgsl"]`);
+    expect(runWebgpuButton).toBeDefined();
+    // if (!runWebgpuButton) throw new Error("run-webgpu button element not found");
+    await runWebgpuButton.click();
+    // wait for the pre element to be visible with data-type attribute value of webgpu with data-length attribute value of i
+    await page.waitForSelector(`pre[data-type="wgsl"][data-length="${i}"]`);
+    // click the runWebgpuButton
+    await runWebgpuButton.click();
 
-  // wait 10ms
-  await page.waitForTimeout(10);
+    // wait 10ms
+    await page.waitForTimeout(10);
 
-  // expoect window.durations to be defined
-  expect(await page.evaluate(() => window.durations)).toBeDefined();
-  console.log("durations: ", await page.evaluate(() => window.durations));
+    const durations = await page.evaluate(() => window.durations);
+    // expoect window.durations to be defined
+    expect(durations).toBeDefined();
+    const stringifiedDurations = JSON.stringify(durations);
+    console.log(stringifiedDurations);
+    await page.waitForTimeout(10);
+  }
 });

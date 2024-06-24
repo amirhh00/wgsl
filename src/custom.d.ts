@@ -11,7 +11,8 @@ declare module "*.glsl" {
 }
 
 type ResultTypes = "js" | "wasm" | "webgpu";
-
+type ArrayLength = string;
+type Durations = Record<ResultTypes, Record<ArrayLength, number>>;
 interface Window {
-  durations: Record<ResultTypes, Record<string, number>>;
+  durations: Durations;
 }
