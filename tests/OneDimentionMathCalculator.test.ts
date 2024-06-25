@@ -20,8 +20,9 @@ test("should make a resport for heavyMathCalculation page", async ({ page }) => 
   };
   const regexDurationExtractor = /Duration: (\d+(?:\.\d+)?)/;
   const timeout = 60000;
+
   // set the value of the input element
-  for (let i = 1; i <= 10000000; i = i * 2) {
+  for (let i = 1; i <= 50000000; i = i < 65535 ? i * Math.floor(Math.random() * 6) + 5 : i * 2) {
     await input.fill(i.toString());
     // click the button
     await button.click();
