@@ -117,7 +117,7 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
     // Now you can access the data from the result buffer
     // console.log(arrayBufferData);
     setRes({ result: arrayBufferData, duration, duration2 });
-    window.durations.webgpu[vector1.length] = duration;
+    // window.durations.webgpu[vector1.length] = duration;
     setIsLoading(false);
     // readBuffer.unmap();
   }

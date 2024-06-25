@@ -29,7 +29,7 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
           worker.postMessage({ vector1: props.vector1, vector2: props.vector2 });
           worker.onmessage = (e) => {
             setRes(e.data);
-            window.durations.js[props.vector1.length] = e.data.duration;
+            // window.durations.js[props.vector1.length] = e.data.duration;
             setIsLoading(false);
           };
         }}

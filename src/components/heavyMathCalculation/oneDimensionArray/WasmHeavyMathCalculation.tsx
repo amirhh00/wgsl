@@ -47,7 +47,7 @@ const WasmHeavyMathCalculationComponent = ({ vector1, vector2 }: VectorMultProps
         result: resultVector,
         duration,
       });
-      window.durations.wasm[vector1.length] = duration;
+      // window.durations.wasm[vector1.length] = duration;
       setIsLoading(false);
     }
   };

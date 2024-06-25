@@ -29,7 +29,7 @@ class GraphReporter implements Reporter {
             if (req.url === "/") {
               res.writeHead(200, { "Content-Type": "text/html" });
               const __dirname = path.dirname(fileURLToPath(import.meta.url));
-              const filePath = path.join(__dirname, "graph.html");
+              const filePath = path.join(__dirname, "../public/benchmark.html");
               const readStream = fs.createReadStream(filePath);
               readStream.pipe(res);
             } else if (req.url === "/durations") {
@@ -51,7 +51,7 @@ class GraphReporter implements Reporter {
     if (isHeavyMathCalculationPage(test)) {
       // before closing the server, save the durations to a js file that expose the durations object to the window object
       const __dirname = path.dirname(fileURLToPath(import.meta.url));
-      const filePath = path.join(__dirname, "durations.js");
+      const filePath = path.join(__dirname, "../public/durations.js");
       fs.writeFileSync(filePath, `window.durations = ${JSON.stringify(this.durations)}`);
       console.log("durations.json file is created. closing the server.");
       // close the server
