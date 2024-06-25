@@ -22,18 +22,6 @@ class GraphReporter implements Reporter {
     if (isHeavyMathCalculationPage(test)) {
       if (!this.isServerRunning) {
         this.isServerRunning = true;
-        // this.server = http.createServer((req, res) => {
-        //   if (req.url === "/") {
-        //     res.writeHead(200, { "Content-Type": "text/html" });
-        //     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-        //     const filePath = path.join(__dirname, "graph.html");
-        //     const readStream = fs.createReadStream(filePath);
-        //     readStream.pipe(res);
-        //   } else if (req.url === "/durations") {
-        //     res.writeHead(200, { "Content-Type": "application/json" });
-        //     res.end(JSON.stringify(this.durations));
-        //   }
-        // });
         this.server = http.createServer();
         this.server.on("request", (req, res) => {
           // if get request
@@ -79,7 +67,7 @@ class GraphReporter implements Reporter {
   onStdOut(chunk: string | Buffer, test: TestCase, result: TestResult): void {
     if (isHeavyMathCalculationPage(test)) {
       let str = chunk.toString();
-      if (str.includes("webgpu")) {
+      if (isStrTheDurations(str)) {
         this.durations = JSON.parse(str);
         // use websocket to send the durations to the client
         this.io?.emit("durations", this.durations);
@@ -92,4 +80,8 @@ export default GraphReporter;
 
 function isHeavyMathCalculationPage(test?: TestCase): boolean {
   return !!test && !!test.title && test.title.includes("heavyMathCalculation");
+}
+
+function isStrTheDurations(str: string): boolean {
+  return str.includes("js") && str.includes("wasm") && str.includes("webgpu");
 }

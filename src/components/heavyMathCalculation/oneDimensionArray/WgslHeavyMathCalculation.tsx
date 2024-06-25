@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import computeShaderCode from "@/app/showcases/heavyMathCalculation/wgsl/computeShader.wgsl";
 import { ResultResponse } from "@/@types/etc";
 import Spinner from "@/components/global/Spinner";
@@ -121,6 +121,10 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
     setIsLoading(false);
     // readBuffer.unmap();
   }
+
+  useEffect(() => {
+    setRes(null);
+  }, [vector1, vector2]);
 
   if (!navigator.gpu) {
     return <div className="text-center text-red-600 outline outline-red-600 py-3 rounded-md">WebGPU not supported on this browser!</div>;
