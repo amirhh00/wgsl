@@ -8,8 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "playwright test --ui",
-    "test:headless": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test": "playwright test",
     "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {

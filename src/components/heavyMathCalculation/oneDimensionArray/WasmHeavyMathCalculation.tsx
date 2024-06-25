@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "@/components/global/Spinner";
 import { ResultResponse } from "@/@types/etc";
 import wasmModulePromis from "@/app/showcases/heavyMathCalculation/wasm/pkg/heavycalculation";
@@ -23,6 +23,10 @@ function allocateSpaceForVector(vector: Float32Array, memory: WebAssembly.Memory
 const WasmHeavyMathCalculationComponent = ({ vector1, vector2 }: VectorMultProps) => {
   const [res, setRes] = useState<ResultResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setRes(null);
+  }, [vector1, vector2]);
 
   const loadWasm = async () => {
     if (vector1 && vector2) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { ResultResponse } from "@/@types/etc";
 import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,11 @@ interface IWebWorkerHeavyMathCalculationProps {
 const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (props) => {
   const [res, setRes] = useState<ResultResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setRes(null);
+  }, [props.vector1, props.vector2]);
+
   return (
     <div className="w-full">
       <Button
