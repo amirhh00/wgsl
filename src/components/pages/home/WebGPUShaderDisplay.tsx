@@ -1,17 +1,18 @@
-import React, { useRef, useEffect } from "react";
-import useShaderStore, { preWrittenCode } from "@/store/shader.state";
+import React, { useRef, useEffect, useState } from "react";
+import useShaderStore from "@/store/shader.state";
 
 interface WGSLShaderComponentProps {
   // shaderCode: string;
 }
-
+let frameNumber = 0;
 const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { savedCustomCodes, selectedCodeName } = useShaderStore();
-  const models = [...preWrittenCode, ...Object.entries(savedCustomCodes).map(([key, value]) => ({ name: key, code: value }))];
-  const shaderCode = models.find((m) => m.name === selectedCodeName)?.code ?? "";
+  const { savedCustomCodes: models } = useShaderStore();
+  // const [frameNumber, setFrameNumber] = useState(0);
+  const activeShaderCode = models.find((c) => c.currentActive)?.code || "";
 
   useEffect(() => {
+    let animationFrameId: number;
     const initWebGPU = async () => {
       if (!navigator.gpu) {
         console.error("WebGPU is not supported by this browser.");
@@ -33,6 +34,15 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         size: 4,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
       });
+
+      const updateFrame = () => {
+        // setFrameNumber((frameNumber) => frameNumber + 1);
+        frameNumber++;
+        device.queue.writeBuffer(uniformBuffer, 0, new Uint32Array([frameNumber]));
+        animationFrameId = requestAnimationFrame(updateFrame);
+      };
+
+      updateFrame();
 
       // Create a bind group layout
       const bindGroupLayout = device.createBindGroupLayout({
@@ -59,15 +69,15 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       const pipeline = device.createRenderPipeline({
         vertex: {
           module: device.createShaderModule({
-            code: shaderCode,
+            code: activeShaderCode,
           }),
-          entryPoint: "vtx_main",
+          // entryPoint: "vtx_main",
         },
         fragment: {
           module: device.createShaderModule({
-            code: shaderCode,
+            code: activeShaderCode,
           }),
-          entryPoint: "frag_main",
+          // entryPoint: "frag_main",
           targets: [
             {
               format: presentationFormat,
@@ -108,7 +118,11 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
     };
 
     initWebGPU();
-  }, [shaderCode]);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [activeShaderCode]);
 
   return <canvas className="w-full aspect-square" ref={canvasRef}></canvas>;
 };
