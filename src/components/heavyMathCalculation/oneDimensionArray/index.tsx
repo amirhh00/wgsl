@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import WebWorkerHeavyMathCalculation from "@/components/heavyMathCalculation/oneDimensionArray/WebWorkerHeavyMathCalculation";
 import WebGPUCanvas from "@/components/heavyMathCalculation/oneDimensionArray/WgslHeavyMathCalculation";
 import Spinner from "@/components/global/Spinner";
@@ -26,23 +26,6 @@ const OneDimensionHeavyMathCalculation = (props: any) => {
       setLoading(false);
     };
   };
-
-  useEffect(() => {
-    // if window.durations is not defined, create it
-    if (!window.durations) {
-      window.durations = {
-        js: {
-          "0": 0,
-        },
-        wasm: {
-          "0": 0,
-        },
-        webgpu: {
-          "0": 0,
-        },
-      };
-    }
-  }, []);
 
   return (
     <div className="max-w-lg mx-auto ">

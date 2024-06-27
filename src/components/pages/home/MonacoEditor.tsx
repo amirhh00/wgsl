@@ -7,15 +7,16 @@ import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import type { editor as Editor } from "monaco-editor";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Wgsllogo from "@/components/global/wgsl.logo";
-import ScrollContainer from "react-indiana-drag-scroll";
 
 const WGSLMonacoEditor = () => {
-  const { changeCode, selectedCodeName, savedCustomCodes, setActiveModel, removeModel } = useShaderStore();
+  const { changeCode, setActiveModel, savedCustomCodes: models, removeModel } = useShaderStore();
   // const [models, setModels] = useState<monaco.editor.ITextModel[]>([]);
   // const [activeModel, setActiveModel] = useState<string | undefined>(undefined);
   const editorRef = useRef<Editor.IStandaloneCodeEditor | null>(null);
-  const models = [...Object.entries(savedCustomCodes).map(([key, value]) => ({ name: key, code: value }))];
-  if (models.length === 0) models.push(preWrittenCode[0]);
+  // const foundPreWrittenCode = preWrittenCode.find((c) => c.name === selectedCodeName);
+  // if (foundPreWrittenCode) {
+  //   models.push({ name: foundPreWrittenCode.name, code: foundPreWrittenCode.code });
+  // }
 
   function handleEditorDidMount(editor: Editor.IStandaloneCodeEditor, monaco: Monaco) {
     editorRef.current = editor;
@@ -44,18 +45,20 @@ const WGSLMonacoEditor = () => {
     // });
   }
 
-  const editorWillMount = (monaco: Monaco) => {
-    const model = models[0];
-    if (monaco.editor.getModel(monaco.Uri.parse(`file:///${model.name}.wgsl`))) return;
-    monaco.editor.createModel(model.code, "wgsl", monaco.Uri.parse(`file:///${model.name}.wgsl`));
-    setActiveModel(model.name);
-  };
+  // const editorWillMount = (monaco: Monaco) => {
+  //   const model = models[0];
+  //   if (!model) return;
+  //   if (monaco.editor.getModel(monaco.Uri.parse(`file:///${model.name}.wgsl`))) return;
+  //   monaco.editor.createModel(model.code, "wgsl", monaco.Uri.parse(`file:///${model.name}.wgsl`));
+  //   // setActiveModel(model.name);
+  // };
 
   const handleOpenNewModel = () => {
-    let newModelName = `custom${Object.keys(savedCustomCodes).length + 1}`;
-    if (savedCustomCodes[newModelName]) {
+    let newModelName = `custom${Object.keys(models).length + 1}`;
+    if (models.find((c) => c.name === newModelName)) {
       let max = 0;
-      for (const customCodeName in savedCustomCodes) {
+      for (let i = 0; i < models.length; i++) {
+        const customCodeName = models[i].name;
         if (customCodeName.startsWith("custom")) {
           const num = parseInt(customCodeName.replace("custom", ""));
           if (num > max) max = num;
@@ -63,8 +66,8 @@ const WGSLMonacoEditor = () => {
       }
       newModelName = `custom${max + 1}`;
     }
-    changeCode(defaultCode, newModelName);
-    setActiveModel(newModelName);
+    changeCode(defaultCode, newModelName, true);
+    // setActiveModel(newModelName);
   };
 
   const handleRemoveModel = (name: string) => {
@@ -83,11 +86,11 @@ const WGSLMonacoEditor = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-            <SelectItem value="blueberry">Blueberry</SelectItem>
-            <SelectItem value="grapes">Grapes</SelectItem>
-            <SelectItem value="pineapple">Pineapple</SelectItem>
+            {preWrittenCode.map((code) => (
+              <SelectItem key={code.name} value={code.name}>
+                {code.name}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -95,7 +98,7 @@ const WGSLMonacoEditor = () => {
       <div className="tabs-container flex items-center bg-[#1e1e1e] [&_*]:!outline-none">
         <ul className="flex tabs overflow-x-auto">
           {models.map((model) => (
-            <li key={model.name} draggable className={`tab px-2 flex justify-around items-center relative ${selectedCodeName === model.name ? "active" : ""}`}>
+            <li key={model.name} draggable className={`tab px-2 flex justify-around items-center relative ${model.currentActive ? "active" : ""}`}>
               <Wgsllogo className="w-5 h-5" />
               <button
                 className={`monacoMenuBtn whitespace-nowrap`}
@@ -124,17 +127,16 @@ const WGSLMonacoEditor = () => {
         </div>
       </div>
 
-      {/* <Skeleton className="w-full h-full max-h-[512px] rounded-none relative" /> */}
       <div className="w-full h-full relative">
         <MonacoEditor
           className="absolute top-0 left-0 w-full h-full rounded-none z-10"
           onMount={handleEditorDidMount}
           loading={<Skeleton className="w-full h-full rounded-none absolute z-50" />}
-          beforeMount={editorWillMount}
+          // beforeMount={editorWillMount}
           language="wgsl"
-          value={models.find((m) => m.name === selectedCodeName)?.code ?? ""}
+          value={models.find((m) => m.currentActive)?.code ?? ""}
           theme="vs-dark"
-          path={selectedCodeName}
+          path={models.find((m) => m.currentActive)?.name}
           line={2}
           options={{
             minimap: { enabled: false },
@@ -146,7 +148,9 @@ const WGSLMonacoEditor = () => {
             suggest: { showWords: true, showSnippets: true, showVariables: true, showColors: true },
             scrollBeyondLastLine: false,
           }}
-          onChange={(value) => changeCode(value ?? "", selectedCodeName)}
+          onChange={(value) => {
+            if (value) changeCode(value, models.find((m) => m.currentActive)!.name, true);
+          }}
         />
       </div>
     </>
