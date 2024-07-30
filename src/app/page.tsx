@@ -1,5 +1,5 @@
-import HomePage from "@/components/pages/home/HomePage";
+import MonacoEditorFull from "@/components/global/MonacoEditorFull";
 
 export default function Home() {
-  return <HomePage />;
+  return <MonacoEditorFull />;
 }

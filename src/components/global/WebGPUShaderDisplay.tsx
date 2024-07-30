@@ -2,14 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import useShaderStore from "@/store/shader.state";
 
 interface WGSLShaderComponentProps {
-  // shaderCode: string;
+  shaderCode?: string;
 }
 let frameNumber = 0;
 const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { savedCustomCodes: models } = useShaderStore();
-  // const [frameNumber, setFrameNumber] = useState(0);
-  const activeShaderCode = models.find((c) => c.currentActive)?.code || "";
+  const { shaderCode: activeShaderCode = "" } = props;
 
   useEffect(() => {
     let animationFrameId: number;
@@ -61,7 +59,9 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         entries: [
           {
             binding: 0,
-            resource: { buffer: uniformBuffer },
+            resource: {
+              buffer: uniformBuffer,
+            },
           },
         ],
       });
@@ -88,9 +88,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
           topology: "triangle-list",
         },
         // Use the bind group layout in the pipeline layout
-        layout: device.createPipelineLayout({
-          bindGroupLayouts: [bindGroupLayout],
-        }),
+        layout: device.createPipelineLayout({ bindGroupLayouts: [bindGroupLayout] }),
       });
 
       const commandEncoder = device.createCommandEncoder();

@@ -8,7 +8,11 @@ import type { editor as Editor } from "monaco-editor";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Wgsllogo from "@/components/global/wgsl.logo";
 
-const WGSLMonacoEditor = () => {
+interface WGSLMonacoEditorProps {
+  hideSelect?: boolean;
+}
+
+const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const { changeCode, setActiveModel, savedCustomCodes: models, removeModel } = useShaderStore();
   // const [models, setModels] = useState<monaco.editor.ITextModel[]>([]);
   // const [activeModel, setActiveModel] = useState<string | undefined>(undefined);
@@ -75,27 +79,33 @@ const WGSLMonacoEditor = () => {
   };
 
   const handleSelectChange = (value: string) => {
-    console.log("e: ", value);
+    const foundPreWrittenCode = preWrittenCode.find((c) => c.name === value);
+    if (foundPreWrittenCode) {
+      // change code of the active model
+      changeCode(foundPreWrittenCode.code, models.find((m) => m.currentActive)!.name, true);
+    }
   };
 
   return (
     <>
-      <Select onValueChange={handleSelectChange} defaultValue="apple">
-        <SelectTrigger className="w-[280px] mb-4 !ring-0">
-          <SelectValue placeholder="Select a sample code" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {preWrittenCode.map((code) => (
-              <SelectItem key={code.name} value={code.name}>
-                {code.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      {!props.hideSelect && models.length > 0 && (
+        <Select onValueChange={handleSelectChange} defaultValue="">
+          <SelectTrigger className="w-[280px] mb-4 !ring-0">
+            <SelectValue placeholder="Select a sample code" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {preWrittenCode.map((code) => (
+                <SelectItem key={code.name} value={code.name}>
+                  {code.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
 
-      <div className="tabs-container flex items-center bg-[#1e1e1e] [&_*]:!outline-none">
+      <div className="tabs-container flex items-center bg-[#2d2d2d] [&_*]:!outline-none min-h-9">
         <ul className="flex tabs overflow-x-auto">
           {models.map((model) => (
             <li key={model.name} draggable className={`tab px-2 flex justify-around items-center relative ${model.currentActive ? "active" : ""}`}>
@@ -120,7 +130,7 @@ const WGSLMonacoEditor = () => {
             </li>
           ))}
         </ul>
-        <div className="tab !bg-transparent !border-l-2 mr-2 !border-l-white/40 !px-3 !ml-2 h-[65%] relative">
+        <div className="tab !bg-transparent !border-l-2 mr-2 !border-l-white/40 !px-3 !ml-2 h-[65%] relative min-h-6">
           <button onClick={handleOpenNewModel} className="closeBtn !p-0 h-full absolute bottom-[0px] left-1 px-1 text-2xl font-extralight leading-[0]">
             <p className="p-1 pb-[7px]">+</p>
           </button>
@@ -129,7 +139,7 @@ const WGSLMonacoEditor = () => {
 
       <div className="w-full h-full relative">
         <MonacoEditor
-          className="absolute top-0 left-0 w-full h-full rounded-none z-10"
+          className="absolute top-0 left-0 w-full h-full rounded-none z-10 bg-[#1e1e1e]"
           onMount={handleEditorDidMount}
           loading={<Skeleton className="w-full h-full rounded-none absolute z-50" />}
           // beforeMount={editorWillMount}
@@ -143,6 +153,7 @@ const WGSLMonacoEditor = () => {
             wordWrap: "on",
             autoClosingBrackets: "always",
             autoClosingQuotes: "always",
+            padding: { top: 5, bottom: 5 },
             autoIndent: "full",
             tabCompletion: "on",
             suggest: { showWords: true, showSnippets: true, showVariables: true, showColors: true },
