@@ -68,7 +68,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border focus:!ring-offset-0 focus:!ring-0;
   }
   body {
     @apply bg-background text-foreground;

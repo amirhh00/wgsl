@@ -3,6 +3,7 @@
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { models, useAiChatStore } from "@/store/ai.state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export interface PromptCardProps {
@@ -11,6 +12,7 @@ export interface PromptCardProps {
 
 export const PromptCard = React.forwardRef<HTMLDivElement, PromptCardProps>(({ onPrompt }, ref) => {
   const [prompt, setPrompt] = React.useState("");
+  const { activeModel, setActiveModel } = useAiChatStore();
 
   return (
     <div className="grid w-full gap-2" ref={ref}>
@@ -26,14 +28,18 @@ export const PromptCard = React.forwardRef<HTMLDivElement, PromptCardProps>(({ o
         }}
       />
       <div className="flex w-full gap-2 grid-cols-12">
-        {/* <Select>
+        <Select onValueChange={setActiveModel} value={activeModel}>
           <SelectTrigger className="col-span-3">
-            <SelectValue placeholder="ChatBot" />
+            <SelectValue placeholder="Choose Model" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="chatbot">ChatBot</SelectItem>
+            {models.map((model) => (
+              <SelectItem value={model} key={model} onClick={() => onPrompt?.(prompt, model)}>
+                {model}
+              </SelectItem>
+            ))}
           </SelectContent>
-        </Select> */}
+        </Select>
         <Button
           className="flex-1"
           onClick={() => {

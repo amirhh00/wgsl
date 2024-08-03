@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "@/components/ui/sonner";
 import { Inter as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html className="dark" lang="en">
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <main className="container mx-auto">{children}</main>
+        <Toaster />
       </body>
     </html>
   );
