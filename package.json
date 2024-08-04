@@ -34,6 +34,8 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "wgsl-debug-table": "^0.0.1",
+    "workbox-core": "^7.1.0",
+    "workbox-precaching": "^7.1.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

@@ -16,6 +16,10 @@ const nextConfig = {
 
     return config;
   },
+  experimental: {
+    modern: true,
+    plugins: true,
+  },
 };
 
 export default nextConfig;
