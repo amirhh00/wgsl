@@ -7,11 +7,11 @@ import useShaderStore from "@/store/shader.state";
 
 export default function MonacoEditorFull() {
   return (
-    <div className="flex slg:flex-col gap-4 w-full h-screen py-10">
-      <div className="flex flex-col flex-1 min-h-96 xl:h-full max-w-4xl">
+    <div className="flex slg:flex-col gap-4 w-full py-6 flex-wrap">
+      <div className="flex flex-col flex-1 min-h-96 xl:h-full max-w-full">
         <WGSLMonacoEditor />
       </div>
-      <div className="flex flex-col flex-1 min-h-96 xl:h-full gap-3 max-w-lg min-w-96 mx-auto">
+      <div className="flex flex-col flex-1 min-h-96 xl:h-full gap-3 sm:min-w-96 mx-auto max-w-lg">
         <DisplayShader />
       </div>
     </div>

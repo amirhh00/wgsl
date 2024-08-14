@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import {
+  //  devtools,
+  persist,
+} from "zustand/middleware";
 import _ from "lodash";
 import packageJson from "@/../package.json";
 
@@ -116,52 +119,52 @@ interface ShaderState {
 }
 
 const useShaderStore = create<ShaderState>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        // selectedCodeName: preWrittenCode[0].name,
-        savedCustomCodes: [...preWrittenCode].map((c, i) => ({ name: c.name, code: c.code, currentActive: i === 0 })),
-        // stackHistory: [],
-        changeCode: (code, name, setActive = false) => {
-          // change the code of the model with the name or create a new one
-          set({
-            // @ts-expect-error
-            savedCustomCodes: [
-              ...get().savedCustomCodes.map((c) => ({
-                ...c,
-                code: c.name === name ? code : c.code,
-                currentActive: setActive ? c.name === name : c.currentActive,
-              })),
-              ...(get().savedCustomCodes.find((c) => c.name === name) ? [] : [{ name, code, currentActive: setActive }]),
-            ],
-          });
-        },
-        setActiveModel: (name) => {
-          set({ savedCustomCodes: get().savedCustomCodes.map((c) => ({ ...c, currentActive: c.name === name })) });
-        },
-        removeModel: (name) => {
-          // filter out the code with the name
-          set({ savedCustomCodes: get().savedCustomCodes.filter((c) => c.name !== name) });
-        },
-      }),
-      {
-        // blacklist the stackHistory from being saved
-        // partialize: (state) => {
-        //   const { stackHistory, ...rest } = state;
-        //   return rest;
-        // },
-        name: "shaderStore",
-        // merge: (persisted: any, currentState) => {
-        //   return _.merge(currentState, persisted);
-        // },
-
-        version: parseFloat(packageJson.version),
-      }
-    ),
+  // devtools(
+  persist(
+    (set, get) => ({
+      // selectedCodeName: preWrittenCode[0].name,
+      savedCustomCodes: [...preWrittenCode].map((c, i) => ({ name: c.name, code: c.code, currentActive: i === 0 })),
+      // stackHistory: [],
+      changeCode: (code, name, setActive = false) => {
+        // change the code of the model with the name or create a new one
+        set({
+          // @ts-expect-error
+          savedCustomCodes: [
+            ...get().savedCustomCodes.map((c) => ({
+              ...c,
+              code: c.name === name ? code : c.code,
+              currentActive: setActive ? c.name === name : c.currentActive,
+            })),
+            ...(get().savedCustomCodes.find((c) => c.name === name) ? [] : [{ name, code, currentActive: setActive }]),
+          ],
+        });
+      },
+      setActiveModel: (name) => {
+        set({ savedCustomCodes: get().savedCustomCodes.map((c) => ({ ...c, currentActive: c.name === name })) });
+      },
+      removeModel: (name) => {
+        // filter out the code with the name
+        set({ savedCustomCodes: get().savedCustomCodes.filter((c) => c.name !== name) });
+      },
+    }),
     {
-      enabled: process.env.NODE_ENV === "development",
+      // blacklist the stackHistory from being saved
+      // partialize: (state) => {
+      //   const { stackHistory, ...rest } = state;
+      //   return rest;
+      // },
+      name: "shaderStore",
+      // merge: (persisted: any, currentState) => {
+      //   return _.merge(currentState, persisted);
+      // },
+
+      version: parseFloat(packageJson.version),
     }
   )
+  //   {
+  //     enabled: process.env.NODE_ENV === "development",
+  //   }
+  // )
 );
 
 export default useShaderStore;

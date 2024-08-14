@@ -14,14 +14,7 @@ interface WGSLMonacoEditorProps {
 
 const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const { changeCode, setActiveModel, savedCustomCodes: models, removeModel } = useShaderStore();
-  // const [models, setModels] = useState<monaco.editor.ITextModel[]>([]);
-  // const [activeModel, setActiveModel] = useState<string | undefined>(undefined);
   const editorRef = useRef<Editor.IStandaloneCodeEditor | null>(null);
-  // const foundPreWrittenCode = preWrittenCode.find((c) => c.name === selectedCodeName);
-  // if (foundPreWrittenCode) {
-  //   models.push({ name: foundPreWrittenCode.name, code: foundPreWrittenCode.code });
-  // }
-
   function handleEditorDidMount(editor: Editor.IStandaloneCodeEditor, monaco: Monaco) {
     editorRef.current = editor;
     // monaco.languages.registerCompletionItemProvider("wgsl", {
@@ -48,14 +41,6 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
     //   },
     // });
   }
-
-  // const editorWillMount = (monaco: Monaco) => {
-  //   const model = models[0];
-  //   if (!model) return;
-  //   if (monaco.editor.getModel(monaco.Uri.parse(`file:///${model.name}.wgsl`))) return;
-  //   monaco.editor.createModel(model.code, "wgsl", monaco.Uri.parse(`file:///${model.name}.wgsl`));
-  //   // setActiveModel(model.name);
-  // };
 
   const handleOpenNewModel = () => {
     let newModelName = `custom${Object.keys(models).length + 1}`;
@@ -105,10 +90,10 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
         </Select>
       )}
 
-      <div className="tabs-container flex items-center bg-[#2d2d2d] [&_*]:!outline-none min-h-9">
-        <ul className="flex tabs overflow-x-auto">
+      <div className="tabs-container flex items-center w-full bg-[#2d2d2d] [&_*]:!outline-none min-h-9">
+        <ul className="flex tabs overflow-x-auto max-w-[calc(100%_-_26px)]">
           {models.map((model) => (
-            <li key={model.name} draggable className={`tab px-2 flex justify-around items-center relative ${model.currentActive ? "active" : ""}`}>
+            <li key={model.name} className={`tab px-2 flex justify-around items-center ${model.currentActive ? "active" : ""}`}>
               <Wgsllogo className="w-5 h-5" />
               <button
                 className={`monacoMenuBtn whitespace-nowrap`}
@@ -137,11 +122,11 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
         </div>
       </div>
 
-      <div className="w-full h-full relative">
+      <div className="w-full h-[clamp(400px,50vh,100vh)] relative">
         <MonacoEditor
-          className="absolute top-0 left-0 w-full h-full rounded-none z-10 bg-[#1e1e1e]"
+          className="absolute top-0 left-0 w-full h-full rounded-none bg-[#1e1e1e]"
           onMount={handleEditorDidMount}
-          loading={<Skeleton className="w-full h-full rounded-none absolute z-50" />}
+          loading={<Skeleton className="w-full h-full rounded-none absolute" />}
           // beforeMount={editorWillMount}
           language="wgsl"
           value={models.find((m) => m.currentActive)?.code ?? ""}
@@ -150,7 +135,7 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
           line={2}
           options={{
             minimap: { enabled: false },
-            wordWrap: "on",
+            wordWrap: "off",
             autoClosingBrackets: "always",
             autoClosingQuotes: "always",
             padding: { top: 5, bottom: 5 },

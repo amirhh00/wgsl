@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
 import { Inter as FontSans } from "next/font/google";
-import "@/styles/globals.css";
-
 import { cn } from "@/lib/utils";
+import Navigation from "@/components/global/layout/Navigation";
+import Footer from "@/components/global/layout/Footer";
+
+import "@/styles/globals.css";
+import SideNavigation from "../components/global/layout/SideNavigation";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,8 +25,17 @@ export default function RootLayout({
 }>) {
   return (
     <html className="dark" lang="en">
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <main className="container mx-auto">{children}</main>
+      <body className={cn("bg-background font-sans antialiased", fontSans.variable)}>
+        <div className="flex flex-col min-h-screen">
+          <div className="flex relative flex-1 mx-auto flex-wrap w-full">
+            <Navigation />
+            <div className="underTopNav w-full flex">
+              <SideNavigation />
+              <main className="flex-1 container smd:max-w-none min-h-10 overflow-x-hidden pl-[var(--side-nav-width)]">{children}</main>
+            </div>
+          </div>
+          <Footer />
+        </div>
         <Toaster />
       </body>
     </html>
