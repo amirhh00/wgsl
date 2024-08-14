@@ -86,28 +86,32 @@
   .container {
     @apply ssm:!p-0;
   }
-  .tabs-container {
-    .tabs {
-      scrollbar-width: none;
-      /* scroll touch */
-    }
-    .tab {
-      @apply bg-[#2d2d2d] text-white/50 border-l-[#1e1e1e] border-l-[1px] rounded-none text-sm;
-      &.active {
-        @apply bg-[#1e1e1e] text-white;
-      }
-      &:not(.active):hover {
-        @apply text-white/80;
-      }
-      .monacoMenuBtn {
-        @apply w-full h-full py-2 px-1;
-      }
-      .closeBtn {
-        @apply p-1 rounded-md;
-        &:hover {
-          @apply bg-[#434343] text-white;
-        }
-      }
-    }
+  .tabs-container .tabs {
+    scrollbar-width: none;
+  }
+
+  .tabs-container .tab {
+    @apply bg-[#2d2d2d] text-white/50 border-l-[#1e1e1e] border-l-[1px] rounded-none text-sm;
+  }
+
+  .tabs-container .tab.active {
+    @apply bg-[#1e1e1e] text-white;
+  }
+
+  .tabs-container .tab:not(.active):hover {
+    @apply text-white/80;
+  }
+
+  .tabs-container .tab .monacoMenuBtn {
+    @apply w-full h-full py-2 px-1;
+  }
+
+  .tabs-container .tab .closeBtn {
+    @apply p-1 rounded-md;
+  }
+
+  .tabs-container .tab .closeBtn:hover {
+    background-color: #434343;
+    color: #ffffff;
   }
 }
