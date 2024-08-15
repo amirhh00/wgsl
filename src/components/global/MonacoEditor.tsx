@@ -134,6 +134,9 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
           path={models.find((m) => m.currentActive)?.name}
           line={2}
           options={{
+            scrollbar: {
+              alwaysConsumeMouseWheel: false,
+            },
             minimap: { enabled: false },
             wordWrap: "off",
             autoClosingBrackets: "always",

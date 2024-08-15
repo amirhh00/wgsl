@@ -13,7 +13,7 @@ export default function SideNavigation() {
   const timeRemaining = totalTime - tags.slice(0, activeIndex + 1).reduce((acc, tag) => acc + tag.time, 0);
 
   return (
-    <aside className="fixed flex flex-col h-screen transition-all top-10 z-20 w-[var(--side-nav-width)] overflow-x-hidden pb-8">
+    <aside className="fixed flex flex-col h-screen transition-all top-10 z-20 w-[var(--side-nav-width)] overflow-x-hidden pb-8 ssm:bg-black">
       {timeRemaining > 0 && (
         <div className="flex items-center py-3 justify-center gap-3 white">
           <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512">
