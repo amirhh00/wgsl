@@ -44,11 +44,11 @@ export function InlineCode(props: { code: string; className?: string }) {
 
 async function RenderCode(props: { code: string; lang: BuiltinLanguage | SpecialLanguage; tokenLinks?: Map<string, string> }) {
   const { tokens } = await codeToTokens(props.code, {
-    theme: "github-dark",
+    // theme: "github-dark",
     lang: props.lang,
     themes: {
-      light: "github-light",
-      dark: "github-dark-dimmed",
+      light: "github-light-default",
+      dark: "github-dark-default",
     },
   });
 
