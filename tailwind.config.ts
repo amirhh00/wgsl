@@ -94,6 +94,7 @@ const config = {
   },
   plugins: [
     require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
     //  fluid
   ],
 } satisfies Config;

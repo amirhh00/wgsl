@@ -10,6 +10,7 @@ import Wgsllogo from "@/components/global/wgsl.logo";
 
 interface WGSLMonacoEditorProps {
   hideSelect?: boolean;
+  readonly?: boolean;
 }
 
 const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
@@ -137,6 +138,8 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
             scrollbar: {
               alwaysConsumeMouseWheel: false,
             },
+            domReadOnly: props.readonly,
+            readOnly: props.readonly,
             minimap: { enabled: false },
             wordWrap: "off",
             autoClosingBrackets: "always",

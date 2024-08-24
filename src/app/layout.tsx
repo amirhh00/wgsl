@@ -27,12 +27,10 @@ export default function RootLayout({
     <html className="dark" lang="en">
       <body className={cn("bg-background font-sans antialiased", fontSans.variable)}>
         <div className="flex flex-col min-h-screen">
-          <div className="flex relative flex-1 mx-auto flex-wrap w-full">
-            <Navigation />
-            <div className="underTopNav w-full flex">
-              <SideNavigation />
-              <main className="flex-1 container smd:max-w-none min-h-10 overflow-x-hidden pl-[var(--side-nav-width)]">{children}</main>
-            </div>
+          <Navigation />
+          <div className="mainWrapper w-full flex flex-1">
+            <SideNavigation />
+            <main className="flex-1 container smd:max-w-none min-h-10 overflow-x-hidden pl-[var(--side-nav-width)]">{children}</main>
           </div>
           <Footer />
         </div>

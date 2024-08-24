@@ -1,0 +1,78 @@
+# Introduction to Shaders
+
+The term **"shader"** originated in the field of computer graphics. It refers to a program that determines how 3D objects are rendered on a 2D screen, specifically how different attributes like color, lighting, and texture are applied to pixels or vertices.
+
+**Brief History:**
+Shaders were introduced in the 1980s but gained prominence in the late 1990s and early 2000s with the advent of programmable graphics hardware. Initially, shaders were used primarily for creating realistic lighting effects in 3D graphics. Over time, their use expanded to include a wide range of visual effects and computational tasks.
+
+**What Are Shading Languages?**
+
+Shading languages are specialized programming languages designed for writing shaders. They allow developers to create custom rendering effects and perform complex calculations on graphics hardware. These languages are typically optimized for parallel processing, making them ideal for graphics-intensive applications and certain types of computational tasks.
+
+**Why Do We Need Shading Languages?**
+
+1. Performance: Shading languages allow direct access to GPU capabilities, enabling highly efficient parallel processing.
+2. Flexibility: They provide fine-grained control over rendering and computation processes.
+3. Specialization: These languages are optimized for graphics and parallel computing tasks.
+4. Hardware Abstraction: They offer a standardized way to interact with different graphics hardware.
+
+**Table of Different Shading Languages:**
+
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Primary Use</th>
+      <th>Associated API/Platform</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GLSL</td>
+      <td>OpenGL</td>
+      <td>OpenGL, OpenGL ES</td>
+    </tr>
+    <tr>
+      <td>HLSL</td>
+      <td>DirectX</td>
+      <td>Microsoft DirectX</td>
+    </tr>
+    <tr>
+      <td>Cg</td>
+      <td>Multi-platform</td>
+      <td>NVIDIA (deprecated)</td>
+    </tr>
+    <tr>
+      <td>Metal</td>
+      <td>Apple platforms</td>
+      <td>Apple Metal</td>
+    </tr>
+    <tr>
+      <td>WGSL</td>
+      <td>WebGPU</td>
+      <td>Web browsers</td>
+    </tr>
+  </tbody>
+</table>
+
+**WebGPU and WGSL**
+
+WebGPU is a modern web API for accessing GPU capabilities in web browsers. WGSL (WebGPU Shading Language) is the shading language designed specifically for use with WebGPU.
+
+**Benefits of WebGPU and WGSL:**
+
+1. Web-native: Designed specifically for web applications, ensuring broad compatibility and ease of use in web environments.
+2. Performance: Offers near-native performance for web applications, narrowing the gap between web and desktop applications.
+3. Modern Design: Incorporates lessons learned from earlier graphics APIs and shading languages.
+4. Safety: WGSL is designed with safety in mind, reducing the risk of certain types of errors common in other shading languages.
+5. Portability: WebGPU and WGSL aim to work consistently across different browsers and operating systems.
+6. Future-proof: Designed to evolve with emerging GPU capabilities and web technologies.
+
+```wgsl
+struct PointLight {
+    position: vec3f,
+    color: vec3f,
+}
+```
+
+Compared to other shading languages, WGSL offers a balance of performance, safety, and web compatibility that makes it particularly well-suited for modern web development. Its integration with WebGPU provides a powerful toolset for creating high-performance graphics and compute applications that run directly in the browser.
