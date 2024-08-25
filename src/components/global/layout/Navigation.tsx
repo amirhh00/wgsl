@@ -21,7 +21,7 @@ export default function Navigation() {
   }, [isAboveMd]);
 
   return (
-    <header className="sticky z-20 h-10 top-0 bg-black w-full">
+    <header className="sticky z-20 h-[var(--header-height)] top-0 bg-black w-full">
       <nav className="flex h-full items-center gap-4 md:container smd:px-6">
         <button onClick={() => toggle()} className="h-10 w-10 md:hidden bg-white/10">
           ☰

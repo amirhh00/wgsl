@@ -48,7 +48,7 @@ async function RenderCode(props: { code: string; lang: BuiltinLanguage | Special
     lang: props.lang,
     themes: {
       light: "github-light-default",
-      dark: "github-dark-default",
+      dark: "dark-plus",
     },
   });
 

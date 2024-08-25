@@ -40,11 +40,6 @@ export default [
     time: 10,
   },
   {
-    name: "show cases",
-    link: "/step/showcases",
-    time: 12,
-  },
-  {
     name: "Next Step",
     link: "/step/next-step",
     time: 7,
