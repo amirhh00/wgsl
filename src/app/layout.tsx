@@ -29,8 +29,7 @@ export default function RootLayout({
         <div className="flex flex-col min-h-screen">
           <Navigation />
           <div className="mainWrapper w-full flex flex-1">
-            <SideNavigation />
-            <main className="flex-1 container smd:max-w-none min-h-10 ssm:p-0 overflow-x-hidden md:pl-[var(--side-nav-width)] md:transition-[padding]">{children}</main>
+            <main className="w-full flex">{children}</main>
           </div>
           <Footer />
         </div>
