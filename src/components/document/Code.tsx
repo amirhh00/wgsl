@@ -1,12 +1,10 @@
 import "server-only";
 
 import { BuiltinLanguage, codeToTokens, SpecialLanguage, ThemedToken } from "shiki";
-// others
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-// import { CopyButton } from "@/components/etc/CopyButton";
-import { ScrollShadow } from "@/components/etc/ScrollShadow";
+import { ScrollBar, ScrollArea } from "@/components/ui/scroll-area";
 
 export async function CodeBlock(props: { code: string; lang: BuiltinLanguage | SpecialLanguage; tokenLinks?: Map<string, string> }) {
   let code = props.code;
@@ -14,16 +12,15 @@ export async function CodeBlock(props: { code: string; lang: BuiltinLanguage | S
   const tokenLinks = props.tokenLinks;
 
   return (
-    <div className="group/code relative prose-none">
-      <code className="relative bg-code-bg font-mono text-sm" lang={lang}>
-        <ScrollShadow scrollableClassName="" className="">
-          <RenderCode code={code} lang={lang} tokenLinks={tokenLinks} />
-        </ScrollShadow>
+    <div className="group/code relative prose-none inline-block">
+      <code className="relative bg-code-bg inline-block font-mono text-sm before:content-[''] after:content-['']" lang={lang}>
+        <ScrollArea className="w-min">
+          <span>
+            <RenderCode code={code} lang={lang} tokenLinks={tokenLinks} />
+            <ScrollBar className="absolute top-0 right-0 h-full" />
+          </span>
+        </ScrollArea>
       </code>
-
-      {/* <div className="absolute right-4 top-4 z-copyCodeButton opacity-0 transition-opacity duration-300 group-hover/code:opacity-100">
-        <CopyButton text={code} />
-      </div> */}
     </div>
   );
 }
@@ -65,7 +62,7 @@ async function RenderCode(props: { code: string; lang: BuiltinLanguage | Special
 
   return (
     <div>
-      <pre style={{ backgroundColor: "unset", margin: 0 }} data-lang={props.lang}>
+      <pre className="bg-inherit m-0 p-0" data-lang={props.lang}>
         {tokens.map((line, i) => {
           return (
             <div key={i}>

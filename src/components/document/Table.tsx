@@ -1,17 +1,18 @@
-import { ScrollShadow } from "@/components/etc/ScrollShadow";
+import { ScrollBar, ScrollArea } from "@/components/ui/scroll-area";
 
 export function Table(props: { children: React.ReactNode }) {
   return (
-    <ScrollShadow className="my-7 rounded-lg border">
-      <div className="w-full">
-        <table className="min-w-full border-collapse text-sm [&_tr:last-of-type]:border-none">{props.children}</table>
+    <ScrollArea className="rounded-lg whitespace-nowrap">
+      <div className="flex w-max">
+        <table className="min-w-full my-0 border-collapse text-sm [&_tr:last-of-type]:border-none">{props.children}</table>
       </div>
-    </ScrollShadow>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }
 
 export function Tr(props: { children: React.ReactNode }) {
-  return <tr className="border-b p-4 pb-3 pl-8 pt-0 text-left font-medium text-f-200">{props.children}</tr>;
+  return <tr className="border-b text-left font-medium text-f-200">{props.children}</tr>;
 }
 
 export function TBody(props: { children: React.ReactNode }) {
@@ -19,9 +20,9 @@ export function TBody(props: { children: React.ReactNode }) {
 }
 
 export function Th(props: { children: React.ReactNode }) {
-  return <th className="border-b bg-b-700 p-4 pb-3 pl-8 text-left text-base font-semibold text-f-100">{props.children}</th>;
+  return <th className="border-b bg-b-700 p-4 pb-3 pl-8 text-left text-base font-semibold text-f-100 first:pl-0">{props.children}</th>;
 }
 
 export function Td(props: { children: React.ReactNode }) {
-  return <td className="w-min p-4 pl-8 text-base leading-relaxed text-f-200">{props.children}</td>;
+  return <td className="w-min p-4 pl-8 text-base leading-relaxed text-f-200 first:pl-0">{props.children}</td>;
 }

@@ -1,4 +1,8 @@
-# Introduction to Shaders
+# WGSL 101
+
+Welcome to **WGSL 101**! This project is designed to help you learn the basics of **WebGPU Shading Language (WGSL)**, a shading language designed for use with **WebGPU**, a modern web API for accessing GPU capabilities in web browsers.
+
+## introduction
 
 The term **“shader”** originated in the field of computer graphics. It refers to a program that determines how 3D objects are rendered on a 2D screen, specifically how different attributes like color, lighting, and texture are applied to pixels or vertices.
 
@@ -18,42 +22,14 @@ Shading languages are specialized programming languages designed for writing sha
 
 **Common Shading Languages:**
 
-<table>
-  <thead>
-    <tr>
-      <th>Language</th>
-      <th>Primary Use</th>
-      <th>Associated API/Platform</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>GLSL</td>
-      <td>OpenGL</td>
-      <td>OpenGL, OpenGL ES</td>
-    </tr>
-    <tr>
-      <td>HLSL</td>
-      <td>DirectX</td>
-      <td>Microsoft DirectX</td>
-    </tr>
-    <tr>
-      <td>Cg</td>
-      <td>Multi-platform</td>
-      <td>NVIDIA (deprecated)</td>
-    </tr>
-    <tr>
-      <td>Metal</td>
-      <td>Apple platforms</td>
-      <td>Apple Metal</td>
-    </tr>
-    <tr>
-      <td>WGSL</td>
-      <td>WebGPU</td>
-      <td>Web browsers</td>
-    </tr>
-  </tbody>
-</table>
+| Language | Primary Use     | Associated API/Platform  |
+| -------- | --------------- | ------------------------ |
+| GLSL[^1] | OpenGL          | OpenGL, OpenGL ES, WebGL |
+| HLSL     | DirectX         | Microsoft DirectX        |
+| Cg       | Multi-platform  | NVIDIA (deprecated)      |
+| Metal    | Apple platforms | Apple Metal              |
+| SPIR-V   | Vulkan          | The Khronos Group        |
+| WGSL[^2] | WebGPU          | Web browsers             |
 
 **WebGPU and WGSL**
 
@@ -67,3 +43,8 @@ WebGPU is a modern web API for accessing GPU capabilities in web browsers. WGSL 
 4. Safety: WGSL is designed with **safety** in mind, reducing the risk of certain types of errors common in other shading languages.
 5. Portability: WebGPU and WGSL aim to work consistently across different **browsers** and **operating systems**.
 6. Future-proof: Designed to **evolve** with emerging GPU capabilities and web technologies.
+
+**References:**
+[^1]: GLSL: OpenGL Shading Language. (2011). Retrieved from https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)
+
+[^2]: WebGPU Shading Language. (2024). Retrieved from https://gpuweb.github.io/gpuweb/wgsl/

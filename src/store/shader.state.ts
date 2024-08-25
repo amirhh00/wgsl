@@ -3,7 +3,6 @@ import {
   //  devtools,
   persist,
 } from "zustand/middleware";
-import _ from "lodash";
 import packageJson from "@/../package.json";
 
 export const defaultCode = `\

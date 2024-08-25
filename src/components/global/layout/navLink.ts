@@ -45,3 +45,18 @@ export default [
     time: 7,
   },
 ] as const;
+
+export const menuNavLinks = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "About",
+    link: "/about",
+  },
+  {
+    name: "Resources",
+    link: "/resources",
+  },
+] as const;
