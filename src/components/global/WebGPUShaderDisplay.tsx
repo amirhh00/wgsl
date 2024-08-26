@@ -1,16 +1,22 @@
-import React, { useRef, useEffect, useState } from "react";
-import useShaderStore from "@/store/shader.state";
+"use client";
 
-interface WGSLShaderComponentProps {
-  shaderCode?: string;
+import React, { useRef, useEffect } from "react";
+
+interface WGSLShaderComponentOtherProps {
+  shaderCode: string;
 }
+
+type WGSLShaderComponentProps = WGSLShaderComponentOtherProps & React.HTMLAttributes<HTMLCanvasElement>;
+
 let frameNumber = 0;
 const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { shaderCode: activeShaderCode = "" } = props;
+  const deviceRef = useRef<GPUDevice | null>(null);
+  const { shaderCode: activeShaderCode = "", ...rest } = props;
 
   useEffect(() => {
     let animationFrameId: number;
+
     const initWebGPU = async () => {
       if (!navigator.gpu) {
         console.error("WebGPU is not supported by this browser.");
@@ -18,7 +24,17 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       }
 
       const adapter = await navigator.gpu.requestAdapter();
-      const device = await adapter!.requestDevice();
+      if (!adapter) throw new Error("Failed to create GPU adapter");
+      if (!deviceRef.current) {
+        deviceRef.current = await adapter.requestDevice({
+          label: "GPU Device " + Math.random(),
+        });
+      }
+      const device = deviceRef.current;
+      if (!device) throw new Error("Failed to create GPU device");
+
+      // Set label for the device
+
       const context = canvasRef.current?.getContext("webgpu");
       const presentationFormat = navigator.gpu.getPreferredCanvasFormat();
       context!.configure({
@@ -27,22 +43,14 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         alphaMode: "premultiplied",
       });
 
-      // Create a buffer for the uniform data
       const uniformBuffer = device.createBuffer({
         size: 4,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
       });
 
-      const updateFrame = () => {
-        // setFrameNumber((frameNumber) => frameNumber + 1);
-        frameNumber++;
-        device.queue.writeBuffer(uniformBuffer, 0, new Uint32Array([frameNumber]));
-        animationFrameId = requestAnimationFrame(updateFrame);
-      };
+      // Set label for the uniform buffer
+      uniformBuffer.label = "Uniform Buffer";
 
-      updateFrame();
-
-      // Create a bind group layout
       const bindGroupLayout = device.createBindGroupLayout({
         entries: [
           {
@@ -53,7 +61,6 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         ],
       });
 
-      // Create the bind group
       const bindGroup = device.createBindGroup({
         layout: bindGroupLayout,
         entries: [
@@ -71,13 +78,13 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
           module: device.createShaderModule({
             code: activeShaderCode,
           }),
-          // entryPoint: "vtx_main",
+          entryPoint: "vtx_main",
         },
         fragment: {
           module: device.createShaderModule({
             code: activeShaderCode,
           }),
-          // entryPoint: "frag_main",
+          entryPoint: "frag_main",
           targets: [
             {
               format: presentationFormat,
@@ -87,42 +94,62 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         primitive: {
           topology: "triangle-list",
         },
-        // Use the bind group layout in the pipeline layout
         layout: device.createPipelineLayout({ bindGroupLayouts: [bindGroupLayout] }),
       });
 
-      const commandEncoder = device.createCommandEncoder();
-      const textureView = context!.getCurrentTexture().createView();
+      // Set label for the pipeline
+      pipeline.label = "Render Pipeline";
 
-      const renderPassDescriptor: GPURenderPassDescriptor = {
-        colorAttachments: [
-          {
-            view: textureView,
-            // @ts-ignore
-            loadValue: { r: 0, g: 0, b: 0, a: 0 },
-            loadOp: "clear",
-            storeOp: "store",
-          },
-        ],
+      const render = () => {
+        // Update the uniform buffer with the current frame number
+        frameNumber++;
+        if (!device) return;
+        device.queue.writeBuffer(uniformBuffer, 0, new Uint32Array([frameNumber]));
+
+        const commandEncoder = device.createCommandEncoder();
+        const textureView = context!.getCurrentTexture().createView();
+
+        const renderPassDescriptor: GPURenderPassDescriptor = {
+          // @ts-ignore
+          colorAttachments: [
+            {
+              view: textureView,
+              loadOp: "clear",
+              storeOp: "store",
+              clearValue: { r: 0, g: 0, b: 0, a: 0 },
+            },
+          ],
+        };
+
+        const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+        passEncoder.setPipeline(pipeline);
+        passEncoder.setBindGroup(0, bindGroup);
+        passEncoder.draw(3, 1, 0, 0);
+        passEncoder.end();
+
+        device.queue.submit([commandEncoder.finish()]);
+
+        // Schedule the next frame
+        animationFrameId = requestAnimationFrame(render);
       };
 
-      const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-      passEncoder.setPipeline(pipeline);
-      passEncoder.setBindGroup(0, bindGroup);
-      passEncoder.draw(3, 1, 0, 0);
-      passEncoder.end();
-
-      device.queue.submit([commandEncoder.finish()]);
+      // Start the rendering loop
+      render();
     };
 
     initWebGPU();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      // Clean up the device and resources
+      if (deviceRef.current && process.env.NODE_ENV !== "development") {
+        deviceRef.current.destroy();
+      }
     };
-  }, [activeShaderCode]);
+  }, [props.shaderCode]);
 
-  return <canvas className="w-full aspect-square" ref={canvasRef}></canvas>;
+  const { className, ...otherAttrs } = rest;
+  return <canvas {...otherAttrs} className={`${className ?? "w-full aspect-square"}`} ref={canvasRef}></canvas>;
 };
 
 export default WGSLShaderComponent;

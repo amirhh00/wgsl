@@ -10,24 +10,14 @@ export default [
     time: 12,
   },
   {
-    name: "WGSL Basics",
-    link: "/step/wgsl-basics",
-    time: 8,
-  },
-  {
     name: "Parallel Processing Concepts",
     link: "/step/parallel-processing-concepts",
     time: 7,
   },
   {
-    name: "Writing Shaders in WGSL",
-    link: "/step/writing-shaders-in-wgsl",
-    time: 15,
-  },
-  {
-    name: "Data Types and Operations",
-    link: "/step/data-types-and-operations",
-    time: 11,
+    name: "WGSL Basics",
+    link: "/step/wgsl-basics",
+    time: 8,
   },
   {
     name: "Control Flow and Functions",

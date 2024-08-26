@@ -27,10 +27,10 @@ export default function Navigation() {
   const isStep = pathName.includes("/step");
 
   return (
-    <header className="sticky z-20 h-[var(--header-height,40px)] top-0 bg-secondary w-full">
+    <header className="sticky z-20 h-[var(--header-height,40px)] overflow-x-hidden top-0 bg-secondary w-full">
       <nav className="flex h-full items-center gap-4 md:container smd:px-6">
         {isStep && (
-          <button onClick={() => toggle()} className="h-10 w-10 md:hidden bg-white/10">
+          <button onClick={() => toggle()} className="h-10 w-10 md:hidden shrink-0 bg-white/10">
             ☰
           </button>
         )}

@@ -1,6 +1,14 @@
+import WGSLShaderComponent from "@/components/global/WebGPUShaderDisplay";
+import wgslCode from "./coolEffect.wgsl";
+
 # WGSL 101
 
-Welcome to **WGSL 101**! This project is designed to help you learn the basics of **WebGPU Shading Language (WGSL)**, a shading language designed for use with **WebGPU**, a modern web API for accessing GPU capabilities in web browsers.
+Welcome to **WGSL 101**! This project is designed to help you learn the basics of **WebGPU Shading Language (WGSL)**, a shading language designed for use with **WebGPU**, a modern API for accessing GPU capabilities in web browsers and operating systems.
+<div style={{width: 300}} className="aspect-square mx-auto max-w-full">
+  <WGSLShaderComponent
+    shaderCode={wgslCode}
+  />
+</div>
 
 ## introduction
 
