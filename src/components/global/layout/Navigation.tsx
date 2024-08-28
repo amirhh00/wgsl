@@ -1,39 +1,21 @@
-"use client";
-import React, { useEffect } from "react";
-
-import { useBreakpoint } from "@/lib/hooks/useBreakpoint";
 import { menuNavLinks } from "./navLink";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Navigation() {
-  const { isAboveMd } = useBreakpoint("md");
-  const pathName = usePathname();
-  const toggle = () => {
-    const sideNavOpenWidth = getComputedStyle(document.body).getPropertyValue("--nav-open-width");
-    const sideNavWidth = document.documentElement.style.getPropertyValue("--side-nav-width");
-    document.documentElement.style.setProperty("--side-nav-width", sideNavWidth === "0px" ? sideNavOpenWidth : "0px");
-    document.documentElement.style.setProperty("--side-nav-display", sideNavWidth === "0px" ? "flex" : "none");
-  };
-  useEffect(() => {
-    const sideNavOpenWidth = getComputedStyle(document.body).getPropertyValue("--nav-open-width");
-    if (isAboveMd) {
-      document.documentElement.style.setProperty("--side-nav-width", sideNavOpenWidth);
-    } else {
-      document.documentElement.style.setProperty("--side-nav-width", "0px");
-    }
-  }, [isAboveMd]);
+import type { Session } from "next-auth";
+import NavigationClient from "./Navigation.client";
+import { signOut } from "@/lib/utils/auth";
+import { Button } from "@/components/ui/button";
 
-  const isStep = pathName.includes("/step");
+interface NavigationProps {
+  session?: Session | null;
+}
 
+const Navigation: React.FC<NavigationProps> = (props) => {
   return (
     <header className="sticky z-20 h-[var(--header-height,40px)] overflow-x-hidden top-0 bg-secondary w-full">
       <nav className="flex h-full items-center gap-4 md:container smd:px-6">
-        {isStep && (
-          <button onClick={() => toggle()} className="h-10 w-10 md:hidden shrink-0 bg-white/10">
-            ☰
-          </button>
-        )}
+        <NavigationClient />
         <Image src="/logo-h-complete.jpg" alt="logo" className="-mt-1" width={120} height={40} />
         <ul className="flex flex-1 justify-center gap-4 md:gap-10 transition-all">
           {menuNavLinks.map((menuItem) => (
@@ -44,7 +26,26 @@ export default function Navigation() {
             </li>
           ))}
         </ul>
+        {props.session ? (
+          <div className="flex gap-4">
+            <form
+              className=""
+              action={async (formData) => {
+                "use server";
+                await signOut({ redirect: true, redirectTo: "/" });
+              }}
+            >
+              <Button variant="ghost">Sign out</Button>
+            </form>
+          </div>
+        ) : (
+          <div className="flex gap-4">
+            <Link href="/auth/signin">Sign In</Link>
+          </div>
+        )}
       </nav>
     </header>
   );
-}
+};
+
+export default Navigation;

@@ -21,7 +21,10 @@ export default function SideNavigation() {
     const handleScroll = () => {
       const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
       const t = timeRemaining - currentTime * scrollPercent;
-      setLiveTimeRemaining(Math.floor(t));
+      setLiveTimeRemaining((prev) => {
+        // update the live time remaining only if it is less than the previous value
+        return t < prev ? Math.floor(t) : prev;
+      });
     };
 
     window.addEventListener("scroll", handleScroll);

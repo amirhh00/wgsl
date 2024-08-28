@@ -5,15 +5,6 @@ struct VertexOutput {
   @location(0) uv: vec2<f32>,
 };
 
-fn rotate2D(pos: vec2<f32>, angle: f32) -> vec2<f32> {
-  let c = cos(angle);
-  let s = sin(angle);
-  return vec2<f32>(
-    pos.x * c - pos.y * s,
-    pos.x * s + pos.y * c
-  );
-}
-
 @vertex
 fn vtx_main(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
   // return the whole screen as a square
@@ -33,25 +24,24 @@ fn vtx_main(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
 
 @fragment
 fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
-  // No need for adjustment if UVs are defined from 0 to 1
-  let adjusted_uv = uv; 
+  let speed = 0.01;
+  let s = f32(frame) * speed;
+
+  let alpha: f32 = 0.01;
+
+  // a cool effect to put over the text to make it look like it's moving in a wave
+  let wave = sin(uv.x * 10.0 + s) * 0.1;
+  let wave2 = sin(uv.y * 10.0 + s) * 0.1;
+  let wave3 = sin(uv.x * 10.0 + uv.y * 10.0 + s) * 0.1;
+  let wave4 = sin(uv.x * 10.0 - uv.y * 10.0 + s) * 0.1;
+
+  let rgb = wave + wave2 + wave3 + wave4;
   
-  let center = vec2<f32>(0.5, 0.5);
-  let radius = 0.4;
-  
-  let rotation_speed = 0.01;
-  let rotation_angle = f32(frame) * rotation_speed;
-  let rotated_uv = rotate2D(adjusted_uv - center, rotation_angle) + center;
-  
-  // Calculate distance from the center of the circle
-  let dist = distance(adjusted_uv, center);
-  
-  // Check if the pixel is inside the circle
-  if (dist < radius) {
-    // Return a color based on the UV coordinates
-    return vec4<f32>(rotated_uv, 0.0, 1.0); // Color based on UV coordinates
+  // don't show background
+  if rgb > 0.01 {
+    return vec4<f32>(0.12, 0.16, 0.23, alpha);
   }
   
-  // Return a default color for debugging purposes
+  
   return vec4<f32>(0.0, 0.0, 0.0, 0.0);
 }

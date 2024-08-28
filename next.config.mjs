@@ -6,6 +6,7 @@ const nextConfig = {
   // experimental: {
   //   mdxRs: true,
   // },
+  trailingSlash: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   webpack(config, { isServer, dev }) {
     // Use the client static directory in the server bundle and prod mode
