@@ -31,7 +31,8 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
   let alpha: f32 = 0.002;
 
-  // a cool effect to put over the text to make it look like it's moving in a wave
+  // an effect to put over the text to
+  // make it look like it's moving in a wave
   let wave = sin(uv.x * 10.0 + s) * 0.1;
   let wave2 = sin(uv.y * 10.0 + s) * 0.1;
   let wave3 = sin(uv.x * 10.0 + uv.y * 10.0 + s) * 0.1;

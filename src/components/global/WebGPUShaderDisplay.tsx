@@ -159,7 +159,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       <HoverCardTrigger asChild>
         <canvas {...otherAttrs} className={`${className ?? "w-full aspect-square"}`} ref={canvasRef}></canvas>
       </HoverCardTrigger>
-      <HoverCardContent className="bg-transparent !w-auto !p-0 !border-none z-10">
+      <HoverCardContent className="bg-transparent !w-auto !p-0 !border-none z-20">
         <CodeBlock code={activeShaderCode} lang="wgsl" />
       </HoverCardContent>
     </HoverCard>

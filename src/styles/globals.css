@@ -138,3 +138,47 @@
     color: #ffffff;
   }
 }
+
+@keyframes slide-fade-in {
+  from {
+    opacity: 0;
+    box-shadow: none;
+    transform: scale(0.8) translateY(15vh);
+  }
+}
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+#stepArticle {
+  --bottom-padding: 15vh;
+  padding-bottom: var(--bottom-padding);
+  & > p,
+  > h1,
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6,
+  li:not(:has(li)),
+  > ul > li > p,
+  > code,
+  > pre,
+  > div {
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        /* animation-name: slide-fade-in;
+        animation-fill-mode: both;
+        animation-duration: 1ms;
+        animation-timing-function: linear;
+        animation-timeline: view();
+        animation-range: contain 0% contain var(--bottom-padding); */
+      }
+    }
+  }
+}

@@ -43,7 +43,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       }
       if (!href) return <p>{children}</p>;
       return (
-        <NextLink href={href} {...rest} className={`${className ?? ""}${footNoteClass}`}>
+        <NextLink href={href} {...rest} className={`${className ?? ""}${footNoteClass} break-words`}>
           {children}
         </NextLink>
       );

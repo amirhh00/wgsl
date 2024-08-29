@@ -11,7 +11,7 @@ export function CodeBlock(props: { code: string; lang: BuiltinLanguage | Special
   const tokenLinks = props.tokenLinks;
 
   return (
-    <div className="group/code relative prose-none inline-block">
+    <div className="group/code z-20 relative prose-none inline-block">
       <ScrollArea className="w-full">
         <div className="max-h-96 sxs:max-w-56 smd:max-w-96 relative font-mono text-sm before:content-[''] after:content-['']" lang={lang}>
           <RenderCode code={code} lang={lang} tokenLinks={tokenLinks} />

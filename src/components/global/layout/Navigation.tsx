@@ -13,7 +13,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = (props) => {
   return (
-    <header className="sticky z-20 h-[var(--header-height,40px)] overflow-x-hidden top-0 bg-secondary w-full">
+    <header className="sticky z-30 h-[var(--header-height,40px)] overflow-x-hidden top-0 bg-secondary w-full">
       <nav className="flex h-full items-center gap-4 md:container smd:px-6">
         <NavigationClient />
         <Image src="/logo-h-complete.jpg" alt="logo" className="-mt-1" width={120} height={40} />

@@ -1,23 +1,22 @@
 import React from "react";
-import ScrollBarHorizontal from "@/components/etc/ScrollBarHorizontal";
 import SideNavigation from "@/components/global/layout/SideNavigation";
 
 const StepLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <>
-      <ScrollBarHorizontal />
       <SideNavigation />
       <section
         className="
           lg:max-w-screen-lg
+          max-w-screen-md
           smd:container
           mx-auto
           flex-1
           md:pl-[var(--side-nav-width)]
           md:transition-[padding]
           !py-[calc(1.5rem_+_24px)]
-          min-h-10 ssm:p-0
-          overflow-x-hidden
+          min-h-10
+          ssm:p-0
         "
       >
         <article

@@ -11,9 +11,14 @@ export function Table(props: { children: React.ReactNode }) {
   );
 }
 
-export function Tr(props: { children: React.ReactNode }) {
-  return <tr className="border-b text-left font-medium text-f-200">{props.children}</tr>;
-}
+export const Tr: React.FC<React.HTMLProps<HTMLTableRowElement>> = (props) => {
+  const { children, ...rest } = props;
+  return (
+    <tr {...rest} className="border-b text-left font-medium text-f-200">
+      {children}
+    </tr>
+  );
+};
 
 export function TBody(props: { children: React.ReactNode }) {
   return <tbody className="w-full rounded-lg ">{props.children}</tbody>;
