@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { CodeBlock } from "../document/Code.client";
 interface WGSLShaderComponentOtherProps {
   shaderCode: string;
+  showTooltip?: boolean;
 }
 
 type WGSLShaderComponentProps = WGSLShaderComponentOtherProps & React.HTMLAttributes<HTMLCanvasElement>;
@@ -148,8 +150,20 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
     };
   }, [props.shaderCode]);
 
-  const { className, ...otherAttrs } = rest;
-  return <canvas {...otherAttrs} className={`${className ?? "w-full aspect-square"}`} ref={canvasRef}></canvas>;
+  const { className, showTooltip, ...otherAttrs } = rest;
+  if (!props.showTooltip) {
+    return <canvas {...otherAttrs} className={`${className ?? "w-full aspect-square"}`} ref={canvasRef}></canvas>;
+  }
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <canvas {...otherAttrs} className={`${className ?? "w-full aspect-square"}`} ref={canvasRef}></canvas>
+      </HoverCardTrigger>
+      <HoverCardContent className="bg-transparent !w-auto !p-0 !border-none z-10">
+        <CodeBlock code={activeShaderCode} lang="wgsl" />
+      </HoverCardContent>
+    </HoverCard>
+  );
 };
 
 export default WGSLShaderComponent;

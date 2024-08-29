@@ -1,3 +1,5 @@
+// WebGPU Shader Language (WGSL)
+
 @binding(0) @group(0) var<uniform> frame : u32;
 
 struct VertexOutput {
@@ -27,7 +29,7 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
   let speed = 0.01;
   let s = f32(frame) * speed;
 
-  let alpha: f32 = 0.01;
+  let alpha: f32 = 0.002;
 
   // a cool effect to put over the text to make it look like it's moving in a wave
   let wave = sin(uv.x * 10.0 + s) * 0.1;
@@ -39,7 +41,7 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
   
   // don't show background
   if rgb > 0.01 {
-    return vec4<f32>(0.12, 0.16, 0.23, alpha);
+    return vec4<f32>(0.01, 0.02, 0.04, alpha);
   }
   
   

@@ -32,7 +32,7 @@ export default async function RootLayout({
           <div className="mainWrapper w-full flex flex-1">
             <main className="w-full flex">{children}</main>
           </div>
-          <Footer />
+          <Footer session={session} pathname={typeof window !== "undefined" ? window.location.pathname : ""} />
         </div>
         <Toaster />
       </body>

@@ -4,8 +4,9 @@ import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "@/lib/utils/zod";
 // Your own logic for dealing with plaintext password strings; be careful!
 import { saltAndHashPassword } from "@/lib/utils/password";
-import { getUserFromDb, client } from "@/lib/utils/db";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { getUserFromDb, pool } from "@/lib/utils/db.mjs";
+import PostgresAdapter from "@auth/pg-adapter";
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
 
 // type UserInputs = typeof signInSchema._type;
 
@@ -13,9 +14,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
   },
+  trustHost: true,
   debug: process.env.NODE_ENV === "development",
   secret: process.env.AUTH_SECRET,
-  adapter: MongoDBAdapter(client),
+  adapter: PostgresAdapter(pool),
   basePath: "/",
   // pages: {
   // signIn: "/auth/sign-in",
@@ -35,11 +37,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       authorize: async (credentials) => {
         try {
-          let user: any = null;
+          let user = null;
 
           const { email, password } = await signInSchema.parseAsync(credentials);
           // // logic to salt and hash password
-          const pwHash = await saltAndHashPassword(password);
+          const pwHash = await saltAndHashPassword(email, password);
 
           // // logic to verify if the user exists
           user = await getUserFromDb(email, pwHash);

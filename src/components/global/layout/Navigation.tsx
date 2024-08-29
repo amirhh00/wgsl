@@ -26,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
             </li>
           ))}
         </ul>
-        {props.session ? (
+        {props.session && (
           <div className="flex gap-4">
             <form
               className=""
@@ -37,10 +37,6 @@ const Navigation: React.FC<NavigationProps> = (props) => {
             >
               <Button variant="ghost">Sign out</Button>
             </form>
-          </div>
-        ) : (
-          <div className="flex gap-4">
-            <Link href="/auth/signin">Sign In</Link>
           </div>
         )}
       </nav>
