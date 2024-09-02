@@ -17,7 +17,7 @@ export default function ScrollBarHorizontal() {
   }, []);
 
   return (
-    <div className="fixed top-[var(--header-height)] bottom-0 left-0 right-0 h-1 -mt-1 !px-0 z-20">
+    <div className="fixed top-[var(--header-height)] bottom-0 left-0 right-0 h-1 -mt-1 !px-0 z-30">
       <div ref={scrollbarRef} className="h-1 bg-blue-900 rounded-r" style={{ width: "0%" }} />
     </div>
   );

@@ -1,7 +1,3 @@
-import React from "react";
-
-const QuizLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return <div>{children}</div>;
-};
-
-export default QuizLayout;
+export default function QuizLayout({ children }: { children: React.ReactNode }) {
+  return <div className="prose dark:prose-invert container py-4">{children}</div>;
+}

@@ -1,9 +1,11 @@
 import React from "react";
 import SideNavigation from "@/components/global/layout/SideNavigation";
+import ScrollBarHorizontal from "@/components/etc/ScrollBarHorizontal";
 
 const StepLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <>
+      <ScrollBarHorizontal />
       <SideNavigation />
       <section
         className="

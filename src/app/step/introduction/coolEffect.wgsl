@@ -1,4 +1,4 @@
-// WebGPU Shader Language (WGSL)
+// WebGPU Shader Language (WGSL) example
 
 @binding(0) @group(0) var<uniform> frame : u32;
 
@@ -29,7 +29,7 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
   let speed = 0.01;
   let s = f32(frame) * speed;
 
-  let alpha: f32 = 0.002;
+  let alpha: f32 = 0.01;
 
   // an effect to put over the text to
   // make it look like it's moving in a wave
@@ -42,7 +42,7 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
   
   // don't show background
   if rgb > 0.01 {
-    return vec4<f32>(0.01, 0.02, 0.04, alpha);
+    return vec4<f32>(0.02, 0.04, 0.06, alpha);
   }
   
   

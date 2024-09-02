@@ -13,12 +13,11 @@ type WGSLShaderComponentProps = WGSLShaderComponentOtherProps & React.HTMLAttrib
 let frameNumber = 0;
 const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const deviceRef = useRef<GPUDevice | null>(null);
   const { shaderCode: activeShaderCode = "", ...rest } = props;
 
   useEffect(() => {
     let animationFrameId: number;
-
+    let device: GPUDevice;
     const initWebGPU = async () => {
       if (!navigator.gpu) {
         console.error("WebGPU is not supported by this browser.");
@@ -27,12 +26,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
 
       const adapter = await navigator.gpu.requestAdapter();
       if (!adapter) throw new Error("Failed to create GPU adapter");
-      if (!deviceRef.current) {
-        deviceRef.current = await adapter.requestDevice({
-          label: "GPU Device " + Math.random(),
-        });
-      }
-      const device = deviceRef.current;
+      device = await adapter.requestDevice();
       if (!device) throw new Error("Failed to create GPU device");
 
       // Set label for the device
@@ -76,17 +70,16 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       });
 
       const pipeline = device.createRenderPipeline({
+        label: "Render Pipeline",
         vertex: {
           module: device.createShaderModule({
             code: activeShaderCode,
           }),
-          entryPoint: "vtx_main",
         },
         fragment: {
           module: device.createShaderModule({
             code: activeShaderCode,
           }),
-          entryPoint: "frag_main",
           targets: [
             {
               format: presentationFormat,
@@ -101,32 +94,31 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
 
       // Set label for the pipeline
       pipeline.label = "Render Pipeline";
-
+      const renderPassDescriptor: GPURenderPassDescriptor = {
+        // @ts-ignore
+        colorAttachments: [
+          {
+            // view: textureView,
+            loadOp: "clear",
+            storeOp: "store",
+            clearValue: { r: 0, g: 0, b: 0, a: 0 },
+          },
+        ],
+      };
       const render = () => {
         // Update the uniform buffer with the current frame number
         frameNumber++;
         if (!device) return;
         device.queue.writeBuffer(uniformBuffer, 0, new Uint32Array([frameNumber]));
 
-        const commandEncoder = device.createCommandEncoder();
-        const textureView = context!.getCurrentTexture().createView();
-
-        const renderPassDescriptor: GPURenderPassDescriptor = {
-          // @ts-ignore
-          colorAttachments: [
-            {
-              view: textureView,
-              loadOp: "clear",
-              storeOp: "store",
-              clearValue: { r: 0, g: 0, b: 0, a: 0 },
-            },
-          ],
-        };
+        const commandEncoder = device.createCommandEncoder({ label: "Command Encoder" });
+        // const textureView = context!.getCurrentTexture().createView();
+        (renderPassDescriptor as any).colorAttachments[0].view = context!.getCurrentTexture().createView();
 
         const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
         passEncoder.setPipeline(pipeline);
         passEncoder.setBindGroup(0, bindGroup);
-        passEncoder.draw(3, 1, 0, 0);
+        passEncoder.draw(3);
         passEncoder.end();
 
         device.queue.submit([commandEncoder.finish()]);
@@ -134,6 +126,23 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         // Schedule the next frame
         animationFrameId = requestAnimationFrame(render);
       };
+
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const width = entry.devicePixelContentBoxSize?.[0].inlineSize || entry.contentBoxSize[0].inlineSize * devicePixelRatio;
+          const height = entry.devicePixelContentBoxSize?.[0].blockSize || entry.contentBoxSize[0].blockSize * devicePixelRatio;
+          const canvas = entry.target as HTMLCanvasElement;
+          canvas.width = Math.max(1, Math.min(width, device.limits.maxTextureDimension2D));
+          canvas.height = Math.max(1, Math.min(height, device.limits.maxTextureDimension2D));
+          render();
+        }
+      });
+      if (!canvasRef.current) return;
+      try {
+        observer.observe(canvasRef.current, { box: "device-pixel-content-box" });
+      } catch {
+        observer.observe(canvasRef.current, { box: "content-box" });
+      }
 
       // Start the rendering loop
       render();
@@ -144,8 +153,8 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       // Clean up the device and resources
-      if (deviceRef.current && process.env.NODE_ENV !== "development") {
-        deviceRef.current.destroy();
+      if (device && process.env.NODE_ENV !== "development") {
+        device.destroy();
       }
     };
   }, [props.shaderCode]);

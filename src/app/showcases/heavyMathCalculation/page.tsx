@@ -9,7 +9,7 @@ interface IPageProps {
 
 const Page: FC<IPageProps> = (props) => {
   return (
-    <div>
+    <div className="container mx-auto">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
