@@ -2,6 +2,7 @@ import { quizLevels } from "@/app/quiz/[level]/questions";
 import { cookies } from "next/headers";
 import { getQuizStatus } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { redirect, RedirectType } from "next/navigation";
 
 export default async function Page({ params: { level } }: { params: { level: string | number } }) {
   if (!level) throw new Error("You need to start a quiz first");
@@ -10,6 +11,10 @@ export default async function Page({ params: { level } }: { params: { level: str
   const cookieStore = cookies();
   const answerCookie = cookieStore.get(`answer-${level}`);
   const quizStatus = await getQuizStatus();
+  const quizFinished = quizStatus.every((status) => status.userAnswered);
+  if (quizFinished) {
+    redirect(`/quiz/score`, RedirectType.replace);
+  }
   // if has an un-answered question and is on the last question, disable the button
   const shouldDisable = level === quizLevels.length && quizStatus.some((status, i) => !status.userAnswered && i + 1 !== level);
 

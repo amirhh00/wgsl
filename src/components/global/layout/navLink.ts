@@ -20,17 +20,17 @@ export default [
     time: 8,
   },
   {
-    name: "Control Flow and Functions",
-    link: "/step/control-flow-and-functions",
+    name: "First Shader",
+    link: "/step/first-shader",
     time: 9,
   },
   {
-    name: "Memory and Storage in WebGPU",
-    link: "/step/memory-and-storage-in-webgpu",
+    name: "Make it exciting!",
+    link: "/step/make-it-exciting",
     time: 10,
   },
   {
-    name: "Next Step",
+    name: "Congratulations 🎉",
     link: "/step/next-step",
     time: 7,
   },
@@ -38,12 +38,16 @@ export default [
 
 export const menuNavLinks = [
   {
-    name: "Home",
-    link: "/",
+    name: "Tutorials",
+    link: "/step/introduction",
   },
   {
     name: "About",
     link: "/about",
+  },
+  {
+    name: "Editor",
+    link: "/editor",
   },
   {
     name: "Resources",

@@ -16,7 +16,9 @@ const Navigation: React.FC<NavigationProps> = (props) => {
     <header className="sticky z-30 h-[var(--header-height,40px)] overflow-x-hidden top-0 bg-secondary w-full">
       <nav className="flex h-full items-center gap-4 md:container smd:px-6">
         <NavigationClient />
-        <Image src="/logo-h-complete.jpg" alt="logo" className="-mt-1" width={120} height={40} />
+        <Link href="/">
+          <Image priority src="/logo-h-complete.jpg" alt="logo" className="-mt-1" width={120} height={40} />
+        </Link>
         <ul className="flex flex-1 justify-center gap-4 md:gap-10 transition-all">
           {menuNavLinks.map((menuItem) => (
             <li key={menuItem.name} className="text-center">

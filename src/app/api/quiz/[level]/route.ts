@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { quizLevels } from "@/app/quiz/[level]/questions";
+import { pool } from "@/lib/utils/db.mjs";
+import SQL from "sql-template-strings";
 
 export type QuizResults = {
   userAnswer: number;
@@ -31,6 +33,16 @@ export async function POST(request: NextRequest) {
 
     // check if the level is the last level of the quiz, if so return the score else redirect to the next level page
     if (level === quizLevels.length) {
+      const quizResults = quizLevels.map((quiz, index) => {
+        const answerCookie = cookieStore.get(`answer-${index + 1}`);
+        if (!answerCookie?.value) throw new Error("You need to complete the quiz first");
+        const userAnswer = Number(answerCookie.value);
+        return { ...quiz, userAnswer };
+      });
+      const score = quizResults.reduce((acc, quiz) => {
+        return quiz.answer === quiz.userAnswer ? acc + 1 : acc;
+      }, 0);
+      await pool.query(SQL`INSERT INTO quiz_results (score, results) VALUES (${score}, ${JSON.stringify(quizResults)})`);
       return new Response(JSON.stringify({ message: "You have completed the quiz" }), {
         status: 302,
         headers: {

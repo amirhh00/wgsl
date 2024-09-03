@@ -2,7 +2,8 @@
 
 import React, { useRef, useEffect } from "react";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { CodeBlock } from "../document/Code.client";
+import { CodeBlock } from "@/components/document/Code.client";
+
 interface WGSLShaderComponentOtherProps {
   shaderCode: string;
   showTooltip?: boolean;
@@ -134,6 +135,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
           const canvas = entry.target as HTMLCanvasElement;
           canvas.width = Math.max(1, Math.min(width, device.limits.maxTextureDimension2D));
           canvas.height = Math.max(1, Math.min(height, device.limits.maxTextureDimension2D));
+          cancelAnimationFrame(animationFrameId);
           render();
         }
       });
@@ -143,9 +145,6 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       } catch {
         observer.observe(canvasRef.current, { box: "content-box" });
       }
-
-      // Start the rendering loop
-      render();
     };
 
     initWebGPU();

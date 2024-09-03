@@ -2,64 +2,29 @@
 
 **What you'll need**:
 
-- A recent version of Chrome (113 or later) on Windows, macOS, or ChromeOS.
+- A recent version of Chrome (113 or later) on Windows, macOS, or ChromeOS. You can also use Firefox Nightly or Safari on mobile using _WebGPU feature flag_ `enabled`[^1].
 - Although WebGPU is a cross-platform and cross-browser API, it hasn't launched everywhere yet.
-
-## Basic Syntax
-
-- **Data Types**:
-
-  - WGSL supports scalar types (integers, floats), vectors, matrices, arrays, and structures.
-  - Example: `f32` for a 32-bit floating-point number.
-
-- **Variables**:
-
-  - Declare variables using `var`.
-  - Example: `var myColor: vec3<f32> = vec3<f32>(1.0, 0.0, 0.0);`
-
-- **Functions**:
-  - Define functions using `fn`.
-  - Example:
-    ```wgsl
-    fn add(a: f32, b: f32) -> f32 {
-        return a + b;
-    }
-    ```
-
-## Hello World Shader
-
-Here's a simple fragment shader that colors a primitive red:
-
-```wgsl
-@fragment
-fn fragmentMain() -> [[location(0)]] vec4<f32> {
-    return vec4<f32>(1.0, 0.0, 0.0, 1.0); // Red color
-}
-```
+- For this tutorial, it's recommended to use the desktop version of your browser.
+- A basic understanding of programming concepts.
 
 ## Integration with WebGPU API
 
-1. Create a WebGPU context:
+In this tutorial, since we are focusing on the shading language, we will skip the setup of the WebGPU API in the browser. You can go to [editor page](/editor) to start writing WGSL code.
 
-- Initialize a canvas element and create a WebGPU context.
-- Set up the necessary GPU resources (buffers, textures, etc.).
+You can find the setup for the web in the [Getting Started with WebGPU](https://web.dev/getting-started-with-webgpu/) tutorial.
 
-2. Compile and Run Shaders:
+If you are interested in using WebGPU in Rust, you can check out the WGPU [^2] which serves as the core of the WebGPU integration in Firefox and Deno.
 
-- Compile the WGSL shaders using the WebGPU API.
-- Bind shaders to the appropriate pipeline stages (vertex, fragment, etc.).
+There is also a WebGPU implementation in C++ called Dawn [^3]. It is the underlying implementation of WebGPU in Chromium.
 
-3. Render the Scene:
+## debugging
 
-- Use the WebGPU API to draw the scene using the compiled shaders.
-- Present the rendered frame to the screen.
+Since WGSL is a new shading language, there is no debugging tool for WGSL in the browser. You can use the developer tools to see the errors and warnings in the console.
 
-## Resources and Further Reading
+The `wgpu::DawnTogglesDeviceDescriptor` in _C++/dawn_ can be configured to emit HLSL debug symbols by setting certain parameters.
 
-- [WebGPU Shading Language Specification](https://gpuweb.github.io/gpuweb/wgsl/)
+**References:**
 
-- [WebGPU Samples](https://webglsamples.org/)
-
-- [WebGPU Explainer](https://gpuweb.github.io/gpuweb/explainer/)
-
-Happy coding! 🚀
+[^1]: https://caniuse.com/webgpu
+[^2]: https://github.com/gfx-rs/wgpu
+[^3]: https://github.com/google/dawn

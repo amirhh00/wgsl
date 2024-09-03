@@ -63,6 +63,17 @@ const queries = [
  
   PRIMARY KEY (identifier, token)
 );`,
+
+  // table for storing user quiz results. it's ananymous and not linked to user. here we store the score and result as json
+  sql`CREATE TABLE IF NOT EXISTS quiz_results
+(
+  id SERIAL,
+  score INTEGER NOT NULL,
+  results JSON NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+ 
+  PRIMARY KEY (id)
+);`,
 ];
 
 // run all queries in parallel and wait for all to complete before continuing with the rest of the code

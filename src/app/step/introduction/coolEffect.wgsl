@@ -9,7 +9,7 @@ struct VertexOutput {
 
 @vertex
 fn vtx_main(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
-  // return the whole screen as a square
+  // return the whole screen as a square so fragment shader can be applied to the whole screen
   var vertices : array<vec2<f32>, 3> = array<vec2<f32>, 3>(
     vec2<f32>(-1.0, -1.0),
     vec2<f32>(3.0, -1.0),
@@ -31,8 +31,7 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
   let alpha: f32 = 0.01;
 
-  // an effect to put over the text to
-  // make it look like it's moving in a wave
+  // a wave effect
   let wave = sin(uv.x * 10.0 + s) * 0.1;
   let wave2 = sin(uv.y * 10.0 + s) * 0.1;
   let wave3 = sin(uv.x * 10.0 + uv.y * 10.0 + s) * 0.1;
@@ -40,11 +39,9 @@ fn frag_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
   let rgb = wave + wave2 + wave3 + wave4;
   
-  // don't show background
   if rgb > 0.01 {
     return vec4<f32>(0.02, 0.04, 0.06, alpha);
   }
-  
   
   return vec4<f32>(0.0, 0.0, 0.0, 0.0);
 }
