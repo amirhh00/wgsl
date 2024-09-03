@@ -1,4 +1,4 @@
-// WebGPU Shader Language (WGSL) example
+// WebGPU Shader Language (WGSL) 404 example
 
 @binding(0) @group(0) var<uniform> frame : u32;
 

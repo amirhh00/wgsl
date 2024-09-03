@@ -11,7 +11,7 @@
 
 In this tutorial, since we are focusing on the shading language, we will skip the setup of the WebGPU API in the browser. You can go to [editor page](/editor) to start writing WGSL code.
 
-You can find the setup for the web in the [Getting Started with WebGPU](https://web.dev/getting-started-with-webgpu/) tutorial.
+You can find the setup for the web in [this tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API).
 
 If you are interested in using WebGPU in Rust, you can check out the WGPU [^2] which serves as the core of the WebGPU integration in Firefox and Deno.
 

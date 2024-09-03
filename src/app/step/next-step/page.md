@@ -2,7 +2,7 @@
 
 ## show cases
 
-There are some show cases that you can try to implement by yourself in your browser.
+There are some show cases that you can try out to see the power of WebGPU and WGSL in your browser.
 
 - [Heavy Math Calculation with Web Worker vs Web Assembly (Rust) vs WGSL](/showcases/heavyMathCalculation)
 
