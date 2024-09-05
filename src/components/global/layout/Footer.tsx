@@ -15,11 +15,9 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = (props) => {
   const headerList = headers();
   const pathname = headerList.get("x-current-path");
-  const isStep = pathname?.includes("/step");
 
   return (
     <footer className="w-full flex px-6 bg-secondary z-20 overflow-x-hidden">
-      {isStep && <div className="smd:w-[var(--side-nav-width)] h-px transition-[width] flex-shrink-0" />}
       <div className="flex container mx-auto flex-wrap py-4 items-center">
         <div className="flex flex-1 justify-center gap-4 md:gap-10 transition-all">
           <ul className="flex flex-1 justify-center gap-4 md:gap-10 transition-all">
@@ -39,13 +37,13 @@ const Footer: React.FC<FooterProps> = (props) => {
                     await signOut({ redirect: true, redirectTo: "/" });
                   }}
                 >
-                  <Button className="items-baseline p-0 h-auto" variant="ghost">
+                  <Button className="items-baseline p-0 h-auto whitespace-nowrap" variant="ghost">
                     Sign out
                   </Button>
                 </form>
               </div>
             ) : (
-              <div className="flex gap-4">
+              <div className="flex gap-4 whitespace-nowrap">
                 <Link href="/auth/signin">Sign In</Link>
               </div>
             )}

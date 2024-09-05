@@ -33,6 +33,21 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre(props) {
       return <>{props.children}</>;
     },
+    img(props) {
+      return (
+        <figure>
+          <img className="mx-auto text-center" {...props} />
+          {props.alt && <figcaption className="text-center text-sm text-gray-500">{props.alt}</figcaption>}
+        </figure>
+      );
+    },
+    p(props) {
+      // if there is an img in the paragraph children, don't wrap it with p tag in ssr mode
+      if (props.children && (props.children as any)?.type?.name && (props.children as any).type?.name === "img") {
+        return <>{props.children}</>;
+      }
+      return <p>{props.children}</p>;
+    },
     a(props) {
       let { className, href, children, ...rest } = props;
       // @ts-expect-error
