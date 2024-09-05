@@ -74,6 +74,19 @@ const queries = [
  
   PRIMARY KEY (id)
 );`,
+
+  // table for storing user feedbacks
+  sql`CREATE TABLE IF NOT EXISTS feedbacks
+(
+  id SERIAL,
+  name VARCHAR(255),
+  email VARCHAR(255),
+  message TEXT,
+  questionnaire JSON,
+  created_at TIMESTAMPTZ NOT NULL,
+
+  PRIMARY KEY (id)
+);`,
 ];
 
 // run all queries in parallel and wait for all to complete before continuing with the rest of the code

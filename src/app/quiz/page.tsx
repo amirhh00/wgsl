@@ -31,7 +31,9 @@ export default async function Page() {
         {level && (
           <>
             {level.value === quizLevels.length.toString() ? (
-              <p> You have completed the quiz! </p>
+              <p>
+                You have completed the quiz! You can send your feedback using <Link href="/feedback">this</Link> link.
+              </p>
             ) : (
               <>
                 <div className="flex flex-col">
