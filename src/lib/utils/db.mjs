@@ -70,7 +70,7 @@ const queries = [
   id SERIAL,
   score INTEGER NOT NULL,
   results JSON NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
  
   PRIMARY KEY (id)
 );`,
@@ -83,7 +83,7 @@ const queries = [
   email VARCHAR(255),
   message TEXT,
   questionnaire JSON,
-  created_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
   PRIMARY KEY (id)
 );`,
