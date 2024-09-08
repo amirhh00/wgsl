@@ -1,5 +1,3 @@
-"use server";
-
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation.js";
@@ -7,6 +5,7 @@ import { quizLevels } from "@/app/quiz/[level]/questions";
 
 export default async function Page() {
   const level = cookies().get("level");
+  const quizId = cookies().get("quizId");
 
   return (
     <div>
@@ -28,13 +27,13 @@ export default async function Page() {
         </li>
       </ul>
       <div className="flex gap-4 items-end">
-        {level && (
+        {quizId ? (
+          <p>
+            You have completed the quiz! You can send your feedback using <Link href="/feedback">this</Link> link.
+          </p>
+        ) : (
           <>
-            {level.value === quizLevels.length.toString() ? (
-              <p>
-                You have completed the quiz! You can send your feedback using <Link href="/feedback">this</Link> link.
-              </p>
-            ) : (
+            {level && (
               <>
                 <div className="flex flex-col">
                   <p> You are currently on level {level?.value} </p>
@@ -45,26 +44,26 @@ export default async function Page() {
                 <span className="mb-2">or</span>
               </>
             )}
+            <form
+              action={async () => {
+                "use server";
+                // clear all related cookies to the quiz
+                cookies().delete("level");
+                for (let i = 1; i <= quizLevels.length; i++) {
+                  if (!cookies().get(`answer-${i}`)) continue;
+                  cookies().delete(`answer-${i}`);
+                }
+                redirect("/quiz/1");
+              }}
+            >
+              {level?.value !== quizLevels.length.toString() && (
+                <button type="submit" className="button">
+                  Start a new Quiz
+                </button>
+              )}
+            </form>
           </>
         )}
-        <form
-          action={async () => {
-            "use server";
-            // clear all related cookies to the quiz
-            cookies().delete("level");
-            for (let i = 1; i <= quizLevels.length; i++) {
-              if (!cookies().get(`answer-${i}`)) continue;
-              cookies().delete(`answer-${i}`);
-            }
-            redirect("/quiz/1");
-          }}
-        >
-          {level?.value !== quizLevels.length.toString() && (
-            <button type="submit" className="button">
-              Start a new Quiz
-            </button>
-          )}
-        </form>
       </div>
     </div>
   );

@@ -135,7 +135,7 @@ function HeadingAnchore(props: { children?: any; [key: string]: any }) {
         flex
         justify-start
         items-center
-        opacity-50
+        opacity-0
         transition-opacity
         overflow-visible
         group-hover:opacity-100"

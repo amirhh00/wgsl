@@ -26,6 +26,9 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html className="dark" lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={cn("bg-background font-sans antialiased", fontSans.variable)}>
         <div className="flex flex-col min-h-screen">
           <Navigation session={session} />

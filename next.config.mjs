@@ -1,11 +1,9 @@
 import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
+import nextPwa from "next-pwa";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // experimental: {
-  //   mdxRs: true,
-  // },
   trailingSlash: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   webpack(config, { isServer, dev }) {
@@ -42,4 +40,14 @@ const withMDX = createMDX({
   },
 });
 
-export default withMDX(nextConfig);
+// withPWA
+const withPWA = nextPwa({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  babelPresetEnvTargets: ["chrome >= 113"],
+  dynamicStartUrl: true,
+  dynamicStartUrlRedirect: "/step/introduction",
+});
+
+export default withPWA(withMDX(nextConfig));

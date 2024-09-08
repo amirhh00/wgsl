@@ -2,22 +2,22 @@ export default [
   {
     name: "introduction",
     link: "/step/introduction",
-    time: 10,
+    time: 3,
   },
   {
     name: "getting started",
     link: "/step/getting-started",
-    time: 12,
+    time: 2,
   },
   {
     name: "Parallel Processing Concepts",
     link: "/step/parallel-processing-concepts",
-    time: 7,
+    time: 2,
   },
   {
     name: "WGSL Basics",
     link: "/step/wgsl-basics",
-    time: 8,
+    time: 6,
   },
   {
     name: "First Shader",
@@ -32,7 +32,7 @@ export default [
   {
     name: "Congratulations 🎉",
     link: "/step/next-step",
-    time: 7,
+    time: 1,
   },
 ] as const;
 
@@ -49,8 +49,8 @@ export const menuNavLinks = [
     name: "Editor",
     link: "/editor",
   },
-  {
-    name: "Resources",
-    link: "/resources",
-  },
+  // {
+  //   name: "Resources",
+  //   link: "/resources",
+  // },
 ] as const;

@@ -4,18 +4,22 @@ import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import FireWorks from "./fireWorks";
+import { pool } from "@/lib/utils/db.mjs";
+import sql from "sql-template-strings";
 
-export default function QuizScore() {
-  const cookieStore = cookies();
-  const quizResults = quizLevels.map((quiz, index) => {
-    const answerCookie = cookieStore.get(`answer-${index + 1}`);
-    if (!answerCookie?.value) throw new Error("You need to complete the quiz first");
-    const userAnswer = Number(answerCookie.value);
-    return { ...quiz, userAnswer };
-  });
-  const score = quizResults.reduce((acc, quiz) => {
-    return quiz.answer === quiz.userAnswer ? acc + 1 : acc;
-  }, 0);
+export default async function QuizScore() {
+  const quizId = cookies().get("quizId");
+  if (!quizId) {
+    return <p>You need to complete the quiz first</p>;
+  }
+
+  const quizResultQueryResposne = await pool.query<QuizResult>(sql`SELECT * FROM quiz_results WHERE id = ${quizId.value}`);
+  const quizResult = quizResultQueryResposne.rows[0];
+  if (!quizResult) {
+    return <p>Quiz not found</p>;
+  }
+  const score = quizResult.score;
+  const quizResults = quizResult.results;
 
   return (
     <div>
@@ -25,7 +29,7 @@ export default function QuizScore() {
       <p>Congratulations on completing the quiz!</p>
 
       <p>
-        You scored {score} out of {quizLevels.length}{" "}
+        You scored {score} out of {quizLevels.length}
       </p>
 
       <h2>Results:</h2>

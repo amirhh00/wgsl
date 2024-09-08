@@ -1,4 +1,5 @@
 /// <reference types="monaco-editor/monaco.d.ts" />
+/// <reference types="next-pwa" />
 
 declare module "*.wgsl" {
   const content: string;

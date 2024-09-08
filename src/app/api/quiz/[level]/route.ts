@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { quizLevels } from "@/app/quiz/[level]/questions";
 import { pool } from "@/lib/utils/db.mjs";
-import SQL from "sql-template-strings";
+import sql from "sql-template-strings";
 
 export type QuizResults = {
   userAnswer: number;
@@ -42,7 +42,13 @@ export async function POST(request: NextRequest) {
       const score = quizResults.reduce((acc, quiz) => {
         return quiz.answer === quiz.userAnswer ? acc + 1 : acc;
       }, 0);
-      await pool.query(SQL`INSERT INTO quiz_results (score, results) VALUES (${score}, ${JSON.stringify(quizResults)})`);
+      const quizQuery = await pool.query<QuizResult>(sql`INSERT INTO quiz_results (score, results) VALUES (${score}, ${JSON.stringify(quizResults)}) RETURNING id`);
+      const quizId = quizQuery.rows[0].id;
+      cookieStore.set("quizId", quizId.toString(), { httpOnly: true });
+      cookieStore.delete("level");
+      for (let i = 1; i <= quizLevels.length; i++) {
+        cookieStore.delete(`answer-${i}`);
+      }
       return new Response(JSON.stringify({ message: "You have completed the quiz" }), {
         status: 302,
         headers: {

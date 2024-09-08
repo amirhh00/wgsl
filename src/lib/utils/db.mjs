@@ -67,7 +67,7 @@ const queries = [
   // table for storing user quiz results. it's ananymous and not linked to user. here we store the score and result as json
   sql`CREATE TABLE IF NOT EXISTS quiz_results
 (
-  id SERIAL,
+  id uuid DEFAULT uuid_generate_v4(),
   score INTEGER NOT NULL,
   results JSON NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -84,14 +84,17 @@ const queries = [
   message TEXT,
   questionnaire JSON,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  quiz_result_id uuid NULL,
 
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  Foreign Key (quiz_result_id) REFERENCES quiz_results(id)
 );`,
 ];
 
 // run all queries in parallel and wait for all to complete before continuing with the rest of the code
 export async function createSchema() {
   console.log("making schema if not exist");
+  await pool.query(sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
   await Promise.all(queries.map((query) => pool.query(query)));
 }
 
