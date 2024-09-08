@@ -63,6 +63,86 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         </NextLink>
       );
     },
+    // h1(props) {
+    //   return (
+    //     <div>
+    //       <h1 {...props}>{props.children}</h1>
+    //     </div>
+    //   );
+    // },
+    h2(props) {
+      return (
+        <div className="relative group">
+          <h2 {...props}>{props.children}</h2>
+          <HeadingAnchore {...props} />
+        </div>
+      );
+    },
+    h3(props) {
+      return (
+        <div className="relative group">
+          <h3 {...props}>{props.children}</h3>
+          <HeadingAnchore {...props} />
+        </div>
+      );
+    },
+    h4(props) {
+      return (
+        <div className="relative group">
+          <h4 {...props}>{props.children}</h4>
+          <HeadingAnchore {...props} />
+        </div>
+      );
+    },
+    h5(props) {
+      return (
+        <div className="relative group">
+          <h5 {...props}>{props.children}</h5>
+          <HeadingAnchore {...props} />
+        </div>
+      );
+    },
+    h6(props) {
+      return (
+        <div className="relative group">
+          <h6 {...props}>{props.children}</h6>
+          <HeadingAnchore {...props} />
+        </div>
+      );
+    },
     ...components,
   };
+}
+
+function HeadingAnchore(props: { children?: any; [key: string]: any }) {
+  return typeof props.children === "string" ? (
+    <a
+      id={props.children.toLowerCase().replace(/ /g, "-")}
+      aria-label={`Permalink: ${props.children}`}
+      href={`#${props.children.toLowerCase().replace(/ /g, "-")}`}
+      className="
+        text-sm
+        [.footnotes_&]:hidden
+        -mt-[var(--header-height)]
+        pt-[var(--header-height)]
+        anchor
+        h-[200%]
+        text-gray-500
+        absolute
+        -left-6
+        w-6
+        top-0
+        flex
+        justify-start
+        items-center
+        opacity-50
+        transition-opacity
+        overflow-visible
+        group-hover:opacity-100"
+    >
+      <svg className="fill-current" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path>
+      </svg>
+    </a>
+  ) : null;
 }

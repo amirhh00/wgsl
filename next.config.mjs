@@ -1,6 +1,5 @@
 import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
-// import { createSchema } from "./src/lib/utils/db";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

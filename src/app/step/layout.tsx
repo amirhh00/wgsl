@@ -16,7 +16,7 @@ const StepLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
           flex-1
           md:pl-[var(--side-nav-width)]
           md:transition-[padding]
-          !py-[calc(1.5rem_+_24px)]
+          !pt-[var(--header-height)]
           min-h-10
           ssm:p-0
         "

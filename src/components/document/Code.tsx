@@ -12,16 +12,18 @@ export async function CodeBlock(props: { code: string; lang: BuiltinLanguage | S
   const tokenLinks = props.tokenLinks;
 
   return (
-    <div className="group/code relative prose-none inline-block">
-      <code className="relative bg-code-bg inline-block font-mono text-sm before:content-[''] after:content-['']" lang={lang}>
-        <ScrollArea className="w-min">
-          <span>
+    <>
+      <ScrollArea className="w-full mb-3">
+        <div className="group/code relative prose-none inline-block">
+          <code className="relative bg-code-bg inline-block font-mono text-sm before:content-[''] after:content-['']" lang={lang}>
+            {/* <span> */}
             <RenderCode code={code} lang={lang} tokenLinks={tokenLinks} />
-            <ScrollBar className="absolute top-0 right-0 h-full" />
-          </span>
-        </ScrollArea>
-      </code>
-    </div>
+            {/* </span> */}
+          </code>
+        </div>
+        <ScrollBar orientation="horizontal" className="absolute bottom-0-0" />
+      </ScrollArea>
+    </>
   );
 }
 
