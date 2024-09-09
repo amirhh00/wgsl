@@ -1,5 +1,7 @@
 # WGSL basics
 
+Here in this step, we will learn the basics of WebGPU Shading Language (WGSL). WGSL is designed to be a simple and efficient language that can be easily compiled to SPIR-V[^5] or other intermediate representations. The syntax of WGSL is similar to **Rust**[^6], C, Typescript or GLSL, making it easy to learn for developers who are already familiar with those languages. However, there are some key differences between WGSL and other shading languages that you should be aware of. The syntax of WGSL was the most controversial part of the WebGPU API, and it was changed multiple times during the development of the API [^7].
+
 **Table of contents:**
 
 1. [Plain Types](#1.-plain-types)
@@ -349,3 +351,6 @@ We will Learn more about these functions in the next steps.
 [^2]: https://github.com/gpuweb/gpuweb/discussions/3478#discussioncomment-3738911
 [^3]: https://www.w3.org/TR/WGSL/#builtin-inputs-outputs
 [^4]: https://www.w3.org/TR/WGSL/#builtin-functions
+[^5]: https://www.khronos.org/registry/SPIR-V/specs/unified1/SPIRV.html
+[^6]: https://github.com/gpuweb/gpuweb/issues/593
+[^7]: A brief explaination about the WGSL syntax by Corentin Wallez, Tech lead of WebGPU at Google and co-chair of the respective w3c working group https://youtu.be/RR4FZ9L4AF4?si=p0SeIxFEDVNCkdNp&t=2806 (46:47)

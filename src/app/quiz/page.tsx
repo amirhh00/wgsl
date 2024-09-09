@@ -19,7 +19,7 @@ export default async function Page() {
         <li>
           All questions are <b>multiple choice</b>.
         </li>
-        <li> your answers will be saved and you can continue the quiz at a later time. </li>
+        <li> Your answers will be saved and you can continue the quiz at a later time. </li>
         <li> You can only submit your answers once. </li>
 
         <li>

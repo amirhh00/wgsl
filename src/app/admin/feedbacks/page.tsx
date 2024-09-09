@@ -1,5 +1,6 @@
-import React from "react";
+import { pool } from "@/lib/utils/db.mjs";
 
-export default function page() {
-  return <div>feedbacks go here</div>;
+export default async function page() {
+  const feedbacks = await pool.query<FeedBackResult>("SELECT * FROM feedbacks");
+  return { feedbacks: feedbacks.rows };
 }

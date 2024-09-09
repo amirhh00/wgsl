@@ -78,8 +78,7 @@ const queries = [
   // table for storing user feedbacks
   sql`CREATE TABLE IF NOT EXISTS feedbacks
 (
-  id SERIAL,
-  name VARCHAR(255),
+  id uuid DEFAULT uuid_generate_v4(),
   email VARCHAR(255),
   message TEXT,
   questionnaire JSON,
