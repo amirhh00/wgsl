@@ -13,7 +13,7 @@ export default async function Page() {
           <tr>
             <th>score</th>
             <th>feedback</th>
-            <th>created_at</th>
+            <th>submited at</th>
           </tr>
         </thead>
         <tbody>

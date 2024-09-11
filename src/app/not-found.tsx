@@ -1,12 +1,15 @@
 import Link from "next/link";
 import WGSLShaderComponent from "@/components/global/WebGPUShaderDisplay";
 import wgslCode from "@/components/global/404.wgsl";
-import BackButton from "@/components/global/BackButton";
+import dynamic from "next/dynamic";
+// import BackButton from "@/components/global/BackButton";
+
+const BackButton = dynamic(() => import("@/components/global/BackButton"), { ssr: false });
 
 export default function NotFound() {
   return (
     <div className="flex w-full items-center">
-      <div className="prose dark:prose-invert container text-center ">
+      <div className="prose dark:prose-invert container text-center mix-blend-difference">
         <h2>Not Found</h2>
         <p>Could not find requested resource</p>
         <div className="flex justify-center items-center gap-4 h-11">
@@ -19,7 +22,7 @@ export default function NotFound() {
           </Link>
         </div>
       </div>
-      <div className="fixed w-screen h-screen top-0 left-0 z-[-1]">
+      <div className="fixed w-screen h-[calc(100vh_-_var(--header-height)_-_56px)] top-[var(--header-height)] left-0 z-[-1]">
         <WGSLShaderComponent style={{ height: "100%" }} className="w-full max-h-full z-[-1]" shaderCode={wgslCode} />
       </div>
     </div>

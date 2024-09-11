@@ -9,20 +9,30 @@ struct VertexOutput {
 
 @vertex
 fn vtx_main(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
-  // return the whole screen as a square
-  var pos : array<vec2<f32>, 3> = array<vec2<f32>, 3>(
-    vec2<f32>(-1.0, 3.0),
-    vec2<f32>(3.0, -1.0),
+  // return the whole screen as two triangles
+  var pos = array<vec2<f32>,6 >(
+    // triangle bottom
+    vec2<f32>(-1.0, -1.0),
+    vec2<f32>(1.0, -1.0),
+    vec2<f32>(1.0, 1.0),
+    // triangle top
+    vec2<f32>(1.0, 1.0),
+    vec2<f32>(-1.0, 1.0),
     vec2<f32>(-1.0, -1.0)
   );
-
   let position = vec4f(pos[vertexIndex], 0.0, 1.0);
-  let uv = position.xy * 2.;
+  let uv = vec2<f32>(position.x * 1.0, position.y * -1.0);
   return VertexOutput(
     position,
     uv
   );
 }
+
+@group(1) @binding(0)
+var texSampler: sampler;
+
+@group(1) @binding(1)
+var tex: texture_2d<f32>;
 
 @fragment
 fn frag_main(fsInput: VertexOutput) -> @location(0) vec4f {
@@ -33,18 +43,21 @@ fn frag_main(fsInput: VertexOutput) -> @location(0) vec4f {
 
   let xtime = 9.;
   let ytime = 16.;
-  let globaltime = 0.00005;
+  let globaltime = 0.00004;
   var uv = fsInput.uv;
   let t = f32(frame);
   
   uv.x += (-1. + xsize * 2.) + (abs(fract(t * xtime * globaltime) * 2. - 1.) - 0.) * (1. - (-1. + xsize * 2.)) / (1. - 0.);
   uv.y += (-1. + ysize * 2.) + (abs(fract(t * ytime * globaltime) * 2. - 1.) - 0.) * (1. - (-1. + ysize * 2.)) / (1. - 0.);
     
+  let textureColor = textureSample(tex, texSampler, uv * vec2f(3.3));
+
+
   let x1: f32 = step(abs(uv.x+-0.15),0.15);
   let y1: f32 = step(abs(uv.y+-0.15),0.15);
 
   let xy1 = x1 * y1;
   let xy2 = xy1 * col;
 
-  return vec4<f32>(xy2, 0.0);
+  return textureColor * vec4<f32>(xy2, 1.0);
 }

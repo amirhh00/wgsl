@@ -30,15 +30,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         </ul>
         {props.session && (
           <div className="flex gap-4">
-            <form
-              className=""
-              action={async (formData) => {
-                "use server";
-                await signOut({ redirect: true, redirectTo: "/" });
-              }}
-            >
-              <Button variant="ghost">Sign out</Button>
-            </form>
+            <Link href="/admin">Admin Panel</Link>
           </div>
         )}
       </nav>

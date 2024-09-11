@@ -7,6 +7,7 @@ import { CodeBlock } from "@/components/document/Code.client";
 interface WGSLShaderComponentOtherProps {
   shaderCode: string;
   showTooltip?: boolean;
+  textureUrl?: string;
 }
 
 type WGSLShaderComponentProps = WGSLShaderComponentOtherProps & React.HTMLAttributes<HTMLCanvasElement>;
@@ -15,7 +16,6 @@ let frameNumber = 0;
 const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { shaderCode: activeShaderCode = "", ...rest } = props;
-
   useEffect(() => {
     let animationFrameId: number;
     let device: GPUDevice;
@@ -31,6 +31,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       if (!device) throw new Error("Failed to create GPU device");
 
       // Set label for the device
+      const image = await createTextureFromUrl(props.textureUrl ?? "/images/404.png", device);
 
       const context = canvasRef.current?.getContext("webgpu");
       const presentationFormat = navigator.gpu.getPreferredCanvasFormat();
@@ -43,6 +44,47 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
       const uniformBuffer = device.createBuffer({
         size: 4,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+      });
+
+      const texture = device.createTexture({
+        size: { width: image.width, height: image.height },
+        format: "rgba8unorm",
+        usage: GPUTextureUsage.COPY_DST | GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.RENDER_ATTACHMENT,
+      });
+
+      const data = await createImageBitmap(image);
+
+      device.queue.copyExternalImageToTexture({ source: data }, { texture: texture }, { width: image.width, height: image.height });
+
+      const sampler = device.createSampler();
+
+      const textureBindGroupLayout = device.createBindGroupLayout({
+        entries: [
+          {
+            binding: 0,
+            visibility: GPUShaderStage.FRAGMENT,
+            sampler: {},
+          },
+          {
+            binding: 1,
+            visibility: GPUShaderStage.FRAGMENT,
+            texture: {},
+          },
+        ],
+      });
+
+      const textureBindGroup = device.createBindGroup({
+        layout: textureBindGroupLayout,
+        entries: [
+          {
+            binding: 0,
+            resource: sampler,
+          },
+          {
+            binding: 1,
+            resource: texture.createView(),
+          },
+        ],
       });
 
       // Set label for the uniform buffer
@@ -90,7 +132,7 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         primitive: {
           topology: "triangle-list",
         },
-        layout: device.createPipelineLayout({ bindGroupLayouts: [bindGroupLayout] }),
+        layout: device.createPipelineLayout({ bindGroupLayouts: [bindGroupLayout, textureBindGroupLayout] }),
       });
 
       // Set label for the pipeline
@@ -119,7 +161,8 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
         const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
         passEncoder.setPipeline(pipeline);
         passEncoder.setBindGroup(0, bindGroup);
-        passEncoder.draw(3);
+        passEncoder.setBindGroup(1, textureBindGroup);
+        passEncoder.draw(6);
         passEncoder.end();
 
         device.queue.submit([commandEncoder.finish()]);
@@ -175,3 +218,13 @@ const WGSLShaderComponent: React.FC<WGSLShaderComponentProps> = (props) => {
 };
 
 export default WGSLShaderComponent;
+
+function createTextureFromUrl(url: string, device: GPUDevice) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.crossOrigin = "anonymous";
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = url;
+  });
+}
