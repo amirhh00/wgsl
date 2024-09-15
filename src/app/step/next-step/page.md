@@ -1,6 +1,6 @@
 # Next Steps
 
-## show cases
+## Show cases
 
 There are some show cases that you can try out to see the power of WebGPU and WGSL in your browser.
 
@@ -12,8 +12,12 @@ You can write your own shader in the editor and see the result in the preview.
 
 [Start Writing](/editor)
 
-## quiz
+## Quiz and Feedback
 
 You can test your knowledge by taking the quiz.
 
 [Start Quiz](/quiz)
+
+And at the end, if you have any feedback or suggestions, feel free to share them with us.
+
+[Feeback](/feedback)

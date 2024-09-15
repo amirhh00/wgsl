@@ -11,7 +11,7 @@ export default function SideNavigation() {
   const pathname = usePathname();
   const activeIndex = navLinks.findIndex((tag) => tag.link === pathname);
   const totalTime = navLinks.reduce((acc, tag) => acc + tag.time, 0);
-  const timeRemaining = totalTime - navLinks.slice(0, activeIndex + 1).reduce((acc, tag) => acc + tag.time, 0);
+  const timeRemaining = totalTime - navLinks.slice(0, activeIndex).reduce((acc, tag) => acc + tag.time, 0);
   const currentTime = navLinks[activeIndex]?.time;
 
   const [liveTimeRemaining, setLiveTimeRemaining] = useState(Math.floor(timeRemaining));
@@ -23,7 +23,7 @@ export default function SideNavigation() {
       const t = timeRemaining - currentTime * scrollPercent;
       setLiveTimeRemaining((prev) => {
         // update the live time remaining only if it is less than the previous value
-        return t < prev ? Math.floor(t) : prev;
+        return t < prev ? parseInt(t.toFixed(2)) : prev;
       });
     };
 

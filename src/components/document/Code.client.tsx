@@ -21,7 +21,7 @@ export function CodeBlock(props: { code: string; lang: BuiltinLanguage | Special
   );
 }
 
-function RenderCode(props: { code: string; lang: BuiltinLanguage | SpecialLanguage; tokenLinks?: Map<string, string> }) {
+export function RenderCode(props: { code: string; lang: BuiltinLanguage | SpecialLanguage; tokenLinks?: Map<string, string> }) {
   const [html, setHtml] = useState<string>("");
 
   useEffect(() => {
