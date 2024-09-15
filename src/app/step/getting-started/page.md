@@ -15,6 +15,8 @@ If you are interested in using WebGPU in Rust, you can check out the WGPU [^2] w
 
 There is also a WebGPU implementation in C++ called Dawn [^3]. It is the underlying implementation of WebGPU in Chromium.
 
+![WebGPU Integration with other APIs](/images/webgpuChart.svg)
+
 ## debugging
 
 Since WGSL is a new shading language, there is no debugging tool for WGSL in the browser. You can use the developer tools to see the errors and warnings in the console.
