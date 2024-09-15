@@ -31,7 +31,7 @@ const OneDimensionHeavyMathCalculation = (props: any) => {
     <div className="max-w-lg mx-auto ">
       <div className="flex flex-col text-center">
         <form className="flex w-full place-content-center" onSubmit={handleGenerateSubmit}>
-          <Button type="submit" className="pl-7 ">
+          <Button type="submit" className="pl-7 h-11">
             Generate Random Vectors <Spinner isLoading={isLoading} />
           </Button>
           <input
@@ -56,7 +56,7 @@ const OneDimensionHeavyMathCalculation = (props: any) => {
         )}
         {!vector1 || !vector2 ? (
           <div className="h-[48px] mb-6 text-sm text-slate-500">
-            <p>Click the button to generate random vectors</p>
+            <p>First Click the button to generate random vectors</p>
           </div>
         ) : null}
       </div>

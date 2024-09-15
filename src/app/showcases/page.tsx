@@ -8,14 +8,21 @@ interface IShowCasesProps {
 
 const ShowCases: FC<IShowCasesProps> = (props) => {
   return (
-    <>
+    <div className="prose dark:prose-invert">
       <h1>showcases</h1>
-      <Button>
-        <Link className="" href="/showcases/heavyMathCalculation">
-          heavy math calculation
-        </Link>
-      </Button>
-    </>
+      <ul>
+        <li>
+          <Link className="" href="/showcases/heavyMathCalculation">
+            heavy math calculation
+          </Link>
+        </li>
+        <li>
+          <Link className="" href="/showcases/sum-array">
+            sum array
+          </Link>
+        </li>
+      </ul>
+    </div>
   );
 };
 
