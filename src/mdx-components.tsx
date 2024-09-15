@@ -54,12 +54,12 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       const isFootNote = props["data-footnote-ref"] === true || typeof props["data-footnote-backref"] === "string";
       let footNoteClass = "";
       if (isFootNote) {
-        footNoteClass = " footnote -mt-[var(--header-height)] pt-[var(--header-height)]";
+        footNoteClass = " footnote -mt-[calc(var(--header-height)_+_5px)] pt-[calc(var(--header-height)_+_5px)] [--outColor:transparent] focus:[--outColor:white]";
       }
       if (!href) return <p>{children}</p>;
       return (
         <NextLink href={href} {...rest} className={`${className ?? ""}${footNoteClass} break-words`}>
-          {children}
+          <span className="text-white outline-2 outline-dashed outline-[var(--outColor,transparent)]">{children}</span>
         </NextLink>
       );
     },
