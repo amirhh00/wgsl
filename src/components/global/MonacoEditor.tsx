@@ -7,6 +7,7 @@ import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import type { editor as Editor } from "monaco-editor";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Wgsllogo from "@/components/global/wgsl.logo";
+import { cn } from "@/lib/utils";
 
 interface WGSLMonacoEditorProps {
   hideSelect?: boolean;
@@ -15,9 +16,27 @@ interface WGSLMonacoEditorProps {
 
 const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const { changeCode, setActiveModel, savedCustomCodes: models, removeModel } = useShaderStore();
+  const [iconButtonPosition, setIconButtonPosition] = useState<{ top: number } | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const editorRef = useRef<Editor.IStandaloneCodeEditor | null>(null);
+
   function handleEditorDidMount(editor: Editor.IStandaloneCodeEditor, monaco: Monaco) {
     editorRef.current = editor;
+    editor.onDidChangeCursorSelection((e) => {
+      const selection = editor.getSelection();
+      if (selection && !selection.isEmpty()) {
+        console.log("selection", selection.toString());
+        const startLineNumber = selection.startLineNumber;
+        const startColumn = selection.startColumn;
+        const top = editor.getTopForLineNumber(startLineNumber);
+        const left = editor.getOffsetForColumn(startLineNumber, startColumn);
+        setIconButtonPosition({ top });
+      } else {
+        console.log("no selection");
+        setIconButtonPosition(null);
+        dialogRef.current?.close();
+      }
+    });
     // monaco.languages.registerCompletionItemProvider("wgsl", {
     //   provideCompletionItems: function (model, position) {
     //     // compute context-aware suggestions here
@@ -124,6 +143,18 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
       </div>
 
       <div className="w-full h-[clamp(400px,50vh,100vh)] relative">
+        {iconButtonPosition && (
+          <button
+            style={{ top: iconButtonPosition.top }}
+            title="Explain this code using AI"
+            className={cn("icon-button z-10 left-10 absolute rounded-full")}
+            onClick={() => dialogRef.current?.show()}
+          >
+            <svg className="w-6 h-6 fill-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24l0-13.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1l-58.3 0c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+            </svg>
+          </button>
+        )}
         <MonacoEditor
           className="absolute top-0 left-0 w-full h-full rounded-none bg-[#1e1e1e]"
           onMount={handleEditorDidMount}
@@ -154,6 +185,18 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
             if (value) changeCode(value, models.find((m) => m.currentActive)!.name, true);
           }}
         />
+        <dialog
+          ref={dialogRef}
+          style={{ top: iconButtonPosition?.top ? `calc(${iconButtonPosition?.top}px + 10px)` : "0" }}
+          className="ml-0 left-[65px] p-2 pt-4 bg-secondary prose dark:prose-invert"
+        >
+          <p>Some text</p>
+          <button className="absolute top-0 right-0" onClick={() => dialogRef.current?.close()}>
+            <svg className="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />{" "}
+            </svg>
+          </button>
+        </dialog>
       </div>
     </>
   );
