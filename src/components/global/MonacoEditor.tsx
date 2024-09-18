@@ -204,7 +204,7 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
         />
         <dialog
           ref={dialogRef}
-          style={{ top: iconButtonPosition?.top ? `calc(${iconButtonPosition?.top}px + 10px)` : '0' }}
+          style={{ top: iconButtonPosition?.top ? `calc(${iconButtonPosition?.top}px + 22px)` : '0' }}
           className="ml-0 left-[65px] p-2 pt-5 px-4 bg-secondary prose dark:prose-invert w-full min-h-10 transition-all z-40"
         >
           {openExplainModal && (
