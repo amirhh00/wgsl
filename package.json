@@ -13,6 +13,7 @@
     "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.60",
     "@auth/pg-adapter": "^1.4.2",
     "@hookform/resolvers": "^3.9.0",
     "@mdx-js/loader": "^3.0.1",
@@ -27,9 +28,8 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
-    "ai": "^3.3.0",
+    "ai": "^3.3.41",
     "bcryptjs": "^2.4.3",
-    "chrome-ai": "^1.9.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.424.0",
@@ -37,7 +37,6 @@
     "next-auth": "5.0.0-beta.20",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.3.0",
-    "ollama-ai-provider": "^0.10.0",
     "pg": "^8.12.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
