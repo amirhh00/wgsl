@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import useShaderStore, { defaultCode, preWrittenCode } from '@/store/shader.state';
-import MonacoEditor, { Monaco } from '@monaco-editor/react';
+import MonacoEditor, { Monaco, loader } from '@monaco-editor/react';
 import type { editor as Editor } from 'monaco-editor';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Wgsllogo from '@/components/global/wgsl.logo';
@@ -14,6 +14,12 @@ interface WGSLMonacoEditorProps {
   hideSelect?: boolean;
   readonly?: boolean;
 }
+
+loader.config({
+  paths: {
+    vs: '/scripts/monaco',
+  },
+});
 
 const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const { changeCode, setActiveModel, savedCustomCodes: models, removeModel } = useShaderStore();

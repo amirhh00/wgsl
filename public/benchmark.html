@@ -10,21 +10,21 @@
       <canvas style="max-width: 100vw; max-height: 95vh" id="myChart"></canvas>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+    <script src="/scripts/benchmark/chart.js@2.9.3.js"></script>
+    <script src="/scripts/benchmark/hammerjs@2.0.8.js"></script>
+    <script src="/scripts/benchmark/chartjs-plugin-zoom@0.7.7.js"></script>
     <script src="./durations.js" defer></script>
     <script>
-      const ctx = document.getElementById("myChart");
+      const ctx = document.getElementById('myChart');
       const drawChart = (chartData) => {
         const myChart = new Chart(ctx, {
-          type: "line",
+          type: 'line',
           data: chartData,
           options: {
             responsive: true,
             plugins: {
               legend: {
-                position: "top",
+                position: 'top',
               },
               zoom: {
                 // Container for pan options
@@ -39,7 +39,7 @@
                   //   mode: function({ chart }) {
                   //     return 'xy';
                   //   },
-                  mode: "xy",
+                  mode: 'xy',
 
                   rangeMin: {
                     // Format of min pan range depends on scale type
@@ -91,7 +91,7 @@
                   //   mode: function({ chart }) {
                   //     return 'xy';
                   //   },
-                  mode: "xy",
+                  mode: 'xy',
 
                   rangeMin: {
                     // Format of min zoom range depends on scale type
@@ -136,10 +136,10 @@
       const getChartData = async (durs) => {
         let durations = durs;
         if (!durs) {
-          const res = await fetch("http://localhost:5000/durations", {
-            method: "POST",
+          const res = await fetch('http://localhost:5000/durations', {
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           });
           durations = await res.json();
@@ -148,23 +148,23 @@
           labels: Object.keys(durations.js),
           datasets: [
             {
-              label: "JS",
+              label: 'JS',
               data: Object.values(durations.js),
-              borderColor: "rgba(66, 245, 81, 1)",
+              borderColor: 'rgba(66, 245, 81, 1)',
               borderWidth: 2,
               fill: false,
             },
             {
-              label: "WASM",
+              label: 'WASM',
               data: Object.values(durations.wasm),
-              borderColor: "rgba(50, 149, 219, 1)",
+              borderColor: 'rgba(50, 149, 219, 1)',
               borderWidth: 2,
               fill: false,
             },
             {
-              label: "WebGPU",
+              label: 'WebGPU',
               data: Object.values(durations.webgpu),
-              borderColor: "rgba(212, 63, 30, 1)",
+              borderColor: 'rgba(212, 63, 30, 1)',
               borderWidth: 3.5,
               fill: false,
             },
@@ -172,7 +172,7 @@
         };
       };
       // test if server is up and running
-      fetch("http://localhost:5000/durations")
+      fetch('http://localhost:5000/durations')
         .then((res) => {
           getChartData().then((chartData) => {
             drawChart(chartData);
@@ -186,11 +186,11 @@
         });
     </script>
     <script type="module">
-      import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+      import { io } from '/scripts/benchmark/socket.io.esm.min.js';
 
-      const socket = io("ws://localhost:5000");
-      socket.on("durations", (durations) => {
-        console.log("duration io: ", durations);
+      const socket = io('ws://localhost:5000');
+      socket.on('durations', (durations) => {
+        console.log('duration io: ', durations);
         getChartData(durations).then((chartData) => {
           drawChart(chartData);
         });
