@@ -1,3 +1,3 @@
 export default function QuizLayout({ children }: { children: React.ReactNode }) {
-  return <div className="prose dark:prose-invert container py-4">{children}</div>;
+  return <div className="container md:max-w-xl py-4">{children}</div>;
 }

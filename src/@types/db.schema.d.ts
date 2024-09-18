@@ -6,6 +6,7 @@ type QuizResult = {
     options: string[];
     answer: number;
     userAnswer: number;
+    userAnswered: boolean;
   }[];
   created_at: Date;
 };

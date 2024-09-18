@@ -1,14 +1,14 @@
-import Link from "next/link";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation.js";
-import { quizLevels } from "@/app/quiz/[level]/questions";
+import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation.js';
+import { quizLevels } from '@/app/quiz/[level]/questions';
 
 export default async function Page() {
-  const level = cookies().get("level");
-  const quizId = cookies().get("quizId");
+  const level = cookies().get('level');
+  const quizId = cookies().get('quizId');
 
   return (
-    <div>
+    <div className="prose dark:prose-invert">
       <h1>Quiz</h1>
       <p> Here you can test your knowledge of the webgpu shader language and concepts. </p>
       <h2>Instructions</h2>
@@ -46,14 +46,14 @@ export default async function Page() {
             )}
             <form
               action={async () => {
-                "use server";
+                'use server';
                 // clear all related cookies to the quiz
-                cookies().delete("level");
+                cookies().delete('level');
                 for (let i = 1; i <= quizLevels.length; i++) {
                   if (!cookies().get(`answer-${i}`)) continue;
                   cookies().delete(`answer-${i}`);
                 }
-                redirect("/quiz/1");
+                redirect('/quiz/1');
               }}
             >
               {level?.value !== quizLevels.length.toString() && (
