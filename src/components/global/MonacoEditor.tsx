@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import useShaderStore, { defaultCode, preWrittenCode } from '@/store/shader.state';
 import MonacoEditor, { Monaco, loader } from '@monaco-editor/react';
@@ -10,6 +10,7 @@ import Wgsllogo from '@/components/global/wgsl.logo';
 import { cn } from '@/lib/utils';
 import AiExplain from './AiExplain';
 import { useTheme } from 'next-themes';
+import { useSearchParams } from 'next/navigation';
 
 interface WGSLMonacoEditorProps {
   hideSelect?: boolean;
@@ -30,6 +31,23 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const [selectedCode, setSelectedCode] = useState<string>();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const editorRef = useRef<Editor.IStandaloneCodeEditor | null>(null);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // default model from search params if available
+    const defaultModel = searchParams.get('model');
+    // if default model is one of the preWrittenCode models, and is not the current active model, set it as active
+    if (
+      defaultModel &&
+      preWrittenCode.find((c) => c.name === defaultModel) &&
+      !(models.find((m) => m.currentActive)?.name === defaultModel)
+    ) {
+      setTimeout(() => {
+        changeCode(preWrittenCode.find((c) => c.name === defaultModel)!.code, defaultModel, true);
+        // setActiveModel(defaultModel);
+      }, 10);
+    }
+  }, []);
 
   function handleEditorDidMount(editor: Editor.IStandaloneCodeEditor, monaco: Monaco) {
     editorRef.current = editor;
@@ -185,6 +203,7 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
           path={models.find((m) => m.currentActive)?.name}
           line={2}
           options={{
+            overviewRulerBorder: false,
             scrollbar: {
               alwaysConsumeMouseWheel: false,
             },

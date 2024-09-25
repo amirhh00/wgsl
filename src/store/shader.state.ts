@@ -2,8 +2,6 @@ import { create } from 'zustand';
 import dvd404 from '@/components/global/404.wgsl';
 import fireworksShader from '@/app/quiz/score/fireWorks.wgsl';
 import waveShader from '@/app/step/introduction/coolEffect.wgsl';
-import { persist } from 'zustand/middleware';
-import packageJson from '@/../package.json';
 
 export const defaultCode = `\
 @vertex
@@ -111,9 +109,6 @@ fn frag_main() -> @location(0) vec4f {
 ] as const;
 
 interface ShaderState {
-  /** one of the preWrittenCode's name or a custom one */
-  // selectedCodeName: (typeof preWrittenCode)[number]["name"] | `custom${number}` | string | null;
-  /** all the saved codes on user's local storage */
   savedCustomCodes: {
     name: string;
     code: string;
@@ -123,46 +118,39 @@ interface ShaderState {
    * @param code the new code
    * @param key the key to save the code in savedCustomCodes. Default is "custom1" but can be any string if user wants to save multiple custom codes
    */
-  // stackHistory: string[];
   changeCode: (code: string, key?: string, setActive?: boolean) => void;
   setActiveModel: (name: string) => void;
   removeModel: (name: string) => void;
 }
 
-const useShaderStore = create<ShaderState>()(
-  // devtools(
-  // persist(
-  (set, get) => ({
-    // selectedCodeName: preWrittenCode[0].name,
-    savedCustomCodes: [...preWrittenCode].map((c, i) => ({ name: c.name, code: c.code, currentActive: i === 0 })),
-    // stackHistory: [],
-    changeCode: (code, name, setActive = false) => {
-      // change the code of the model with the name or create a new one
-      set({
-        // @ts-expect-error
-        savedCustomCodes: [
-          ...get().savedCustomCodes.map((c) => ({
-            ...c,
-            code: c.name === name ? code : c.code,
-            currentActive: setActive ? c.name === name : c.currentActive,
-          })),
-          ...(get().savedCustomCodes.find((c) => c.name === name) ? [] : [{ name, code, currentActive: setActive }]),
-        ],
-      });
+const useShaderStore = create<ShaderState>()((set, get) => ({
+  savedCustomCodes: [
+    {
+      name: preWrittenCode[0].name,
+      code: preWrittenCode[0].code,
+      currentActive: true,
     },
-    setActiveModel: (name) => {
-      set({ savedCustomCodes: get().savedCustomCodes.map((c) => ({ ...c, currentActive: c.name === name })) });
-    },
-    removeModel: (name) => {
-      // filter out the code with the name
-      set({ savedCustomCodes: get().savedCustomCodes.filter((c) => c.name !== name) });
-    },
-  })
-  // ),
-  // {
-  //   name: 'shaderStore',
-  //   version: parseFloat(packageJson.version),
-  // }
-);
+  ],
+  changeCode: (code, name, setActive = false) => {
+    // change the code of the model with the name or create a new one
+    set({
+      // @ts-ignore
+      savedCustomCodes: [
+        ...get().savedCustomCodes.map((c) => ({
+          ...c,
+          code: c.name === name ? code : c.code,
+          currentActive: setActive ? c.name === name : c.currentActive,
+        })),
+        ...(get().savedCustomCodes.find((c) => c.name === name) ? [] : [{ name, code, currentActive: setActive }]),
+      ],
+    });
+  },
+  setActiveModel: (name) => {
+    set({ savedCustomCodes: get().savedCustomCodes.map((c) => ({ ...c, currentActive: c.name === name })) });
+  },
+  removeModel: (name) => {
+    set({ savedCustomCodes: get().savedCustomCodes.filter((c) => c.name !== name) });
+  },
+}));
 
 export default useShaderStore;
