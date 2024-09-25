@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -112,81 +112,8 @@
   main > div {
     @apply ssm:px-3 px-6;
   }
-  .tabs-container .tabs {
-    scrollbar-width: none;
-  }
-
-  .tabs-container .tab {
-    @apply bg-[#2d2d2d] text-white/50 border-l-[#1e1e1e] border-l-[1px] rounded-none text-sm;
-  }
-
-  .tabs-container .tab.active {
-    @apply bg-[#1e1e1e] text-white;
-  }
-
-  .tabs-container .tab:not(.active):hover {
-    @apply text-white/80;
-  }
-
-  .tabs-container .tab .monacoMenuBtn {
-    @apply w-full h-full py-2 px-1;
-  }
-
-  .tabs-container .tab .closeBtn {
-    @apply p-1 rounded-md;
-  }
-
-  .tabs-container .tab .closeBtn:hover {
-    background-color: #434343;
-    color: #ffffff;
-  }
 
   .button {
     @apply no-underline inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium hover:bg-white/10 transition-colors;
-  }
-}
-
-@keyframes slide-fade-in {
-  from {
-    opacity: 0;
-    box-shadow: none;
-    transform: scale(0.8) translateY(15vh);
-  }
-}
-@keyframes grow {
-  from {
-    transform: scaleX(0);
-  }
-
-  to {
-    transform: scaleX(1);
-  }
-}
-#stepArticle {
-  /* --bottom-padding: 15vh; */
-  --bottom-padding: 0;
-  padding-bottom: var(--bottom-padding);
-  & > p,
-  > h1,
-  > h2,
-  > h3,
-  > h4,
-  > h5,
-  > h6,
-  li:not(:has(li)),
-  > ul > li > p,
-  > code,
-  > pre,
-  > div {
-    @media (prefers-reduced-motion: no-preference) {
-      @supports (animation-timeline: view()) {
-        /* animation-name: slide-fade-in;
-        animation-fill-mode: both;
-        animation-duration: 1ms;
-        animation-timing-function: linear;
-        animation-timeline: view();
-        animation-range: contain 0% contain var(--bottom-padding); */
-      }
-    }
   }
 }

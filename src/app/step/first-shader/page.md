@@ -44,7 +44,7 @@ In the fragment shader above, we define the `frag_main` function as the entry po
 
 The function returns a 4D vector `vec4f` representing the color of the fragment. The `vec4` constructor takes the RGBA color values as input. In this case, we return white color `(1, 1, 1, 1)`.
 
-You can now run the shader and see the output in your browser using the [editor page](/editor).
+You can now run the shader and see the output in your browser using the [editor page](/editor?model=simple-triangle).
 
 **References:**
 

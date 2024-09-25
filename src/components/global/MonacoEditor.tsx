@@ -132,16 +132,18 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
         </Select>
       )}
 
-      <div className="tabs-container flex items-center w-full bg-[#2d2d2d] [&_*]:!outline-none min-h-9">
-        <ul className="flex tabs overflow-x-auto max-w-[calc(100%_-_26px)]">
+      <div className="tabs-container flex items-center w-full dark:bg-[#2d2d2d] bg-gray-200 [&_*]:!outline-none min-h-9">
+        <ul className="flex tabs [scrollbar-width:none] overflow-x-auto max-w-[calc(100%_-_26px)]">
           {models.map((model) => (
             <li
               key={model.name}
-              className={`tab px-2 flex justify-around items-center ${model.currentActive ? 'active' : ''}`}
+              className={`tab dark:bg-[#2d2d2d] dark:text-white/50 border-l-[1px] first:border-l-0 rounded-none text-sm px-2 flex justify-around items-center ${
+                model.currentActive ? 'active dark:!bg-[#1e1e1e] bg-white dark:text-white' : ''
+              }`}
             >
               <Wgsllogo className="w-5 h-5" />
               <button
-                className={`monacoMenuBtn whitespace-nowrap`}
+                className={`monacoMenuBtn w-full h-full py-2 px-1 whitespace-nowrap`}
                 onClick={(e) => setActiveModel(model.name)}
                 onMouseDown={(e) => {
                   e.preventDefault();
@@ -152,7 +154,7 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
               >
                 {`${model.name}.wgsl`}
               </button>
-              <button onClick={() => handleRemoveModel(model.name)} className="closeBtn">
+              <button onClick={() => handleRemoveModel(model.name)} className="p-1 rounded-md hover:bg-black/20">
                 <svg
                   className="w-3 h-3"
                   fill="none"
@@ -193,7 +195,7 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
           </button>
         )}
         <MonacoEditor
-          className="absolute top-0 left-0 w-full h-full rounded-none dark:bg-[#1e1e1e]"
+          className="absolute top-0 left-0 w-full h-full rounded-none"
           onMount={handleEditorDidMount}
           loading={<Skeleton className="w-full h-full rounded-none absolute" />}
           // beforeMount={editorWillMount}

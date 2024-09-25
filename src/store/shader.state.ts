@@ -31,7 +31,7 @@ fn vtx_main(@builtin(vertex_index) vertex_index : u32) -> @builtin(position) vec
 
 @fragment
 fn frag_main() -> @location(0) vec4f {
-  return vec4(1, 0, 0, 1); // rgb
+  return vec4(0, 1, 0, 1); // rgb color
 }
 `,
   },

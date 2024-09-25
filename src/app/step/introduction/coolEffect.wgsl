@@ -36,7 +36,7 @@ fn frag_main(fsInput: VertexOutput) -> @location(0) vec4<f32> {
   let speed = 0.01;
   let s = f32(frame) * speed;
 
-  let alpha: f32 = 0.01;
+  let alpha: f32 = 0.2;
 
   let uv = fsInput.uv;
 

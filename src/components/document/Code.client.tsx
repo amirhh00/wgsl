@@ -5,6 +5,7 @@ import type { BuiltinLanguage, SpecialLanguage } from 'shiki';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 
 export function InlineCode(props: { code: string; className?: string }) {
   return (
@@ -52,11 +53,12 @@ export function RenderCode(props: {
   tokenLinks?: Map<string, string>;
 }) {
   const [html, setHtml] = useState<string>('');
+  const { resolvedTheme: theme } = useTheme();
 
   useEffect(() => {
     import('shiki').then(({ codeToHtml }) => {
       codeToHtml(props.code, {
-        theme: 'dark-plus',
+        theme: theme === 'dark' ? 'dark-plus' : 'light-plus',
         lang: props.lang,
       }).then((html) => {
         setHtml(html);
