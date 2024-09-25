@@ -108,8 +108,8 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const handleSelectChange = (value: string) => {
     const foundPreWrittenCode = preWrittenCode.find((c) => c.name === value);
     if (foundPreWrittenCode) {
-      // change code of the active model
-      changeCode(foundPreWrittenCode.code, models.find((m) => m.currentActive)!.name, true);
+      // add a new model with the prewritten code
+      changeCode(foundPreWrittenCode.code, foundPreWrittenCode.name, true);
     }
   };
 
