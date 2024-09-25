@@ -1,11 +1,11 @@
-import { menuNavLinks } from "./navLink";
-import Image from "next/image";
-import Link from "next/link";
+import { menuNavLinks } from './navLink';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import type { Session } from "next-auth";
-import NavigationClient from "./Navigation.client";
-import { signOut } from "@/lib/utils/auth";
-import { Button } from "@/components/ui/button";
+import type { Session } from 'next-auth';
+import NavigationClient from './Navigation.client';
+import { signOut } from '@/lib/utils/auth';
+import { Button } from '@/components/ui/button';
 
 interface NavigationProps {
   session?: Session | null;
@@ -17,7 +17,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
       <nav className="flex h-full items-center gap-4 md:container smd:px-6">
         <NavigationClient />
         <Link href="/">
-          <Image priority src="/logo-h-complete.jpg" alt="logo" className="-mt-1" width={120} height={40} />
+          <Image priority src="/logo-h-complete.png" alt="logo" className="-mt-1" width={120} height={40} />
         </Link>
         <ul className="flex flex-1 justify-center gap-4 md:gap-10 transition-all">
           {menuNavLinks.map((menuItem) => (

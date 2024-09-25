@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import Wgsllogo from '@/components/global/wgsl.logo';
 import { cn } from '@/lib/utils';
 import AiExplain from './AiExplain';
+import { useTheme } from 'next-themes';
 
 interface WGSLMonacoEditorProps {
   hideSelect?: boolean;
@@ -23,6 +24,7 @@ loader.config({
 
 const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
   const { changeCode, setActiveModel, savedCustomCodes: models, removeModel } = useShaderStore();
+  const { resolvedTheme: theme } = useTheme();
   const [iconButtonPosition, setIconButtonPosition] = useState<{ top: number } | null>(null);
   const [openExplainModal, setOpenExplainModal] = useState(false);
   const [selectedCode, setSelectedCode] = useState<string>();
@@ -173,13 +175,13 @@ const WGSLMonacoEditor: React.FC<WGSLMonacoEditorProps> = (props) => {
           </button>
         )}
         <MonacoEditor
-          className="absolute top-0 left-0 w-full h-full rounded-none bg-[#1e1e1e]"
+          className="absolute top-0 left-0 w-full h-full rounded-none dark:bg-[#1e1e1e]"
           onMount={handleEditorDidMount}
           loading={<Skeleton className="w-full h-full rounded-none absolute" />}
           // beforeMount={editorWillMount}
           language="wgsl"
           value={models.find((m) => m.currentActive)?.code ?? ''}
-          theme="vs-dark"
+          theme={`vs-${theme}`}
           path={models.find((m) => m.currentActive)?.name}
           line={2}
           options={{

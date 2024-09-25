@@ -1,19 +1,19 @@
-import type { MDXComponents } from "mdx/types";
-import NextLink from "next/link";
-import { TBody, Table, Td, Th, Tr } from "@/components/document/Table";
-import { CodeBlock, InlineCode } from "@/components/document/Code";
-import type { BuiltinLanguage } from "shiki";
+import type { MDXComponents } from 'mdx/types';
+import NextLink from 'next/link';
+import { TBody, Table, Td, Th, Tr } from '@/components/document/Table';
+import { CodeBlock, InlineCode } from '@/components/document/Code';
+import type { BuiltinLanguage } from 'shiki';
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     code(props) {
       const code = props.children;
-      const lang = props.className?.replace("language-", "");
+      const lang = props.className?.replace('language-', '');
       if (!props.className) {
-        return <InlineCode code={typeof code === "string" ? code : ""} />;
+        return <InlineCode code={typeof code === 'string' ? code : ''} />;
       }
 
-      return <CodeBlock lang={lang as BuiltinLanguage} code={typeof code === "string" ? code : ""} />;
+      return <CodeBlock lang={lang as BuiltinLanguage} code={typeof code === 'string' ? code : ''} />;
     },
     table(props) {
       return <Table>{props.children}</Table>;
@@ -43,7 +43,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     },
     p(props) {
       // if there is an img in the paragraph children, don't wrap it with p tag in ssr mode
-      if (props.children && (props.children as any)?.type?.name && (props.children as any).type?.name === "img") {
+      if (props.children && (props.children as any)?.type?.name && (props.children as any).type?.name === 'img') {
         return <>{props.children}</>;
       }
       return <p>{props.children}</p>;
@@ -51,15 +51,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     a(props) {
       let { className, href, children, ...rest } = props;
       // @ts-expect-error
-      const isFootNote = props["data-footnote-ref"] === true || typeof props["data-footnote-backref"] === "string";
-      let footNoteClass = "";
+      const isFootNote = props['data-footnote-ref'] === true || typeof props['data-footnote-backref'] === 'string';
+      let footNoteClass = '';
       if (isFootNote) {
-        footNoteClass = " footnote -mt-[calc(var(--header-height)_+_5px)] pt-[calc(var(--header-height)_+_5px)] [--outColor:transparent] focus:[--outColor:white]";
+        footNoteClass =
+          ' footnote -mt-[calc(var(--header-height)_+_5px)] pt-[calc(var(--header-height)_+_5px)] [--outColor:transparent] focus:[--outColor:white]';
       }
       if (!href) return <p>{children}</p>;
       return (
-        <NextLink href={href} {...rest} className={`${className ?? ""}${footNoteClass} break-words`}>
-          <span className="text-white outline-2 outline-dashed outline-[var(--outColor,transparent)]">{children}</span>
+        <NextLink href={href} {...rest} className={`${className ?? ''}${footNoteClass} break-words`}>
+          <span className="text-current outline-2 outline-dashed outline-[var(--outColor,transparent)]">
+            {children}
+          </span>
         </NextLink>
       );
     },
@@ -115,11 +118,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 }
 
 function HeadingAnchore(props: { children?: any; [key: string]: any }) {
-  return typeof props.children === "string" ? (
+  return typeof props.children === 'string' ? (
     <a
-      id={props.children.toLowerCase().replace(/ /g, "-")}
+      id={props.children.toLowerCase().replace(/ /g, '-')}
       aria-label={`Permalink: ${props.children}`}
-      href={`#${props.children.toLowerCase().replace(/ /g, "-")}`}
+      href={`#${props.children.toLowerCase().replace(/ /g, '-')}`}
       className="
         text-sm
         [.footnotes_&]:hidden

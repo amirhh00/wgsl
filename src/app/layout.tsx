@@ -8,6 +8,7 @@ import Footer from '@/components/global/layout/Footer';
 
 import '@/styles/globals.css';
 import { auth } from '@/lib/utils/auth';
+import { ThemeProvider } from '../components/theme-provider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -26,20 +27,22 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html className="dark" lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={cn('bg-background font-sans antialiased', fontSans.variable)}>
-        <div className="flex flex-col min-h-screen">
-          <Navigation session={session} />
-          <div className="mainWrapper w-full flex flex-1">
-            <main className="w-full flex">{children}</main>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="flex flex-col min-h-screen">
+            <Navigation session={session} />
+            <div className="mainWrapper w-full flex flex-1">
+              <main className="w-full flex">{children}</main>
+            </div>
+            <Footer session={session} pathname={typeof window !== 'undefined' ? window.location.pathname : ''} />
           </div>
-          <Footer session={session} pathname={typeof window !== 'undefined' ? window.location.pathname : ''} />
-        </div>
-        <Toaster />
-        <Analytics />
+          <Toaster />
+        </ThemeProvider>
+        <Analytics disableAutoTrack={process.env.NODE_ENV === 'development'} debug={false} />
       </body>
     </html>
   );

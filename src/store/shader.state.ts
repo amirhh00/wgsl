@@ -33,7 +33,7 @@ fn vtx_main(@builtin(vertex_index) vertex_index : u32) -> @builtin(position) vec
 
 @fragment
 fn frag_main() -> @location(0) vec4f {
-  return vec4(1, 1, 1, 1); // rgb
+  return vec4(1, 0, 0, 1); // rgb
 }
 `,
   },
@@ -131,38 +131,38 @@ interface ShaderState {
 
 const useShaderStore = create<ShaderState>()(
   // devtools(
-  persist(
-    (set, get) => ({
-      // selectedCodeName: preWrittenCode[0].name,
-      savedCustomCodes: [...preWrittenCode].map((c, i) => ({ name: c.name, code: c.code, currentActive: i === 0 })),
-      // stackHistory: [],
-      changeCode: (code, name, setActive = false) => {
-        // change the code of the model with the name or create a new one
-        set({
-          // @ts-expect-error
-          savedCustomCodes: [
-            ...get().savedCustomCodes.map((c) => ({
-              ...c,
-              code: c.name === name ? code : c.code,
-              currentActive: setActive ? c.name === name : c.currentActive,
-            })),
-            ...(get().savedCustomCodes.find((c) => c.name === name) ? [] : [{ name, code, currentActive: setActive }]),
-          ],
-        });
-      },
-      setActiveModel: (name) => {
-        set({ savedCustomCodes: get().savedCustomCodes.map((c) => ({ ...c, currentActive: c.name === name })) });
-      },
-      removeModel: (name) => {
-        // filter out the code with the name
-        set({ savedCustomCodes: get().savedCustomCodes.filter((c) => c.name !== name) });
-      },
-    }),
-    {
-      name: 'shaderStore',
-      version: parseFloat(packageJson.version),
-    }
-  )
+  // persist(
+  (set, get) => ({
+    // selectedCodeName: preWrittenCode[0].name,
+    savedCustomCodes: [...preWrittenCode].map((c, i) => ({ name: c.name, code: c.code, currentActive: i === 0 })),
+    // stackHistory: [],
+    changeCode: (code, name, setActive = false) => {
+      // change the code of the model with the name or create a new one
+      set({
+        // @ts-expect-error
+        savedCustomCodes: [
+          ...get().savedCustomCodes.map((c) => ({
+            ...c,
+            code: c.name === name ? code : c.code,
+            currentActive: setActive ? c.name === name : c.currentActive,
+          })),
+          ...(get().savedCustomCodes.find((c) => c.name === name) ? [] : [{ name, code, currentActive: setActive }]),
+        ],
+      });
+    },
+    setActiveModel: (name) => {
+      set({ savedCustomCodes: get().savedCustomCodes.map((c) => ({ ...c, currentActive: c.name === name })) });
+    },
+    removeModel: (name) => {
+      // filter out the code with the name
+      set({ savedCustomCodes: get().savedCustomCodes.filter((c) => c.name !== name) });
+    },
+  })
+  // ),
+  // {
+  //   name: 'shaderStore',
+  //   version: parseFloat(packageJson.version),
+  // }
 );
 
 export default useShaderStore;
