@@ -19,8 +19,14 @@ export async function POST(request: NextRequest) {
     const answer: number | undefined = Number(body.get('answer'));
     const level = Number(body.get('level'));
     if (!level) throw new Error('You need to start a quiz first');
+    let quizId = cookieStore.get('quizId')?.value;
     // if (!answer) throw new Error("You need to provide an answer");
-
+    // if quizId cookie is not set, insert a new quiz record in the database and set the cookie
+    if (!quizId) {
+      const quizQuery = await pool.query<QuizResult>(sql`INSERT INTO quiz_results DEFAULT VALUES RETURNING id`);
+      quizId = quizQuery.rows[0].id.toString();
+      cookieStore.set('quizId', quizId, { httpOnly: true });
+    }
     if (level > quizLevels.length || level < 1) throw new Error('level is out of range');
     // check if the answer is in range of the options
     if (answer) {
@@ -42,11 +48,12 @@ export async function POST(request: NextRequest) {
       const score = quizResults.reduce((acc, quiz) => {
         return quiz.answer + 1 === quiz.userAnswer ? acc + 1 : acc;
       }, 0);
-      const quizQuery = await pool.query<QuizResult>(
-        sql`INSERT INTO quiz_results (score, results) VALUES (${score}, ${JSON.stringify(quizResults)}) RETURNING id`
+      // update the quiz record in the database with the score and results
+      await pool.query(
+        sql`UPDATE quiz_results SET score = ${score}, results = ${JSON.stringify(quizResults)} WHERE id = ${quizId}`
       );
-      const quizId = quizQuery.rows[0].id;
-      cookieStore.set('quizId', quizId.toString(), { httpOnly: true });
+      // set score cookie
+      cookieStore.set('score', score.toString(), { httpOnly: false });
       cookieStore.delete('level');
       for (let i = 1; i <= quizLevels.length; i++) {
         cookieStore.delete(`answer-${i}`);
@@ -73,6 +80,14 @@ export async function POST(request: NextRequest) {
         groups[difficulty].push(level);
         return groups;
       }, {} as Record<string, QuizLevel[]>);
+      const quizResults = quizLevels.flatMap((quiz, index) => {
+        const answerCookie = cookieStore.get(`answer-${index + 1}`);
+        if (!answerCookie?.value) return [];
+        const userAnswer = Number(answerCookie.value);
+        return { ...quiz, userAnswer };
+      });
+      // update database with the current quiz status
+      await pool.query(sql`UPDATE quiz_results SET results = ${JSON.stringify(quizResults)} WHERE id = ${quizId}`);
 
       for (const category in groupedLevels) {
         const allAnswered = groupedLevels[category].every((level) => level.userAnswered);

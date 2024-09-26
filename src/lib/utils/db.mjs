@@ -1,5 +1,5 @@
-import sql from "sql-template-strings";
-import pg from "pg";
+import sql from 'sql-template-strings';
+import pg from 'pg';
 
 const { Pool } = pg;
 
@@ -68,9 +68,10 @@ const queries = [
   sql`CREATE TABLE IF NOT EXISTS quiz_results
 (
   id uuid DEFAULT uuid_generate_v4(),
-  score INTEGER NOT NULL,
-  results JSON NOT NULL,
+  score INTEGER NOT NULL DEFAULT -1,
+  results JSON NOT NULL DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  aiFeedback TEXT NULL DEFAULT NULL,
  
   PRIMARY KEY (id)
 );`,
@@ -92,7 +93,7 @@ const queries = [
 
 // run all queries in parallel and wait for all to complete before continuing with the rest of the code
 export async function createSchema() {
-  console.log("making schema if not exist");
+  console.log('making schema if not exist');
   await pool.query(sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
   await Promise.all(queries.map((query) => pool.query(query)));
 }

@@ -5,7 +5,7 @@ import { quizLevels } from '@/app/quiz/[level]/questions';
 
 export default async function Page() {
   const level = cookies().get('level');
-  const quizId = cookies().get('quizId');
+  const score = cookies().get('score');
 
   return (
     <div className="prose dark:prose-invert">
@@ -27,9 +27,10 @@ export default async function Page() {
         </li>
       </ul>
       <div className="flex gap-4 items-end">
-        {quizId ? (
+        {score ? (
           <p>
             You have completed the quiz! You can send your feedback using <Link href="/feedback">this</Link> link.
+            <br /> You can also view your score using <Link href="/quiz/score">this</Link> link.
           </p>
         ) : (
           <>

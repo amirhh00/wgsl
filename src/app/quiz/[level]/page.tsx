@@ -37,7 +37,7 @@ export default async function Page({ params: { level } }: { params: { level: str
             const shouldCheck = answerCookie?.value === (index + 1).toString();
             return (
               <div className="ml-5" key={index}>
-                <label>
+                <label className="block">
                   <input
                     className="mr-2"
                     type="radio"

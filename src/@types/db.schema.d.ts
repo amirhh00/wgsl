@@ -8,6 +8,7 @@ type QuizResult = {
     userAnswer: number;
     userAnswered: boolean;
   }[];
+  aifeedback?: string;
   created_at: Date;
 };
 

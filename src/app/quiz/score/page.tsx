@@ -6,10 +6,12 @@ import Link from 'next/link';
 import FireWorks from './fireWorks';
 import { pool } from '@/lib/utils/db.mjs';
 import sql from 'sql-template-strings';
+import AiQuizFeedback from '@/components/global/AiQuizFeedback';
 
 export default async function QuizScore() {
   const quizId = cookies().get('quizId');
-  if (!quizId) {
+  const scoreCookie = cookies().get('score');
+  if (!scoreCookie || !quizId) {
     return <p>You need to complete the quiz first</p>;
   }
 
@@ -22,6 +24,7 @@ export default async function QuizScore() {
   }
   const score = quizResult.score;
   const quizResults = quizResult.results;
+  const quizFeedback = quizResult.aifeedback || undefined;
 
   return (
     <div className="prose dark:prose-invert">
@@ -31,8 +34,10 @@ export default async function QuizScore() {
       <p>Congratulations on completing the quiz!</p>
 
       <p>
-        You scored {score} out of {quizLevels.length}
+        Score: {Number(score / quizLevels.length) * 100}%
+        <br />
       </p>
+      <AiQuizFeedback quizResult={quizResult} score={score} quizFeedback={quizFeedback} />
 
       <h2>Results:</h2>
       <ul>
