@@ -31,10 +31,10 @@ export default async function QuizScore() {
       {score === quizLevels.length && <FireWorks />}
 
       <h1>Quiz Score</h1>
-      <p>Congratulations on completing the quiz!</p>
+      <p>You have completed the quiz!</p>
 
       <p>
-        Score: {Number(score / quizLevels.length) * 100}%
+        Score: {Math.ceil(Number(score / quizLevels.length) * 100)}%
         <br />
       </p>
       <AiQuizFeedback quizResult={quizResult} score={score} quizFeedback={quizFeedback} />
@@ -70,7 +70,7 @@ export default async function QuizScore() {
         ))}
       </ul>
       <p>
-        if you would like to submit a feedback for the website, please click <Link href="/feedback">here</Link>
+        If you would like to submit a feedback for the website, please click <Link href="/feedback">here</Link>
       </p>
     </div>
   );

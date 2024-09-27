@@ -1,8 +1,8 @@
-import type { MDXComponents } from 'mdx/types';
 import NextLink from 'next/link';
 import { TBody, Table, Td, Th, Tr } from '@/components/document/Table';
 import { CodeBlock, InlineCode } from '@/components/document/Code';
 import type { BuiltinLanguage } from 'shiki';
+import type { MDXComponents } from 'mdx/types';
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {

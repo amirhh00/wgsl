@@ -65,9 +65,9 @@ export default async function QuizLayout(props: QuizLayoutProps) {
         {currentQuiz.difficulty}
       </Badge>
       {props.children}
-      <CategoryFinishedModal
+      {/* <CategoryFinishedModal
         quizLevels={quizLevels.map((level, i) => ({ ...level, answer: NaN, userAnswered: quizStatus[i].userAnswered }))}
-      />
+      /> */}
     </>
   );
 }

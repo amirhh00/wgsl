@@ -141,7 +141,7 @@ Note: As of version 1.0, WGSL cannot retrieve the length of a fixed-size array.
 
 ### 5.1. Runtime Arrays
 
-WGSL also supports runtime arrays, which are arrays whose size is determined at runtime. These arrays are declared at the root scope of the shader and are the only arrays that can be specified without a size.
+WGSL also supports runtime arrays, which are arrays whose size is determined during program execution. These arrays can only be declared at the root scope of the shader with storage buffer resources and are the only arrays that can be specified without a predefined size. The size of a runtime array can be determined using the `arrayLength` function.
 
 ```wgsl
 struct S1 {
