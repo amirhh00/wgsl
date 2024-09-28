@@ -142,6 +142,22 @@ export default async function FeedBack() {
           </SelectContent>
         </Select>
 
+        <label className="text-sm" htmlFor="technicalIssuesDescription">
+          Do you anticipate engaging in GPU programming in your future academic or professional endeavors? If so, how
+          effective was the web application in facilitating your understanding of the relevant concepts?
+        </label>
+        <Select name="technicalIssuesDescription" required>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select an option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Yes">Yes, Very Helpful</SelectItem>
+            <SelectItem value="Yes">Yes, Somewhat Helpful</SelectItem>
+            <SelectItem value="Yes">Yes, Not Helpful</SelectItem>
+            <SelectItem value="No">No</SelectItem>
+          </SelectContent>
+        </Select>
+
         <label className="text-sm" htmlFor="message">
           If you have any additional feedback, please write it here.
         </label>
