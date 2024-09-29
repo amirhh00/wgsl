@@ -39,4 +39,7 @@ next-env.d.ts
 /blob-report/
 /playwright/.cache/
 
+public/sw.js
+public/workbox-*.js
+
 certificates

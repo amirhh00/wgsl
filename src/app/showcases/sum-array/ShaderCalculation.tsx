@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import shaderCode from "./ComputeShader.wgsl";
-import { cn } from "@/lib/utils";
+import React, { useEffect, useRef, useState } from 'react';
+import shaderCode from './ComputeShader.wgsl';
+import { cn } from '@/lib/utils';
 
 export default function ComputeShaderComponent() {
   const [arrayLength, setArrayLength] = useState(10);
@@ -14,19 +14,19 @@ export default function ComputeShaderComponent() {
 
   async function initWebGPU() {
     if (!navigator.gpu) {
-      throw new Error("WebGPU not supported on this browser.");
+      throw new Error('WebGPU not supported on this browser.');
     }
 
     const adapter = await navigator.gpu.requestAdapter();
     if (!adapter) {
-      throw new Error("No appropriate GPUAdapter found.");
+      throw new Error('No appropriate GPUAdapter found.');
     }
     let device = deviceRef.current;
     if (device) {
       return device;
     } else {
       device = await adapter.requestDevice({
-        label: "GPU Device" + Math.random(),
+        label: 'GPU Device' + Math.random(),
       });
       deviceRef.current = device;
       return device;
@@ -50,12 +50,12 @@ export default function ComputeShaderComponent() {
         {
           binding: 0,
           visibility: GPUShaderStage.COMPUTE,
-          buffer: { type: "read-only-storage" },
+          buffer: { type: 'read-only-storage' },
         },
         {
           binding: 1,
           visibility: GPUShaderStage.COMPUTE,
-          buffer: { type: "storage" },
+          buffer: { type: 'storage' },
         },
       ],
     });
@@ -78,7 +78,7 @@ export default function ComputeShaderComponent() {
       }),
       compute: {
         module: shaderModule,
-        entryPoint: "main",
+        entryPoint: 'main',
       },
     });
 
@@ -109,16 +109,6 @@ export default function ComputeShaderComponent() {
     return sum;
   }
 
-  // async function sumArrayJS(array: Uint32Array) {
-  //   const worker = new Worker(new URL("@/app/step/make-it-exciting/calculate.worker", import.meta.url));
-  //   worker.postMessage({ array });
-  //   return new Promise<number>((resolve) => {
-  //     worker.onmessage = (e) => {
-  //       resolve(e.data.sum);
-  //     };
-  //   });
-  // }
-
   async function main(length: number) {
     try {
       const device = await initWebGPU();
@@ -135,7 +125,7 @@ export default function ComputeShaderComponent() {
         // sum2
       ]).then((values) => {
         console.log(
-          "sum1:",
+          'sum1:',
           values[0]
           // "sum2:", values[1]
         );
@@ -143,7 +133,7 @@ export default function ComputeShaderComponent() {
       });
       // setResult(sum);
     } catch (error) {
-      console.error("An error occurred:", error);
+      console.error('An error occurred:', error);
     }
   }
 
@@ -164,7 +154,7 @@ export default function ComputeShaderComponent() {
             array length:
           </label>
           <input
-            className={cn("max-w-full bg-secondary pl-1", loading && "opacity-50")}
+            className={cn('max-w-full bg-secondary pl-1', loading && 'opacity-50')}
             id="arrayLength"
             ref={arrayLengthRef}
             type="number"
@@ -187,10 +177,10 @@ export default function ComputeShaderComponent() {
             {arr.slice(0, 10).map((v, i) => (
               <p key={i} className="mr-1 my-0">
                 {v}
-                {i === arr.length - 1 ? "" : ", "}
+                {i === arr.length - 1 ? '' : ', '}
               </p>
             ))}
-            {arr.length > 10 && "..."}
+            {arr.length > 10 && '...'}
           </div>
         )}
       </div>

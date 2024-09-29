@@ -10,6 +10,7 @@
     "lint": "next lint",
     "test:ui": "playwright test --ui",
     "test": "playwright test",
+    "test:unit": "node --experimental-strip-types --test ./src/**/*.test.ts",
     "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
   },
   "dependencies": {

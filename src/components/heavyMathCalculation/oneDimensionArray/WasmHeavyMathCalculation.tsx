@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Spinner from "@/components/global/Spinner";
-import { ResultResponse } from "@/@types/etc";
-import wasmModulePromis from "@/app/showcases/heavyMathCalculation/wasm/pkg/heavycalculation";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from 'react';
+import Spinner from '@/components/global/Spinner';
+import { ResultResponse } from '@/@types/etc';
+import wasmModulePromis from '@/app/showcases/heavyMathCalculation/wasm/pkg/heavycalculation';
+import { Button } from '@/components/ui/button';
 
 interface VectorMultProps {
   vector1: Float32Array | null;
@@ -54,15 +54,15 @@ const WasmHeavyMathCalculationComponent = ({ vector1, vector2 }: VectorMultProps
 
   return (
     <div className="w-full">
-      <Button name="run-wasm" className="pl-7" onClick={loadWasm}>
+      <Button name="run-wasm" className="pl-7 w-full" onClick={loadWasm}>
         run in WebAssembly <Spinner isLoading={isLoading} />
       </Button>
       {res && (
         <pre data-length={vector1!.length} data-type="wasm">
-          Result:{" "}
+          Result:{' '}
           {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))
-            .join(", ")}{" "}
+            .join(', ')}{' '}
           <br />
           Duration: <b>{res.duration}</b>ms
         </pre>

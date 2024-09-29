@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import computeShaderCode from "@/app/showcases/heavyMathCalculation/wgsl/computeShader.wgsl";
-import { ResultResponse } from "@/@types/etc";
-import Spinner from "@/components/global/Spinner";
-import { Button } from "@/components/ui/button";
+import React, { useEffect, useState } from 'react';
+import computeShaderCode from '@/app/showcases/heavyMathCalculation/wgsl/computeShader.wgsl';
+import { ResultResponse } from '@/@types/etc';
+import Spinner from '@/components/global/Spinner';
+import { Button } from '@/components/ui/button';
 
 interface WebGPUCanvasProps {
   vector1: Float32Array;
@@ -18,13 +18,13 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
   async function initWebGPU() {
     // Initialize GPU, context, device, etc.
     const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter) throw new Error("WebGPU not supported");
+    if (!adapter) throw new Error('WebGPU not supported');
     setIsLoading(true);
     const device = await adapter.requestDevice();
 
     // Create GPU buffers for the arrays
     const array1Buffer = device.createBuffer({
-      label: "Array 1 Buffer",
+      label: 'Array 1 Buffer',
       size: vector1.byteLength,
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
     });
@@ -32,7 +32,7 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
     array1Buffer.unmap();
 
     const array2Buffer = device.createBuffer({
-      label: "Array 2 Buffer",
+      label: 'Array 2 Buffer',
       size: vector2.byteLength,
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
     });
@@ -40,7 +40,7 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
     array2Buffer.unmap();
 
     const resultBuffer = device.createBuffer({
-      label: "Result Buffer",
+      label: 'Result Buffer',
       size: vector1.byteLength,
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
     });
@@ -52,32 +52,32 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
 
     // create shader module
     const computeShaderModule = device.createShaderModule({
-      label: "Compute Shader Module",
+      label: 'Compute Shader Module',
       code: computeShaderCode,
     });
     // Create pipeline, bind groups, etc., using the shader module and buffers
     const bindGroupLayout = device.createBindGroupLayout({
-      label: "Compute Bind Group Layout",
+      label: 'Compute Bind Group Layout',
       entries: [
-        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: "read-only-storage" } },
-        { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: "read-only-storage" } },
-        { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: "storage" } },
+        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
       ],
     });
 
     const pipelineLayout = device.createPipelineLayout({
-      label: "Cell Pipeline Layout",
+      label: 'Cell Pipeline Layout',
       bindGroupLayouts: [bindGroupLayout],
     });
 
     const computePipeline = device.createComputePipeline({
-      label: "Compute Pipeline",
+      label: 'Compute Pipeline',
       layout: pipelineLayout,
-      compute: { module: computeShaderModule, entryPoint: "main" },
+      compute: { module: computeShaderModule, entryPoint: 'main' },
     });
 
     const bindGroup = device.createBindGroup({
-      label: "Compute Bind Group 1",
+      label: 'Compute Bind Group 1',
       layout: bindGroupLayout,
       entries: [
         { binding: 0, resource: { buffer: array1Buffer } },
@@ -127,25 +127,30 @@ const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ vector1, vector2 }) => {
   }, [vector1, vector2]);
 
   if (!navigator.gpu) {
-    return <div className="text-center text-red-600 outline outline-red-600 py-3 rounded-md">WebGPU not supported on this browser!</div>;
+    return (
+      <div className="text-center text-red-600 outline outline-red-600 py-3 rounded-md">
+        WebGPU not supported on this browser!
+      </div>
+    );
   }
 
   return (
     <>
       {vector1 && vector2 && (
-        <Button name="run-wgsl" className="pl-7" onClick={initWebGPU}>
+        <Button name="run-wgsl" className="pl-7 w-full" onClick={initWebGPU}>
           Run in webGpu <Spinner isLoading={isLoading} />
         </Button>
       )}
       {res && (
         <pre data-type="wgsl" data-length={vector1!.length}>
-          Result:{" "}
+          Result:{' '}
           {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))
-            .join(", ")}
-          {res.result.length > 7 ? "..." : ""} <br />
+            .join(', ')}
+          {res.result.length > 7 ? '...' : ''} <br />
           Duration: <b>{res.duration}</b>ms <br />
-          Duration after copying data from gpu to cpu: <b>{res.duration2}</b>ms
+          Duration after copying data from gpu to cpu: <br />
+          <b>{res.duration2}</b>ms
         </pre>
       )}
     </>

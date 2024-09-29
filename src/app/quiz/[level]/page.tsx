@@ -8,7 +8,10 @@ import CategoryFinishedModal from './CategoryFinishedModal';
 export default async function Page({ params: { level } }: { params: { level: string | number } }) {
   if (!level) throw new Error('You need to start a quiz first');
   level = Number(level);
-  if (level > quizLevels.length || level < 1) throw new Error('level is out of range');
+  if (level > quizLevels.length || level < 1) {
+    // redirect to 404 page
+    redirect('/404', RedirectType.replace);
+  }
   const cookieStore = cookies();
   const answerCookie = cookieStore.get(`answer-${level}`);
   const quizStatus = await getQuizStatus();

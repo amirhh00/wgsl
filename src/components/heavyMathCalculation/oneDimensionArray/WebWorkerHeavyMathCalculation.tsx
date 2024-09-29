@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { FC, useEffect, useState } from "react";
-import { ResultResponse } from "@/@types/etc";
-import Spinner from "@/components/global/Spinner";
-import { Button } from "@/components/ui/button";
+import { FC, useEffect, useState } from 'react';
+import { ResultResponse } from '@/@types/etc';
+import Spinner from '@/components/global/Spinner';
+import { Button } from '@/components/ui/button';
 
 interface IWebWorkerHeavyMathCalculationProps {
   vector1: Float32Array;
@@ -22,9 +22,11 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
     <div className="w-full">
       <Button
         name="run-js"
-        className="pl-7"
+        className="pl-7 w-full"
         onClick={() => {
-          const worker = new Worker(new URL("@/app/showcases/heavyMathCalculation/worker/heavyMathCalculation.worker", import.meta.url));
+          const worker = new Worker(
+            new URL('@/app/showcases/heavyMathCalculation/worker/heavyMathCalculation.worker', import.meta.url)
+          );
           setIsLoading(true);
           worker.postMessage({ vector1: props.vector1, vector2: props.vector2 });
           worker.onmessage = (e) => {
@@ -38,10 +40,10 @@ const WebWorkerHeavyMathCalculation: FC<IWebWorkerHeavyMathCalculationProps> = (
       </Button>
       {res && (
         <pre data-length={props.vector1.length} data-type="js">
-          Result:{" "}
+          Result:{' '}
           {Array.from(res.result.slice(0, 7))
             .map((v) => v.toFixed(2))
-            .join(", ")}{" "}
+            .join(', ')}{' '}
           <br />
           Duration: <b>{res.duration}</b>ms
         </pre>

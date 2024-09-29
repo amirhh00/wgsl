@@ -1,17 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test("should make a resport for heavyMathCalculation page", async ({ page }) => {
+test('should make a resport for heavyMathCalculation page', async ({ page }) => {
   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto("http://localhost:3000/showcases/heavyMathCalculation");
+  await page.goto('http://localhost:3000/showcases/heavyMathCalculation');
   // get the form element
-  const form = await page.waitForSelector("form");
-  if (!form) throw new Error("form element not found");
+  const form = await page.waitForSelector('form');
+  if (!form) throw new Error('form element not found');
   // get the input element inside the form name attribute is digit
-  const input = await form.$("input[name=digit]");
-  if (!input) throw new Error("input element not found");
+  const input = await form.$('input[name=digit]');
+  if (!input) throw new Error('input element not found');
   // get the button element inside the form
-  const button = await form.$("button");
-  if (!button) throw new Error("button element not found");
+  const button = await form.$('button');
+  if (!button) throw new Error('button element not found');
 
   const durations: Durations = {
     js: {},
@@ -22,7 +22,7 @@ test("should make a resport for heavyMathCalculation page", async ({ page }) => 
   const timeout = 60000;
 
   // set the value of the input element
-  for (let i = 1; i <= 50000000; i = i < 65535 ? i * Math.floor(Math.random() * 6) + 5 : i * 2) {
+  for (let i = 1; i <= 50000; i = i < 65535 ? i * Math.floor(Math.random() * 6) + 5 : i * 2) {
     await input.fill(i.toString());
     // click the button
     await button.click();

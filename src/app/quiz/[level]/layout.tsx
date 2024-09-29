@@ -4,7 +4,6 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { headers } from 'next/headers';
 import { Badge } from '@/components/ui/badge';
 import { quizLevels } from './questions';
-import CategoryFinishedModal from './CategoryFinishedModal';
 
 interface QuizLayoutProps {
   children: React.ReactNode;
@@ -61,13 +60,10 @@ export default async function QuizLayout(props: QuizLayoutProps) {
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      <Badge style={{ backgroundColor: `hsl(var(--bg-${currentQuiz.difficulty}))` }} className={`capitalize`}>
-        {currentQuiz.difficulty}
+      <Badge style={{ backgroundColor: `hsl(var(--bg-${currentQuiz?.difficulty}))` }} className={`capitalize`}>
+        {currentQuiz?.difficulty}
       </Badge>
       {props.children}
-      {/* <CategoryFinishedModal
-        quizLevels={quizLevels.map((level, i) => ({ ...level, answer: NaN, userAnswered: quizStatus[i].userAnswered }))}
-      /> */}
     </>
   );
 }
