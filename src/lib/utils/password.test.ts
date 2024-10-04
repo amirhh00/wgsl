@@ -8,7 +8,7 @@ describe('Password Hashing Functions', () => {
 
   beforeEach(() => {
     process.env = { ...originalEnv };
-    process.env.SALT = 'testSalt123';
+    process.env.SALT = '$2a$10$/7UaTBJjd3XVjL5dAMihqO';
   });
 
   afterEach(() => {
@@ -17,11 +17,11 @@ describe('Password Hashing Functions', () => {
   });
 
   it('should hash password correctly', async () => {
-    const email = 'test@example.com';
-    const password = 'securePassword123';
+    const email = 'marker@chester.ac.uk';
+    const password = 'pass1234';
 
     const hashedPassword = await saltAndHashPassword(email, password);
-
+    console.log('pass: ', hashedPassword);
     assert(hashedPassword.startsWith('md5'));
     assert.strictEqual(hashedPassword.length, 35); // 'md5' + 32 characters
   });

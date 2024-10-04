@@ -48,7 +48,22 @@ export default async function FeedBack() {
         </Select>
 
         <label className="text-sm" htmlFor="shaderLanguages">
-          How familiar are you with shader languages?
+          Prior to using this web application, how would you rate your familiarity with GPU programming languages?
+        </label>
+        <Select name="shaderLanguages" required>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select an option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Very Familiar">Very Familiar</SelectItem>
+            <SelectItem value="Familiar">Familiar</SelectItem>
+            <SelectItem value="Somewhat Familiar">Somewhat Familiar</SelectItem>
+            <SelectItem value="Not Familiar">Not Familiar</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <label className="text-sm" htmlFor="programmingLanguagesFamiliarity">
+          How would you rate your familiarity with programming languages in general?
         </label>
         <Select name="shaderLanguages" required>
           <SelectTrigger className="w-full">
@@ -70,10 +85,10 @@ export default async function FeedBack() {
             <SelectValue placeholder="Select an option" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="Rarely">Rarely</SelectItem>
             <SelectItem value="Daily">Daily</SelectItem>
             <SelectItem value="Weekly">Weekly</SelectItem>
             <SelectItem value="Monthly">Monthly</SelectItem>
-            <SelectItem value="Rarely">Rarely</SelectItem>
           </SelectContent>
         </Select>
 
