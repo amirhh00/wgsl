@@ -43,3 +43,5 @@ public/sw.js
 public/workbox-*.js
 
 certificates
+output*
+# public/scripts

@@ -10,8 +10,10 @@
     "lint": "next lint",
     "test:ui": "playwright test --ui",
     "test": "playwright test",
+    "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/",
     "test:unit": "node --experimental-strip-types --test ./src/**/*.test.ts",
-    "wasmpack": "wasm-pack build ./src/app/showcases/heavyMathCalculation/wasm --target web && rm $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/.gitignore && cp $PWD/src/app/showcases/heavyMathCalculation/wasm/pkg/*.wasm $PWD/public/pkg/"
+    "tomd": "node --experimental-strip-types tomd.ts",
+    "topdf": "npx markdown-pdf ./output.md"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.60",
