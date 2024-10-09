@@ -14,7 +14,7 @@ export default async function Page({ params: { fid } }: { params: { fid: string 
   const f = feedbackResultQuery.rows[0];
   return (
     <div className="container max-w-lg py-3 text-center">
-      <h1>Feedback received on {f.created_at?.toLocaleDateString()}</h1>
+      <h1>Feedback received on {f.created_at?.toUTCString()}</h1>
       <p>message: {f.message}</p>
       <p>email: {f.email || ''}</p>
       {f.questionnaire && (

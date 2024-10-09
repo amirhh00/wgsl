@@ -155,7 +155,7 @@ async function main() {
 
   const {
     input = './',
-    ext = new RegExp('\\.(ts|tsx|js|jsx|mjs|cjs)$'),
+    ext = new RegExp('\\.(ts|tsx|js|jsx|mjs|cjs|json)$'),
     output = 'output.md',
     ignoreGitignore = true,
   } = options;
