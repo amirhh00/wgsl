@@ -1,13 +1,9 @@
+type QuizLevelResponse = import('@/app/quiz/[level]/questions').QuizLevel & { userAnswer?: number };
+
 type QuizResult = {
   id: number;
   score: number;
-  results: {
-    question: string;
-    options: string[];
-    answer: number;
-    userAnswer: number;
-    userAnswered: boolean;
-  }[];
+  results: QuizLevelResponse[];
   aifeedback?: string;
   created_at: Date;
 };
