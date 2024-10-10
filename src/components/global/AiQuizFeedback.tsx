@@ -38,7 +38,7 @@ export default function AiQuizFeedback(props: AiQuizFeedbackProps) {
       msg += `
 ${quiz.question}:
 correct answer: ${quiz.options[quiz.answer]}
-my answer: ${quiz.options[quiz.userAnswer - 1]}
+my answer: ${quiz.options[quiz.userAnswer! - 1]}
 
       `;
     }

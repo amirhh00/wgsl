@@ -90,7 +90,7 @@ async function createMarkdown(files: string[], outputPath: string) {
     // Update progress
     logProgress(`Processing: ${relativePath}`, i + 1, totalFiles);
 
-    markdownContent += `# ${fileName} (${relativePath})\n\n`;
+    markdownContent += `**${fileName} (${relativePath})** \n\n`;
     markdownContent += '```' + path.extname(file).substring(1) + '\n';
     markdownContent += content + '\n';
     markdownContent += '```\n\n';

@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## pre-requisites
+
+- Node.js or Bun (JavaScript runtime)
+- npm or yarn or pnpm
+
 ## Getting Started
 
 First, run the development server:
